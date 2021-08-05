@@ -11,6 +11,7 @@ describe 'Admin Invoices Index Page' do
     @i2 = Invoice.create!(customer_id: @c1.id, status: 2)
     @i3 = Invoice.create!(customer_id: @c2.id, status: 2)
     @i4 = Invoice.create!(customer_id: @c2.id, status: 2)
+    
     visit admin_invoices_path
   end
 

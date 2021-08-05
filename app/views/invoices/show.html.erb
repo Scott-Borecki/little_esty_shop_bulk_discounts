@@ -13,9 +13,10 @@
   <div class="row">
     <p class='col-12'>Invoice #<%= @invoice.id %></p>
   </div>
-
-  <strong>Status: </strong><%= @invoice.status %><br/>
-  <br>
+  <div id='invoice-status'>
+    <strong>Status: </strong><%= @invoice.status %><br/>
+    <br>
+  </div>
 
   <p> Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
   <p>Total Revenue: <%= @invoice.total_revenue %></p>
