@@ -1,10 +1,10 @@
 class Customer < ApplicationRecord
-  validates_presence_of :first_name,
-                        :last_name
-  
   has_many :invoices
   has_many :merchants, through: :invoices
   has_many :transactions, through: :invoices
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   def self.top_customers
     joins(:transactions)
@@ -16,8 +16,7 @@ class Customer < ApplicationRecord
   end
 
   def number_of_transactions
-    transactions
-      .where('result = ?', 1)
-      .count
+    transactions.where('result = ?', 1)
+                .count
   end
 end

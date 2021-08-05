@@ -1,8 +1,9 @@
 class Transaction < ApplicationRecord
-  validates_presence_of :invoice_id,
-                        :credit_card_number,
-                        :result
   enum result: [:failed, :success]
 
   belongs_to :invoice
+
+  validates :invoice_id, presence: true
+  validates :credit_card_number, presence: true
+  validates :result, presence: true
 end
