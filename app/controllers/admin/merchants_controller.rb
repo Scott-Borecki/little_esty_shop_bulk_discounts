@@ -1,5 +1,6 @@
 class Admin::MerchantsController < ApplicationController
-  before_action :set_merchant, only: [:show, :edit, :update]
+  before_action :fetch_current_merchant, only: [:show, :edit]
+
   def index
     @merchants = Merchant.all
     @enabled_merchants = Merchant.enabled
@@ -10,8 +11,8 @@ class Admin::MerchantsController < ApplicationController
   end
 
   def create
-    Merchant.create!(name: params[:name],
-                     id: find_new_id)
+    Merchant.create!(name: params[:name], id: find_new_id)
+
     flash.notice = 'Merchant Has Been Created!'
     redirect_to admin_merchants_path
   end
@@ -20,17 +21,20 @@ class Admin::MerchantsController < ApplicationController
   end
 
   def update
-    if @merchant.update(merchant_params)
+    merchant = Merchant.find(params[:id])
+
+    if merchant.update(merchant_params)
       flash.notice = "Merchant Has Been Updated!"
-      redirect_to admin_merchant_path(@merchant)
+      redirect_to admin_merchant_path(merchant)
     else
       flash.notice = "All fields must be completed, get your act together."
-      redirect_to edit_admin_merchant_path(@merchant)
+      redirect_to edit_admin_merchant_path(merchant)
     end
   end
 
   private
-  def set_merchant
+
+  def fetch_current_merchant
     @merchant = Merchant.find(params[:id])
   end
 
