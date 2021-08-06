@@ -143,25 +143,31 @@ RSpec.describe 'merchant dashboard' do
       before { visit merchant_dashboard_index_path(@merchant1) }
 
       it 'displays a link to view all my discounts' do
-        within '#bulk-discounts' do
-          @merchant1.bulk_discounts.each do |bulk_discount|
-            expect(page).to have_content("Bulk Discount # #{bulk_discount.id}")
-            expect(page).to have_content("#{bulk_discount.percentage_discount}% off")
-            expect(page).to have_content("#{bulk_discount.quantity_threshold} item(s)")
-          end
-
-          @merchant2.bulk_discounts.each do |bulk_discount|
-            expect(page).to have_no_content("Bulk Discount # #{bulk_discount.id}")
-            expect(page).to have_no_content("#{bulk_discount.percentage_discount}% off")
-            expect(page).to have_no_content("#{bulk_discount.quantity_threshold} item(s)")
-          end
-        end
+        expect(page).to have_link('View All My Discounts')
       end
 
       describe 'when I click this link' do
-        it 'takes me to my bulk discounts index page'
+        before { click_link 'View All My Discounts' }
 
-        it 'displays all my bulk discounts: percentage discount and quantity thresholds'
+        it 'takes me to my bulk discounts index page' do
+          expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
+        end
+
+        it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
+          within '#bulk-discounts' do
+            @merchant1.bulk_discounts.each do |bulk_discount|
+              expect(page).to have_content("Bulk Discount # #{bulk_discount.id}")
+              expect(page).to have_content("#{bulk_discount.percentage_discount}% off")
+              expect(page).to have_content("#{bulk_discount.quantity_threshold} item(s)")
+            end
+
+            @merchant2.bulk_discounts.each do |bulk_discount|
+              expect(page).to have_no_content("Bulk Discount # #{bulk_discount.id}")
+              expect(page).to have_no_content("#{bulk_discount.percentage_discount}% off")
+              expect(page).to have_no_content("#{bulk_discount.quantity_threshold} item(s)")
+            end
+          end
+        end
 
         it 'has a link to each bulk discount show page'
       end
