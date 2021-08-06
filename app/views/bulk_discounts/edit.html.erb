@@ -1,0 +1,11 @@
+<%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
+
+<%= form_with model: [@merchant, @bulk_discount], local: true do |form| %>
+  <%= form.label :percentage_discount, 'Percentage Discount:' %>
+  <%= form.text_field :percentage_discount %>
+
+  <%= form.label :quantity_threshold, 'Quantity Threshold:' %>
+  <%= form.text_field :quantity_threshold %>
+
+  <%= form.submit 'Update' %>
+<% end %>
