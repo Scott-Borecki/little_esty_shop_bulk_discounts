@@ -1,5 +1,6 @@
 class Admin::InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update]
+  before_action :fetch_current_invoice, only: [:show, :edit, :update]
+
   def index
     @invoices = Invoice.all
   end
@@ -12,12 +13,14 @@ class Admin::InvoicesController < ApplicationController
 
   def update
     @invoice.update(invoice_params)
+
     flash.notice = 'Invoice Has Been Updated!'
     redirect_to admin_invoice_path(@invoice)
   end
 
   private
-  def set_invoice
+
+  def fetch_current_invoice
     @invoice = Invoice.find(params[:id])
   end
 

@@ -1,9 +1,9 @@
 class InvoicesController < ApplicationController
-  before_action :find_invoice_and_merchant, only: [:show, :update]
-  before_action :find_merchant, only: [:index]
+  before_action :fetch_current_invoice_and_merchant, only: [:show, :update]
+  before_action :fetch_current_merchant, only: [:index]
 
   def index
-    @invoices = @merchant.invoices
+    @invoices = @merchant.invoices.uniq
   end
 
   def show
@@ -13,20 +13,22 @@ class InvoicesController < ApplicationController
 
   def update
     @invoice.update(invoice_params)
+
     redirect_to merchant_invoice_path(@merchant, @invoice)
   end
 
   private
+
   def invoice_params
     params.require(:invoice).permit(:status)
   end
 
-  def find_invoice_and_merchant
+  def fetch_current_invoice_and_merchant
     @invoice = Invoice.find(params[:id])
     @merchant = Merchant.find(params[:merchant_id])
   end
 
-  def find_merchant
+  def fetch_current_merchant
     @merchant = Merchant.find(params[:merchant_id])
   end
 end

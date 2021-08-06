@@ -1,14 +1,14 @@
 class InvoiceItem < ApplicationRecord
-  validates_presence_of :invoice_id,
-                        :item_id,
-                        :quantity,
-                        :unit_price,
-                        :status
+  enum status: [:pending, :packaged, :shipped]
 
   belongs_to :invoice
   belongs_to :item
 
-  enum status: [:pending, :packaged, :shipped]
+  validates :invoice_id, presence: true
+  validates :item_id, presence: true
+  validates :quantity, presence: true
+  validates :unit_price, presence: true
+  validates :status, presence: true
 
   def self.incomplete_invoices
     invoice_ids = InvoiceItem.where("status = 0 OR status = 1").pluck(:invoice_id)

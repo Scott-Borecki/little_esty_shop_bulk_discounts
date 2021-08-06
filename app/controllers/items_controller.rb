@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :find_item_and_merchant, only: [:show, :edit, :update]
-  before_action :find_merchant, only: [:new, :create, :index]
+  before_action :fetch_current_item_and_merchant, only: [:show, :edit, :update]
+  before_action :fetch_current_merchant, only: [:new, :create, :index]
 
   def index
     @enabled_items = @merchant.items.where(status: 1)
@@ -8,11 +8,9 @@ class ItemsController < ApplicationController
   end
 
   def show
-
   end
 
   def edit
-
   end
 
   def update
@@ -31,9 +29,11 @@ class ItemsController < ApplicationController
 
   def create
     Item.create!(name: params[:name],
-                description: params[:description],
-                unit_price: params[:unit_price],
-                id: find_new_id, merchant: @merchant)
+                 description: params[:description],
+                 unit_price: params[:unit_price],
+                 id: find_new_id,
+                 merchant: @merchant)
+
     redirect_to merchant_items_path(@merchant)
   end
 
@@ -42,12 +42,12 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:name, :description, :unit_price, :merchant_id)
   end
 
-  def find_item_and_merchant
+  def fetch_current_item_and_merchant
     @item = Item.find(params[:id])
     @merchant = Merchant.find(params[:merchant_id])
   end
 
-  def find_merchant
+  def fetch_current_merchant
     @merchant = Merchant.find(params[:merchant_id])
   end
 

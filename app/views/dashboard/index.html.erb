@@ -1,37 +1,41 @@
-<div class="nav-container">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <p class="navbar-text"><%= @merchant.name %></p>
-    <ul class="nav navbar-nav">
-      <li><%= link_to 'Dashboard', merchant_dashboard_index_path, class: 'link_1', style: 'pull-right' %>
-      <li><%= link_to 'Items', merchant_items_path, class: 'link_1', style: 'pull-right' %>
-      <li><%= link_to 'Invoices', merchant_invoices_path, class: 'link_1', style: 'pull-right' %>
-    </ul>
-  </nav>
-</div>
+<%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
-<body>
-  <div class="row">
-    <p class='mr-auto col-sm-5'>Favorite Customers</p>
-    <p class='ml-auto col-sm-5'>Items Ready to Ship</p>
+<div class="row">
+  <div class="col-sm-6">
+    <p class='col-head'>
+      Favorite Customers
+    </p>
+
+    <ol>
+      <% @merchant.favorite_customers.each do |customer| %>
+        <section id="customer-<%= customer.id %>">
+          <li>
+            <%= customer.first_name %> <%= customer.last_name %> - <%= customer.top_result %> Purchases
+          </li>
+        </section>
+      <% end %>
+    </ol>
   </div>
- 
-  <ul class='mr-auto col-sm-4'>
-    <% @merchant.favorite_customers.each do |customer| %>
-      <section id="customer-<%= customer.id %>">
-          <li><%= customer.first_name %> <%= customer.last_name %>
-          - <%= customer.top_result %> Purchases</li>
+
+  <div class="col-sm-6">
+    <p class='col-head'>
+      Items Ready to Ship
+    </p>
+
+    <ul>
+      <section id = "items_ready_to_ship" >
+        <p>
+          <% @merchant.ordered_items_to_ship.each do |item| %>
+            <li>
+              <%= item.name %> - Invoice #
+              <% item.invoice_ids.uniq.each do |invoice_id| %>
+                <%= link_to invoice_id, "/merchant/#{@merchant.id}/invoices/#{invoice_id}" %>
+              <% end %>
+              <%= item.formatted_time %>
+            </li>
+          <% end %>
+        </p>
       </section>
-    <% end %>
-  </ul>
-
-  <ul class='ml-auto col-sm-4'>
-    <section id = "items_ready_to_ship" >
-      <p><% @merchant.ordered_items_to_ship.each do |item| %>
-            <li><%= item.name %> - Invoice #<%= link_to "#{item.invoice_ids}", "/merchant/#{@merchant.id}/invoices/#{item.invoice_ids[0]}" %>
-            <%= item.created_at.strftime("%A, %B %-d, %Y") %></li>
-        <% end %>
-      </p>
-    </section>
-  </ul>
-
-</body>
+    </ul>
+  </div>
+</div>

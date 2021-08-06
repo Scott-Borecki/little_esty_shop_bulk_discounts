@@ -88,12 +88,22 @@ RSpec.describe 'invoices show' do
   it "shows a select field to update the invoice status" do
     visit merchant_invoice_path(@merchant1, @invoice_1)
 
-    within("#the-status-#{@ii_1.id}") do
+    within '#invoice-status' do
+      expect(page).to have_content("Completed")
+      expect(page).to_not have_content("In progress")
+      expect(page).to_not have_content("Cancelled")
+    end
+
+    within "#the-status-#{@ii_1.id}" do
       page.select("cancelled")
       click_button "Update Invoice"
-      expect(page).to have_content("cancelled")
-      expect(page).to_not have_content("in progress")
-     end
+    end
+
+    within '#invoice-status' do
+      expect(page).to have_content("Cancelled")
+      expect(page).to_not have_content("In progress")
+      expect(page).to_not have_content("Completed")
+    end
   end
 
 end
