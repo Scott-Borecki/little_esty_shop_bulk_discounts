@@ -3,7 +3,7 @@ class InvoicesController < ApplicationController
   before_action :fetch_current_merchant, only: [:index]
 
   def index
-    @invoices = @merchant.invoices
+    @invoices = @merchant.invoices.uniq
   end
 
   def show

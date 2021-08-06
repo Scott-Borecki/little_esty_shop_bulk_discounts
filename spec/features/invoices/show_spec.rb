@@ -89,9 +89,9 @@ RSpec.describe 'invoices show' do
     visit merchant_invoice_path(@merchant1, @invoice_1)
 
     within '#invoice-status' do
-      expect(page).to have_content("completed")
-      expect(page).to_not have_content("in progress")
-      expect(page).to_not have_content("cancelled")
+      expect(page).to have_content("Completed")
+      expect(page).to_not have_content("In progress")
+      expect(page).to_not have_content("Cancelled")
     end
 
     within "#the-status-#{@ii_1.id}" do
@@ -100,9 +100,9 @@ RSpec.describe 'invoices show' do
     end
 
     within '#invoice-status' do
-      expect(page).to have_content("cancelled")
-      expect(page).to_not have_content("in progress")
-      expect(page).to_not have_content("completed")
+      expect(page).to have_content("Cancelled")
+      expect(page).to_not have_content("In progress")
+      expect(page).to_not have_content("Completed")
     end
   end
 

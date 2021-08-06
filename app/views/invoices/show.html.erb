@@ -13,7 +13,7 @@
   <strong>Created on: </strong><%= @invoice.created_at.strftime("%A, %B %-d, %Y") %><br>
   <strong>Total Revenue: </strong><%= number_to_currency(@invoice.total_revenue) %>
   <div id='invoice-status'>
-    <strong>Status: </strong><%= @invoice.status %>
+    <strong>Status: </strong><%= @invoice.status.humanize %>
   </div>
 </p>
 

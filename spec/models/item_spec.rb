@@ -59,7 +59,7 @@ RSpec.describe Item, type: :model do
       @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_5.id)
       @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
       @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
-
+      
       expect(@item_1.best_day).to eq(@invoice_2.formatted_time)
     end
   end
