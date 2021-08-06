@@ -15,6 +15,18 @@
         </section>
       <% end %>
     </ol>
+
+    <div id='bulk-discounts'>
+      <p class='col-head'>
+        Bulk Discounts
+      </p>
+
+      <ul>
+        <% @merchant.bulk_discounts.each do |bulk_discount| %>
+          Bulk Discount # <%= bulk_discount.id %>: <%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %> off for <%= bulk_discount.quantity_threshold %> item(s)
+        <% end %>
+      </ul>
+    </div>
   </div>
 
   <div class="col-sm-6">
