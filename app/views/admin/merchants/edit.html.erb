@@ -1,9 +1,11 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
-<div class='row'>
-  <p class='col-12'>
-    Update <%= @merchant.name %>
-  </p>
+<div class="row">
+  <div class="col-sm-12">
+    <p class='col-head'>
+      Update <%= @merchant.name %>
+    </p>
+  </div>
 </div>
 
 <%= render partial: 'form', locals: { method: :patch,

@@ -1,17 +1,11 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
 <div class="row">
-  <p class='col-sm-5 col-head'>
-    Top 5 Customers
-  </p>
+  <div class="col-sm-6">
+    <p class='col-head'>
+      Top 5 Customers
+    </p>
 
-  <p class='col-sm-5 col-head'>
-    Incomplete Invoices
-  </p>
-</div>
-
-<div class="row">
-  <div class='col-sm-5'>
     <ol>
       <% @customers.each do |c| %>
         <li>
@@ -22,13 +16,16 @@
     </ol>
   </div>
 
-  <div class='col-sm-5'>
-    <ul>
-      <% @invoices.each do |i| %>
-        <li>
-          <%= link_to "Invoice # #{i.id}", admin_invoice_path(i.id) %> - <%= i.created_at.strftime("%A, %B %d, %Y") %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+<div class="col-sm-6">
+  <p class='col-head'>
+    Incomplete Invoices
+  </p>
+
+  <ul>
+    <% @invoices.each do |i| %>
+      <li>
+        <%= link_to "Invoice # #{i.id}", admin_invoice_path(i.id) %> - <%= i.created_at.strftime("%A, %B %d, %Y") %>
+      </li>
+    <% end %>
+  </ul>
 </div>

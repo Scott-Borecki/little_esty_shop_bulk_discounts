@@ -1,3 +1,11 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
+<div class="row">
+  <div class="col-sm-12">
+    <p class='col-head'>
+      Create New Merchant
+    </p>
+  </div>
+</div>
+
 <%= render partial: 'form', locals: { method: :post, url: admin_merchants_path, class: 'merchant_form', local: true } %>
