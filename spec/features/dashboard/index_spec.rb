@@ -111,7 +111,6 @@ RSpec.describe 'merchant dashboard' do
       @item_3.invoice_ids.each do |invoice_id|
         expect(page).to have_no_content(invoice_id)
       end
-
     end
   end
 
@@ -127,5 +126,19 @@ RSpec.describe 'merchant dashboard' do
 
   it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
     expect(page).to have_content(@invoice_1.formatted_time)
+  end
+
+  describe 'as a merchant' do
+    describe 'when I visit my merchant dashboard' do
+      it 'displays a link to view all my discounts'
+
+      describe 'when I click this link' do
+        it 'takes me to my bulk discounts index page'
+
+        it 'displays all my bulk discounts: percentage discount and quantity thresholds'
+
+        it 'has a link to each bulk discount show page'
+      end
+    end
   end
 end
