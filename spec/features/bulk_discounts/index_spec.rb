@@ -68,8 +68,14 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
 
       it 'has a link to each bulk discount show page' do
         @merchant1.bulk_discounts.each do |bulk_discount|
+          visit merchant_bulk_discounts_path(@merchant1)
+
           within "#bd-#{bulk_discount.id}" do
             expect(page).to have_link(bulk_discount.id.to_s)
+
+            click_link bulk_discount.id.to_s
+
+            expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, bulk_discount.id))
           end
         end
       end
