@@ -13,12 +13,12 @@ class Item < ApplicationRecord
 
   def best_day
     invoices
-      .joins(:invoice_items)
-      .where('invoices.status = 2')
+      .joins([:invoice_items, :transactions])
+      .where(transactions: { result: :success })
       .select('invoices.*,
                sum(invoice_items.unit_price * invoice_items.quantity) as money')
       .group(:id)
-      .order("money desc", "created_at desc")
+      .order("money desc", "invoices.created_at desc")
       .first
       .formatted_time
   end
