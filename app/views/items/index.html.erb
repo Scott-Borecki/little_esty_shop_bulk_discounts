@@ -12,7 +12,7 @@
   <div class="col-sm-6">
     <p class='col-head'>Top Items</p>
 
-    <ul>
+    <ol>
       <section id="top_5">
         <% @merchant.top_5_items.each do |item| %>
           <li><%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> -
@@ -20,7 +20,7 @@
           <p> Top selling date for <%= item.name %> was <%= item.best_day %> </p>
         <% end %>
       </section>
-    </ul>
+    </ol>
   </div>
 
   <div class="col-sm-6">

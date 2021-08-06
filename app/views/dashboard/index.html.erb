@@ -9,9 +9,9 @@
     <ol>
       <% @merchant.favorite_customers.each do |customer| %>
         <section id="customer-<%= customer.id %>">
-            <li>
-              <%= customer.first_name %> <%= customer.last_name %> - <%= customer.top_result %> Purchases
-            </li>
+          <li>
+            <%= customer.first_name %> <%= customer.last_name %> - <%= customer.top_result %> Purchases
+          </li>
         </section>
       <% end %>
     </ol>
