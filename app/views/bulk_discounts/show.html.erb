@@ -1,0 +1,14 @@
+<%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
+
+<div class="row">
+  <div class="col-sm-6">
+      <p class='col-head'>
+        Bulk Discount # <%= @bulk_discount.id %>
+      </p>
+
+      <p>
+        <strong>Percentage Discount: </strong><%= number_to_percentage(@bulk_discount.percentage_discount, precision: 0) %><br>
+        <strong>Quantity Threshold: </strong><%= @bulk_discount.quantity_threshold %> item(s)
+      </p>
+  </div>
+</div>
