@@ -1,5 +1,9 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
+<p>
+  <%= link_to 'View All My Discounts', merchant_bulk_discounts_path(@merchant) %>
+</p>
+
 <div class="row">
   <div class="col-sm-6">
     <p class='col-head'>

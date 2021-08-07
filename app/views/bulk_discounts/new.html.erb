@@ -1,0 +1,4 @@
+<%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
+
+<%= render partial: 'form', locals: { model: [@merchant, @new_bulk_discount],
+                                      button_text: 'Create' } %>

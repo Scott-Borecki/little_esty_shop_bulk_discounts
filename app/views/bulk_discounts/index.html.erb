@@ -1,0 +1,24 @@
+<%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div id='bulk-discounts'>
+      <p class='col-head'>
+        Bulk Discounts
+      </p>
+
+      <p>
+        <%= link_to 'Create New Bulk Discount', new_merchant_bulk_discount_path(@merchant) %>
+      </p>
+
+      <ul>
+        <% @merchant.bulk_discounts.each do |bulk_discount| %>
+          <div id='bd-<%= bulk_discount.id %>'>
+            Bulk Discount # <%= link_to bulk_discount.id, merchant_bulk_discount_path(@merchant, bulk_discount.id) %>: <%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %> off for <%= bulk_discount.quantity_threshold %> item(s)<br>
+            <%= link_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete %>
+          </div>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
