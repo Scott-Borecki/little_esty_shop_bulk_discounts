@@ -66,7 +66,7 @@ describe "merchant items index" do
     expect(page).to have_link(@item_3.name)
     expect(page).to have_link(@item_4.name)
 
-    within "#enabled" do
+    within "#enabled-items" do
       click_link "#{@item_1.name}"
 
       expect(current_path).to eq("/merchant/#{@merchant1.id}/items/#{@item_1.id}")
@@ -97,7 +97,7 @@ describe "merchant items index" do
   end
 
   it "has a section for disabled items" do
-    within "#disabled" do
+    within "#disabled-items" do
       expect(page).to have_content(@item_3.name)
       expect(page).to have_content(@item_2.name)
       expect(page).to_not have_content(@item_1.name)
@@ -105,7 +105,7 @@ describe "merchant items index" do
   end
 
   it "has a section for enabled items" do
-    within "#enabled" do
+    within "#enabled-items" do
       expect(page).to_not have_content(@item_2.name)
       expect(page).to_not have_content(@item_3.name)
       expect(page).to have_content(@item_1.name)
@@ -124,13 +124,13 @@ describe "merchant items index" do
 
     expect(current_path).to eq(merchant_items_path(@merchant1))
 
-    within "#disabled" do
+    within "#disabled-items" do
       expect(page).to have_content("Bar Shampoo")
     end
   end
 
   it "shows the top 5 most popular items by total revenue" do
-    within "#top_5" do
+    within "#top-items" do
       expect(@item_1.name).to appear_before(@item_2.name)
       expect(@item_2.name).to appear_before(@item_3.name)
       expect(@item_3.name).to appear_before(@item_8.name)
@@ -141,7 +141,7 @@ describe "merchant items index" do
   end
 
   it "links the top 5 to the item show page" do
-    within "#top_5" do
+    within "#top-items" do
       expect(page).to have_link(@item_1.name)
       expect(page).to have_link(@item_2.name)
       expect(page).to have_link(@item_3.name)
@@ -155,7 +155,7 @@ describe "merchant items index" do
   end
 
   it "shows the total revenue next to the item" do
-    within "#top_5" do
+    within "#top-items" do
       expect(page).to have_content("#{@merchant1.top_5_items[0].total_revenue}")
       expect(page).to have_content("#{@merchant1.top_5_items[1].total_revenue}")
       expect(page).to have_content("#{@merchant1.top_5_items[2].total_revenue}")
@@ -165,7 +165,7 @@ describe "merchant items index" do
   end
 
   it "shows the best day next to the item" do
-    within "#top_5" do
+    within "#top-items" do
       expect(page).to have_content("Top selling date for #{@item_1.name} was #{@item_1.best_day}")
       expect(page).to have_content("Top selling date for #{@item_2.name} was #{@item_2.best_day}")
       expect(page).to have_content("Top selling date for #{@item_3.name} was #{@item_3.best_day}")

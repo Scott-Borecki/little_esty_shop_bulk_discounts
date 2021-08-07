@@ -1,6 +1,7 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
 <div class="row">
+  <% # FULL COLUMN %>
   <div class="col-sm-12">
     <p class='col-head'>
       Update <%= @merchant.name %>
@@ -8,7 +9,12 @@
   </div>
 </div>
 
-<%= render partial: 'form', locals: { method: :patch,
-                                     url: admin_merchant_path(@merchant),
-                                     class: 'merchant_form',
-                                     local: true } %>
+<div class="row">
+  <% # FULL COLUMN %>
+  <div class="col-sm-12">
+    <%= render partial: 'form', locals: { method: :patch,
+                                         url: admin_merchant_path(@merchant),
+                                         class: 'merchant_form',
+                                         local: true } %>
+  </div>
+</div>

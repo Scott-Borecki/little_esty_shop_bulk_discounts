@@ -22,7 +22,7 @@ describe 'Admin Invoices Index Page' do
 
   it 'should display the id, status and created_at' do
     expect(page).to have_content("Invoice ##{@i1.id}")
-    expect(page).to have_content("Created on: #{@i1.created_at.strftime("%A, %B %d, %Y")}")
+    expect(page).to have_content("Created on:\n#{@i1.created_at.strftime("%A, %B %d, %Y")}")
 
     expect(page).to_not have_content("Invoice ##{@i2.id}")
   end
@@ -54,7 +54,7 @@ describe 'Admin Invoices Index Page' do
   end
 
   it 'should display the total revenue the invoice will generate' do
-    expect(page).to have_content("Total Revenue: $#{@i1.total_revenue}")
+    expect(page).to have_content("Total Revenue:\n$#{@i1.total_revenue}")
 
     expect(page).to_not have_content(@i2.total_revenue)
   end
@@ -64,7 +64,7 @@ describe 'Admin Invoices Index Page' do
       select('cancelled', :from => 'invoice[status]')
 
       expect(page).to have_button('Update Invoice')
-      
+
       click_button 'Update Invoice'
 
       expect(current_path).to eq(admin_invoice_path(@i1))
