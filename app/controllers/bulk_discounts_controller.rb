@@ -1,8 +1,18 @@
 class BulkDiscountsController < ApplicationController
   before_action :fetch_current_bulk_discount, only: [:edit, :show]
-  before_action :fetch_current_merchant, only: [:edit, :index, :show, :update]
+  before_action :fetch_current_merchant, only: [:create, :edit, :index, :new, :show, :update]
 
   def index
+  end
+
+  def new
+    @new_bulk_discount = BulkDiscount.new
+  end
+
+  def create
+    @merchant.bulk_discounts.create!(bulk_discount_params)
+
+    redirect_to merchant_bulk_discounts_path(@merchant)
   end
 
   def show

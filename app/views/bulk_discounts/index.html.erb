@@ -7,6 +7,10 @@
         Bulk Discounts
       </p>
 
+      <p>
+        <%= link_to 'Create New Bulk Discount', new_merchant_bulk_discount_path(@merchant) %>
+      </p>
+
       <ul>
         <% @merchant.bulk_discounts.each do |bulk_discount| %>
           <div id='bd-<%= bulk_discount.id %>'>
