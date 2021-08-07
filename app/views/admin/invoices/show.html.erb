@@ -1,19 +1,19 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
-<div class="row">
-  <div class="col-sm-12">
+<div class='row'>
+  <div class='col-sm-12'>
     <p class='col-head'>
       Invoice #<%= @invoice.id %>
     </p>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-2">
+<div class='row'>
+  <div class='col-2'>
     <h4>Customer:</h4>
   </div>
 
-  <div class="col">
+  <div class='col'>
     <p>
       <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
       <%= @invoice.customer.address %><br>
@@ -23,36 +23,36 @@
 </div>
 
 <p>
-  <div class="row">
-    <div class="col-2">
+  <div class='row'>
+    <div class='col-2'>
       <strong>Created on: </strong>
     </div>
 
-    <div class="col">
+    <div class='col'>
       <%= @invoice.formatted_time %><br>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-2">
+  <div class='row'>
+    <div class='col-2'>
       <strong>Total Revenue: </strong>
     </div>
 
-    <div class="col">
+    <div class='col'>
       <%= number_to_currency(@invoice.total_revenue) %>
     </div>
   </div>
 </p>
 
 <div id='invoice-status'>
-  <div id="status-update-<%= @invoice.id %>" class="row">
+  <div id='status-update-<%= @invoice.id %>' class='row'>
     <div class="col-2">
       <p>
         <strong>Status: </strong>
       </p>
     </div>
 
-    <div class="col">
+    <div class='col'>
       <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
         <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
         <%= f.submit 'Update Invoice' %>
@@ -61,10 +61,10 @@
   </div>
 </div>
 
-<div id="invoice-items">
+<div id='invoice-items'>
   <p class='col-head'>Items on this Invoice</p>
 
-  <table class="table">
+  <table class='table'>
     <tr>
       <th>Item Name</th>
       <th>Quantity</th>

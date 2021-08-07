@@ -12,6 +12,6 @@ class Invoice < ApplicationRecord
   validates :customer_id, presence: true
 
   def total_revenue
-    invoice_items.sum("unit_price * quantity")
+    invoice_items.sum('unit_price * quantity')
   end
 end
