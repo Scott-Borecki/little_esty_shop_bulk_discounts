@@ -37,5 +37,12 @@ RSpec.describe Invoice, type: :model do
         expect(invoice3.discounted_items.first.max_discount).to eq(20)
       end
     end
+
+    describe '#revenue_discount' do
+      it 'returns the revenue for the discounted items' do
+        expect(invoice1.revenue_discount).to eq(80)
+        expect(invoice3.revenue_discount).to eq(130)
+      end
+    end
   end
 end

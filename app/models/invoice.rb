@@ -24,4 +24,8 @@ class Invoice < ApplicationRecord
       .where('invoice_items.quantity > bulk_discounts.quantity_threshold')
       .group(:id)
   end
+
+  def revenue_discount
+    discounted_items.sum { |item| item.total_revenue * item.max_discount / 100 }
+  end
 end
