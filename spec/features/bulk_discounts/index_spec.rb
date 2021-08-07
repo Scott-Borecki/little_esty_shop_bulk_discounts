@@ -90,6 +90,23 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
         expect(page).to have_field(:bulk_discount_quantity_threshold)
         expect(page).to have_button('Create')
       end
+
+      it 'has a link to delete each bulk discount' do
+        link_text = 'Delete'
+
+        @merchant1.bulk_discounts.each do |bulk_discount|
+          visit merchant_bulk_discounts_path(@merchant1)
+
+          within "#bd-#{bulk_discount.id}" do
+            expect(page).to have_link(link_text)
+
+            click_link link_text
+          end
+
+          expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
+          expect(page).to have_no_css("#bd-#{bulk_discount.id}")
+        end
+      end
     end
   end
 end
