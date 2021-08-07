@@ -1,27 +1,37 @@
 require 'csv'
+require 'faker'
 
 task :import, [:customers] => :environment do
-  CSV.foreach('db/data/customers.csv', headers: true) do |row|
-    Customer.create!(row.to_hash)
-  end
   ActiveRecord::Base.connection.reset_pk_sequence!('customers')
+  CSV.foreach('db/data/customers.csv', headers: true) do |row|
+    Customer.create!({ id:          row[0],
+                       first_name:  row[1],
+                       last_name:   row[2],
+                       created_at:  row[3],
+                       updated_at:  row[4],
+                       address:     Faker::Address.street_address,
+                       city:        Faker::Address.city,
+                       state:       Faker::Address.state,
+                       zip:         Faker::Address.zip_code })
+  end
 end
 
 task :import, [:merchants] => :environment do
+  ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
   CSV.foreach('db/data/merchants.csv', headers: true) do |row|
     Merchant.create!(row.to_hash)
   end
-  ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
 end
 
 task :import, [:items] => :environment do
+  ActiveRecord::Base.connection.reset_pk_sequence!('items')
   CSV.foreach('db/data/items.csv', headers: true) do |row|
     Item.create!(row.to_hash)
   end
-  ActiveRecord::Base.connection.reset_pk_sequence!('items')
 end
 
 task :import, [:invoices] => :environment do
+  ActiveRecord::Base.connection.reset_pk_sequence!('invoices')
   CSV.foreach('db/data/invoices.csv', headers: true) do |row|
     if row.to_hash['status'] == 'cancelled'
       status = 0
@@ -36,10 +46,10 @@ task :import, [:invoices] => :environment do
                       created_at:  row[4],
                       updated_at:  row[5] })
   end
-  ActiveRecord::Base.connection.reset_pk_sequence!('invoices')
 end
 
 task :import, [:transactions] => :environment do
+  ActiveRecord::Base.connection.reset_pk_sequence!('transactions')
   CSV.foreach('db/data/transactions.csv', headers: true) do |row|
     if row.to_hash['result'] == 'failed'
       result = 0
@@ -54,10 +64,10 @@ task :import, [:transactions] => :environment do
                           created_at:                  row[5],
                           updated_at:                  row[6] })
   end
-  ActiveRecord::Base.connection.reset_pk_sequence!('transactions')
 end
 
 task :import, [:invoice_items] => :environment do
+  ActiveRecord::Base.connection.reset_pk_sequence!('invoice_items')
   CSV.foreach('db/data/invoice_items.csv', headers: true) do |row|
     if row.to_hash['status'] == 'pending'
       status = 0
@@ -75,5 +85,4 @@ task :import, [:invoice_items] => :environment do
                           created_at:  row[6],
                           updated_at:  row[7] })
   end
-  ActiveRecord::Base.connection.reset_pk_sequence!('invoice_items')
 end
