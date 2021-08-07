@@ -1,6 +1,12 @@
 require 'faker'
 
 FactoryBot.define do
+  factory :bulk_discount do
+    percentage_discount { sample(0..30) }
+    quantity_threshold  { sample(10..30) }
+    merchant
+  end
+
   factory :customer do
     first_name { Faker::Name.first_name }
     last_name  { Faker::Name.last_name }
@@ -16,9 +22,9 @@ FactoryBot.define do
   end
 
   factory :item do
-    name { Faker::Name.name }
+    name        { Faker::Name.name }
     description { Faker::Movies::LordOfTheRings.location }
-    unit_price { Faker::Number.binary(digits: 5) }
+    unit_price  { Faker::Number.binary(digits: 5) }
     merchant
 
     factory :enabled_item do
@@ -31,7 +37,7 @@ FactoryBot.define do
   end
 
   factory :invoice_item do
-    quantity { rand(20) }
+    quantity   { rand(20) }
     unit_price { rand(10_000) }
     traits_for_enum(:status)
     invoice
@@ -42,11 +48,11 @@ FactoryBot.define do
     name { Faker::Name.name }
 
     factory :enabled_merchant do
-      enabled { true }
+      status { :enabled }
     end
 
     factory :disabled_merchant do
-      enabled { false }
+      status { :disabled }
     end
   end
 
@@ -56,43 +62,3 @@ FactoryBot.define do
     invoice
   end
 end
-
-# DELETE: After confirming these factories aren't being used
-#
-# FactoryBot.define do
-#   factory :customer do
-#     first_name {Faker::Name.first_name}
-#     last_name {Faker::Dessert.variety}
-#   end
-#
-#   factory :invoice do
-#     status {[0,1,2].sample}
-#     merchant
-#     customer
-#   end
-#
-#   factory :merchant do
-#     name {Faker::Space.galaxy}
-#     invoices
-#     items
-#   end
-#
-#   factory :item do
-#     name {Faker::Coffee.variety}
-#     description {Faker::Hipster.sentence}
-#     unit_price {Faker::Number.decimal(l_digits: 2)}
-#     merchant
-#   end
-#
-#   factory :transaction do
-#     result {[0,1].sample}
-#     credit_card_number {Faker::Finance.credit_card}
-#     invoice
-#   end
-#
-#   factory :invoice_item do
-#     status {[0,1,2].sample}
-#     merchant
-#     invoice
-#   end
-# end
