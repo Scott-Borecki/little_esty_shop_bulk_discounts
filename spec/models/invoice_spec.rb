@@ -23,5 +23,19 @@ RSpec.describe Invoice, type: :model do
         expect(invoice3.total_revenue).to eq(650)
       end
     end
+
+    describe '#discounted_items' do
+      it 'returns the items qualifying for a bulk discount' do
+        expect(invoice1.discounted_items.length).to eq(1)
+        expect(invoice1.discounted_items.ids).to eq([invoice_item1b.id])
+        expect(invoice1.discounted_items.first.total_revenue).to eq(400)
+        expect(invoice1.discounted_items.first.max_discount).to eq(20)
+
+        expect(invoice3.discounted_items.length).to eq(2)
+        expect(invoice3.discounted_items.ids).to eq([invoice_item3a.id, invoice_item3b.id])
+        expect(invoice3.discounted_items.first.total_revenue).to eq(150)
+        expect(invoice3.discounted_items.first.max_discount).to eq(20)
+      end
+    end
   end
 end
