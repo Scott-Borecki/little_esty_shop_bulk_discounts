@@ -13,11 +13,17 @@
   <% # FULL COLUMN %>
   <div class="col-sm-12">
     <p>
-      <strong>Customer: </strong><%= @customer.first_name %> <%= @customer.last_name %><br>
-      <strong>Created on: </strong><%= @invoice.created_at.strftime("%A, %B %-d, %Y") %><br>
-      <strong>Total Revenue: </strong><%= number_to_currency(@invoice.total_revenue) %>
+      <strong>Customer: </strong>
+        <%= @customer.first_name %> <%= @customer.last_name %><br>
+      <strong>Created on: </strong>
+        <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %><br>
+      <strong>Total Revenue: </strong>
+        <%= number_to_currency(@invoice.total_revenue) %><br>
+      <strong>Total Discounted Revenue: </strong>
+        <%= number_to_currency(@invoice.total_discounted_revenue) %>
       <div id='invoice-status'>
-        <strong>Status: </strong><%= @invoice.status.humanize %>
+        <strong>Status: </strong>
+          <%= @invoice.status.humanize %>
       </div>
     </p>
 
