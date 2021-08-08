@@ -33,6 +33,7 @@ def create_factories
 
   let!(:item3) { create(:item, merchant: merchant3) }
   let!(:item3a) { create(:item, merchant: merchant3) }
+  let!(:item3b) { create(:item, merchant: merchant3) }
 
   let!(:item4) { create(:item, merchant: merchant4) }
   let!(:item4a) { create(:item, merchant: merchant4) }
@@ -124,49 +125,55 @@ def create_factories
     #=> merchant2_potential_revenue = 140
 
   # INVOICE ITEMS - item3, merchant3, invoice3
-  let!(:invoice_item3a) { create(:invoice_item, :packaged, item: item3, invoice: invoice3,  quantity: 15,  unit_price: 10) }
+  let!(:invoice_item3) { create(:invoice_item, :packaged, item: item3, invoice: invoice3,  quantity: 15,  unit_price: 10) }
     #=> ii3a_total_revenue        = 150
     #=> bulk_discount3a_revenue   = 150
-    #=> bulk_discount3b_revenue   = 120
-  let!(:invoice_item3b) { create(:invoice_item, :packaged, item: item3a, invoice: invoice3,  quantity: 25,  unit_price: 20) }
+    #=> bulk_discount3b_revenue   = 120 <= Max applied discount
+    #=> bulk_discount3c_revenue   = 150
+  let!(:invoice_item3a) { create(:invoice_item, :packaged, item: item3a, invoice: invoice3,  quantity: 25,  unit_price: 20) }
     #=> ii3b_total_revenue        = 500
     #=> bulk_discount3a_revenue   = 450
     #=> bulk_discount3b_revenue   = 400
+    #=> bulk_discount3c_revenue   = 350 <= Max applied discount
+  let!(:invoice_item3b) { create(:invoice_item, :packaged, item: item3b, invoice: invoice3,  quantity: 3,  unit_price: 20) }
+    #=> ii3b_total_revenue        = 60
+    #=> bulk_discount3a_revenue   = 60
+    #=> bulk_discount3b_revenue   = 60
+    #=> bulk_discount3c_revenue   = 60
 
-      #=> invoice3_revenue        = 650
-      #=> merchant3_revenue       = 650
-      #=> bulk_discount3a_revenue = 600
-      #=> bulk_discount3b_revenue = 520 <= Revenue with applied discount
-
+      #=> invoice3_revenue         = 710
+      #=> merchant3_revenue        = 710
+      #=> applied_discount_revenue = 530
 
   # INVOICE ITEMS - item4, merchant4, various invoices
-  let!(:invoice_item4a) { create(:invoice_item, :shipped,  item: item4, invoice: invoice4a, quantity: 3,  unit_price: 10) } # potential_revenue = 30
+  let!(:invoice_item4a) { create(:invoice_item, :shipped,  item: item4,  invoice: invoice4a, quantity: 3,  unit_price: 10) } # potential_revenue = 30
   let!(:invoice_item4b) { create(:invoice_item, :shipped,  item: item4a, invoice: invoice4a, quantity: 2,  unit_price: 20) } # potential_revenue = 40
-  let!(:invoice_item4c) { create(:invoice_item, :shipped,  item: item4, invoice: invoice4b, quantity: 1,  unit_price: 20) } # potential_revenue = 20
-  let!(:invoice_item4d) { create(:invoice_item, :shipped,  item: item4, invoice: invoice4c, quantity: 1,  unit_price: 20) } # potential_revenue = 20
-  let!(:invoice_item4e) { create(:invoice_item, :shipped,  item: item4, invoice: invoice4d, quantity: 1,  unit_price: 20) } # potential_revenue = 20
+  let!(:invoice_item4c) { create(:invoice_item, :shipped,  item: item4,  invoice: invoice4b, quantity: 1,  unit_price: 20) } # potential_revenue = 20
+  let!(:invoice_item4d) { create(:invoice_item, :shipped,  item: item4,  invoice: invoice4c, quantity: 1,  unit_price: 20) } # potential_revenue = 20
+  let!(:invoice_item4e) { create(:invoice_item, :shipped,  item: item4,  invoice: invoice4d, quantity: 1,  unit_price: 20) } # potential_revenue = 20
     #=> merchant4_potential_revenue = 130
 
   # INVOICE ITEMS - item5/5a, merchant5, various invoices
-  let!(:invoice_item5a_1) { create(:invoice_item, :packaged, item: item5, invoice: invoice5a, quantity: 5,  unit_price: 10) } # potential_revenue = 50
+  let!(:invoice_item5a_1) { create(:invoice_item, :packaged, item: item5,  invoice: invoice5a, quantity: 5,  unit_price: 10) } # potential_revenue = 50
   let!(:invoice_item5a_2) { create(:invoice_item, :packaged, item: item5a, invoice: invoice5a, quantity: 3,  unit_price: 20) } # potential_revenue = 60
-  let!(:invoice_item5b) { create(:invoice_item, :packaged, item: item5, invoice: invoice5b, quantity: 2,  unit_price: 20) } # potential_revenue = 40
+  let!(:invoice_item5b) {   create(:invoice_item, :packaged, item: item5,  invoice: invoice5b, quantity: 2,  unit_price: 20) } # potential_revenue = 40
     #=> merchant5_potential_revenue = 150
 
   # INVOICE ITEMS - item6/6a, merchant6, various invoices
-  let!(:invoice_item6a_1) { create(:invoice_item, :shipped,  item: item6, invoice: invoice6a, quantity: 6,  unit_price: 10) } # potential_revenue = 60
+  let!(:invoice_item6a_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6a, quantity: 6,  unit_price: 10) } # potential_revenue = 60
   let!(:invoice_item6a_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6a, quantity: 5,  unit_price: 20) } # potential_revenue = 100
-  let!(:invoice_item6b_1) { create(:invoice_item, :shipped,  item: item6, invoice: invoice6b, quantity: 6,  unit_price: 10) } # potential_revenue = 60
+  let!(:invoice_item6b_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6b, quantity: 6,  unit_price: 10) } # potential_revenue = 60
   let!(:invoice_item6b_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6b, quantity: 10, unit_price: 20) } # potential_revenue = 200
-  let!(:invoice_item6c_1) { create(:invoice_item, :shipped,  item: item6, invoice: invoice6c, quantity: 6,  unit_price: 10) } # potential_revenue = 60
+  let!(:invoice_item6c_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6c, quantity: 6,  unit_price: 10) } # potential_revenue = 60
   let!(:invoice_item6c_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6c, quantity: 10, unit_price: 20) } # potential_revenue = 200
     #=> merchant6_potential_revenue = 680
 
   # BULK DISCOUNTS - merchant1
   let!(:bulk_discount1a) { create(:bulk_discount, merchant: merchant1, quantity_threshold: 11,  percentage_discount: 10) }
-  let!(:bulk_discount1b) { create(:bulk_discount, merchant: merchant1, quantity_threshold: 19, percentage_discount: 20) }
+  let!(:bulk_discount1b) { create(:bulk_discount, merchant: merchant1, quantity_threshold: 19,  percentage_discount: 20) }
 
   # BULK DISCOUNTS - merchant3
-  let!(:bulk_discount3a) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 19, percentage_discount: 10) }
-  let!(:bulk_discount3b) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 5,  percentage_discount: 20) }
+  let!(:bulk_discount3a) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 19,  percentage_discount: 10) }
+  let!(:bulk_discount3b) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 5,   percentage_discount: 20) }
+  let!(:bulk_discount3c) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 21,  percentage_discount: 30) }
 end

@@ -39,30 +39,22 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
         within('#invoice-status') { expect(page).to have_content(invoice3.status.humanize) }
       end
 
-      it "displays the item information" do
-        other_items = Item.all.to_a
-        invoice3.items.each { |item| other_items.delete(item) }
-        invoice3.items.each { |item| expect(other_items).to_not include(item) }
-
-        invoice3.invoice_items.each do |invoice_item|
-          within "#ii-#{invoice_item.id}" do
-            expect(page).to have_content(invoice_item.item.name)
-            expect(page).to have_content(invoice_item.quantity)
-            expect(page).to have_content(invoice_item.unit_price)
-
-            other_items.each do |item|
-              expect(page).to have_no_content(item.name)
-            end
-          end
-        end
-      end
-
       it "displays the total revenue for this invoice" do
         expect(page).to have_content("Total Revenue: $#{invoice3.total_revenue}")
       end
 
       it 'displays the total discounted revenue for this invoice' do
         expect(page).to have_content("Total Discounted Revenue: $#{invoice3.total_discounted_revenue}")
+      end
+
+      it "displays the details of the invoice items" do
+        invoice3.invoice_items.each do |invoice_item|
+          within "#ii-#{invoice_item.id}" do
+            expect(page).to have_content(invoice_item.item.name)
+            expect(page).to have_content(invoice_item.quantity)
+            expect(page).to have_content(invoice_item.unit_price)
+          end
+        end
       end
 
       it "displays a select field to update the invoice status" do

@@ -17,7 +17,7 @@ FactoryBot.define do
   end
 
   factory :invoice do
-    traits_for_enum(:status)
+    status { rand(0..2) }
     customer
   end
 
@@ -39,7 +39,7 @@ FactoryBot.define do
   factory :invoice_item do
     quantity   { rand(20) }
     unit_price { rand(10_000) }
-    traits_for_enum(:status)
+    status     { rand(0..2) }
     invoice
     item
   end
@@ -57,7 +57,7 @@ FactoryBot.define do
   end
 
   factory :transaction do
-    credit_card_number { Faker::Business.credit_card_number.delete('-') }
+    credit_card_number          { Faker::Business.credit_card_number.delete('-') }
     credit_card_expiration_date { Faker::Business.credit_card_expiry_date }
     invoice
   end

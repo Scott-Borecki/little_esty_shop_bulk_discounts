@@ -20,7 +20,7 @@ RSpec.describe Invoice, type: :model do
     describe '#total_revenue' do
       it 'returns the total revenue' do
         expect(invoice1.total_revenue).to eq(500)
-        expect(invoice3.total_revenue).to eq(650)
+        expect(invoice3.total_revenue).to eq(710)
       end
     end
 
@@ -41,14 +41,14 @@ RSpec.describe Invoice, type: :model do
     describe '#revenue_discount' do
       it 'returns the revenue for the discounted items' do
         expect(invoice1.revenue_discount).to eq(80)
-        expect(invoice3.revenue_discount).to eq(130)
+        expect(invoice3.revenue_discount).to eq(180)
       end
     end
 
     describe '#total_discounted_revenue' do
       it 'returns the total discounted_revenue' do
         expect(invoice1.total_discounted_revenue).to eq(420)
-        expect(invoice3.total_discounted_revenue).to eq(520)
+        expect(invoice3.total_discounted_revenue).to eq(530)
       end
     end
   end
