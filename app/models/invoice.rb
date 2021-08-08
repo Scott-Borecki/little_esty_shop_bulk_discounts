@@ -26,7 +26,9 @@ class Invoice < ApplicationRecord
   end
 
   def revenue_discount
-    discounted_items.sum { |item| item.total_revenue * item.max_discount / 100 }
+    discounted_items.sum do |item|
+      item.total_revenue * item.max_discount / 100
+    end
   end
 
   def total_discounted_revenue

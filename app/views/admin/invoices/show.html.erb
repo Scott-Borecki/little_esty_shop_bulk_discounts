@@ -42,6 +42,16 @@
       <%= number_to_currency(@invoice.total_revenue) %>
     </div>
   </div>
+
+  <div class='row'>
+    <div class='col-2'>
+      <strong>Total Discounted Revenue: </strong>
+    </div>
+
+    <div class='col'>
+      <%= number_to_currency(@invoice.total_discounted_revenue) %>
+    </div>
+  </div>
 </p>
 
 <div id='invoice-status'>
@@ -72,12 +82,12 @@
       <th>Status</th>
     </tr>
 
-    <% @invoice.invoice_items.each do |i| %>
+    <% @invoice.invoice_items.each do |invoice_item| %>
       <tr>
-        <td><%= i.item.name %></td>
-        <td><%= i.quantity %></td>
-        <td><%= number_to_currency(i.unit_price) %></td>
-        <td><%= i.status%></td>
+        <td><%= invoice_item.item.name %></td>
+        <td><%= invoice_item.quantity %></td>
+        <td><%= number_to_currency(invoice_item.unit_price) %></td>
+        <td><%= invoice_item.status%></td>
       </tr>
     <% end %>
   </table>

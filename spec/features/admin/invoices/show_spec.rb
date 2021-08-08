@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'admin invoice show page (/admin/invoices/:id)' do
   # See spec/object_creation_helper.rb for objection creation details
-  admin_invoice_show_objects
+  create_factories
 
   describe 'as an admin' do
     describe 'when I visit an admin invoice show page (/admin/invoices/:id)' do
@@ -14,7 +14,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
         expect(page).to have_content("Invoice ##{invoice1.id}")
         expect(page).to have_content("Created on:\n#{invoice1.formatted_time}")
 
-        expect(page).to have_no_content("Invoice ##{invoice2.id}")
+        expect(page).to have_no_content("Invoice ##{invoice2a.id}")
       end
 
       it 'displays the customer details: name and address' do
@@ -26,33 +26,35 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
       end
 
       it 'displays all the items on the invoice and the item details: name, quantity, price, and status' do
-        expect(page).to have_content(item1.name)
-        expect(page).to have_content(item2.name)
+        within '#invoice-items' do
+          expect(page).to have_content(item1a.name)
+          expect(page).to have_content(invoice_item1a.quantity)
+          expect(page).to have_content(invoice_item1a.unit_price)
+          expect(page).to have_content(invoice_item1a.status)
 
-        expect(page).to have_content(invoice_item1.quantity)
-        expect(page).to have_content(invoice_item2.quantity)
+          expect(page).to have_content(item1b.name)
+          expect(page).to have_content(invoice_item1b.quantity)
+          expect(page).to have_content(invoice_item1b.unit_price)
+          expect(page).to have_content(invoice_item1b.status)
 
-        expect(page).to have_content(invoice_item1.unit_price)
-        expect(page).to have_content(invoice_item2.unit_price)
-
-        expect(page).to have_content(invoice_item1.status)
-        expect(page).to have_content(invoice_item2.status)
-
-        expect(page).to have_no_content(invoice_item3.quantity)
-        expect(page).to have_no_content(invoice_item3.unit_price)
-        expect(page).to have_no_content(invoice_item3.status)
+          expect(page).to have_no_content(item2.name)
+          expect(page).to have_no_content(item3.name)
+          expect(page).to have_no_content(item4.name)
+          expect(page).to have_no_content(item5.name)
+          expect(page).to have_no_content(item6.name)
+        end
       end
 
       it 'displays the total revenue' do
         expect(page).to have_content("Total Revenue:\n$#{invoice1.total_revenue}")
 
-        expect(page).to have_no_content(invoice2.total_revenue)
+        expect(page).to have_no_content(invoice2a.total_revenue)
       end
 
-      it 'displays the total discounted' do
+      it 'displays the total discounted revenue' do
         expect(page).to have_content("Total Discounted Revenue:\n$#{invoice1.total_discounted_revenue}")
 
-        expect(page).to have_no_content(invoice2.total_discounted_revenue)
+        expect(page).to have_no_content(invoice2a.total_discounted_revenue)
       end
 
       it 'has a status select field that updates the invoices status' do
