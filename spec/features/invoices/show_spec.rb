@@ -1,61 +1,94 @@
 require 'rails_helper'
 
-RSpec.describe 'invoices show' do
+RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoice_id)' do
   # See spec/object_creation_helper.rb for objection creation details
   create_factories
 
-  before { visit merchant_invoice_path(merchant3, invoice3) }
+  describe 'as a merchant' do
+    describe 'when I visit my merchant invoices show page' do
+      before { visit merchant_invoice_path(merchant3, invoice3) }
 
-  it "shows the invoice information" do
-    expect(page).to have_content(invoice3.id)
-    expect(page).to have_content(invoice3.status)
-    expect(page).to have_content(invoice3.created_at.strftime("%A, %B %-d, %Y"))
-  end
+      it "displays the invoice id" do
+        other_invoices = Invoice.all.to_a
+        other_invoices.delete(invoice3)
+        expect(other_invoices).to_not include(invoice3)
 
-  it "shows the customer information" do
-    expect(page).to have_content(customer3.first_name)
-    expect(page).to have_content(customer3.last_name)
-    expect(page).to_not have_content(customer2.last_name)
-  end
+        within '#invoice-id' do
+          expect(page).to have_content(invoice3.id)
 
-  it "shows the item information" do
-    expect(page).to have_content(item3.name)
-    expect(page).to have_content(invoice_item3a.quantity)
-    expect(page).to have_content(invoice_item3a.unit_price)
+          other_invoices.each do |invoice|
+            expect(page).to have_no_content(invoice.id)
+          end
+        end
+      end
 
-    expect(page).to have_content(item3a.name)
-    expect(page).to have_content(invoice_item3b.quantity)
-    expect(page).to have_content(invoice_item3b.unit_price)
+      it "displays the invoice and customer details" do
+        other_invoices = Invoice.all.to_a
+        other_invoices.delete(invoice3)
+        expect(other_invoices).to_not include(invoice3)
 
-    expect(page).to have_no_content(item4a.name)
-    expect(page).to have_no_content(item5.name)
-    expect(page).to have_no_content(item6.name)
-  end
+        within '#invoice-details' do
+          expect(page).to have_content("#{invoice3.customer.first_name} #{invoice3.customer.last_name}")
+          expect(page).to have_content(invoice3.formatted_time)
 
-  it "shows the total revenue for this invoice" do
-    expect(page).to have_content(invoice3.total_revenue)
-  end
+          other_invoices.each do |invoice|
+            expect(page).to have_no_content("#{invoice.customer.first_name} #{invoice.customer.last_name}")
+          end
+        end
 
-  it 'shows the total discounted revenue for this invoice' do
-    expect(page).to have_content(invoice3.total_discounted_revenue)
-  end
+        within('#invoice-status') { expect(page).to have_content(invoice3.status.humanize) }
+      end
 
-  it "shows a select field to update the invoice status" do
-    within '#invoice-status' do
-      expect(page).to have_content("Completed")
-      expect(page).to_not have_content("In progress")
-      expect(page).to_not have_content("Cancelled")
-    end
+      it "displays the item information" do
+        other_items = Item.all.to_a
+        invoice3.items.each { |item| other_items.delete(item) }
+        invoice3.items.each { |item| expect(other_items).to_not include(item) }
 
-    within "#the-status-#{invoice_item3a.id}" do
-      page.select("cancelled")
-      click_button "Update Invoice"
-    end
+        invoice3.invoice_items.each do |invoice_item|
+          within "#ii-#{invoice_item.id}" do
+            expect(page).to have_content(invoice_item.item.name)
+            expect(page).to have_content(invoice_item.quantity)
+            expect(page).to have_content(invoice_item.unit_price)
 
-    within '#invoice-status' do
-      expect(page).to have_content("Cancelled")
-      expect(page).to_not have_content("In progress")
-      expect(page).to_not have_content("Completed")
+            other_items.each do |item|
+              expect(page).to have_no_content(item.name)
+            end
+          end
+        end
+      end
+
+      it "displays the total revenue for this invoice" do
+        expect(page).to have_content("Total Revenue: $#{invoice3.total_revenue}")
+      end
+
+      it 'displays the total discounted revenue for this invoice' do
+        expect(page).to have_content("Total Discounted Revenue: $#{invoice3.total_discounted_revenue}")
+      end
+
+      it "displays a select field to update the invoice status" do
+        within '#invoice-status' do
+          expect(page).to have_content("Completed")
+
+          expect(page).to have_no_content("In progress")
+          expect(page).to have_no_content("in progress")
+          expect(page).to have_no_content("Cancelled")
+          expect(page).to have_no_content("cancelled")
+        end
+
+        within "#ii-#{invoice_item3a.id}" do
+          page.select "cancelled"
+          click_button "Update Invoice"
+        end
+
+        within '#invoice-status' do
+          expect(page).to have_content("Cancelled")
+
+          expect(page).to have_no_content("In progress")
+          expect(page).to have_no_content("in progress")
+          expect(page).to have_no_content("Completed")
+          expect(page).to have_no_content("completed")
+        end
+      end
     end
   end
 end

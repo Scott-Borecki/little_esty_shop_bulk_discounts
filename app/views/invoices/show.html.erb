@@ -1,22 +1,22 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
-<div class="row">
+<div class='row'>
   <% # FULL COLUMN %>
-  <div class="col-sm-12">
-    <p class='col-head'>
+  <div class='col-sm-12'>
+    <p class='col-head' id='invoice-id'>
       Invoice #<%= @invoice.id %>
     </p>
   </div>
 </div>
 
-<div class="row">
+<div class='row'>
   <% # FULL COLUMN %>
-  <div class="col-sm-12">
-    <p>
+  <div class='col-sm-12'>
+    <p id='invoice-details'>
       <strong>Customer: </strong>
         <%= @customer.first_name %> <%= @customer.last_name %><br>
       <strong>Created on: </strong>
-        <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %><br>
+        <%= @invoice.formatted_time %><br>
       <strong>Total Revenue: </strong>
         <%= number_to_currency(@invoice.total_revenue) %><br>
       <strong>Total Discounted Revenue: </strong>
@@ -29,7 +29,7 @@
 
     <p class='col-head'>Items on this Invoice</p>
 
-    <table class="table">
+    <table class='table'>
         <tr>
           <th>Item Name</th>
           <th>Quantity</th>
@@ -37,12 +37,12 @@
           <th>Status</th>
         </tr>
 
-        <% @invoice.invoice_items.each do |i| %>
-          <tr>
-            <td><%= i.item.name %></td>
-            <td><%= i.quantity %></td>
-            <td><%= number_to_currency(i.unit_price) %></td>
-            <td id="the-status-<%= i.id %>">
+        <% @invoice.invoice_items.each do |invoice_item| %>
+          <tr id='ii-<%= invoice_item.id %>'>
+            <td><%= invoice_item.item.name %></td>
+            <td><%= invoice_item.quantity %></td>
+            <td><%= number_to_currency(invoice_item.unit_price) %></td>
+            <td>
               <%= form_with model: @invoice,
                             url: merchant_invoice_path(@merchant, @invoice),
                             method: :patch,
