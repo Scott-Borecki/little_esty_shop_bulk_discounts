@@ -18,4 +18,16 @@ class InvoiceItem < ApplicationRecord
   def revenue
     unit_price * quantity
   end
+
+  def max_discount
+    item.merchant.bulk_discounts.max_discount(quantity)
+  end
+
+  def max_discount_percentage
+    max_discount.percentage_discount
+  end
+
+  def max_discount_id
+    max_discount.id
+  end
 end
