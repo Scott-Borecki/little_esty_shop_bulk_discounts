@@ -67,7 +67,7 @@ describe "merchant items index" do
     expect(page).to have_link(@item4.name)
 
     within '#enabled-items' do
-      click_link "#{@item1.name}"
+      click_link @item1.name
 
       expect(current_path).to eq("/merchant/#{@merchant1.id}/items/#{@item1.id}")
     end
