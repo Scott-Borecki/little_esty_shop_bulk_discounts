@@ -34,6 +34,7 @@
           <th>Item Name</th>
           <th>Quantity</th>
           <th>Unit Price</th>
+          <th>Bulk Discount</th>
           <th>Status</th>
         </tr>
 
@@ -42,6 +43,11 @@
             <td><%= invoice_item.item.name %></td>
             <td><%= invoice_item.quantity %></td>
             <td><%= number_to_currency(invoice_item.unit_price) %></td>
+            <td>
+              <% if invoice_item.max_discount %>
+                <%= link_to number_to_percentage(invoice_item.max_discount_percentage, precision: 0), merchant_bulk_discount_path(@merchant, invoice_item.max_discount) %>
+              <% end %>
+            </td>
             <td>
               <%= form_with model: @invoice,
                             url: merchant_invoice_path(@merchant, @invoice),
