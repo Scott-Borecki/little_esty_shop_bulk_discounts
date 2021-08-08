@@ -1,7 +1,8 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class="row">
-  <div class="col-sm-6">
+  <% # FULL COLUMN %>
+  <div class="col-sm-12">
       <p class='col-head'>
         Bulk Discount # <%= @bulk_discount.id %>
       </p>

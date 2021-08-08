@@ -1,4 +1,13 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
-<%= render partial: 'form', locals: { model: [@merchant, @new_bulk_discount],
-                                      button_text: 'Create' } %>
+<div class="row">
+  <% # FULL COLUMN %>
+  <div class="col-sm-12" id='bulk-discounts'>
+    <p class='col-head'>
+      Create New Bulk Discount
+    </p>
+
+    <%= render partial: 'form', locals: { model: [@merchant, @new_bulk_discount],
+                                          button_text: 'Create' } %>
+  </div>
+</div>

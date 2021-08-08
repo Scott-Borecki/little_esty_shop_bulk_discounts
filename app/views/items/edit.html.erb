@@ -1,6 +1,7 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class="row">
+  <% # FULL COLUMN %>
   <div class="col-sm-12">
     <p class='col-head'>
       Update Item
@@ -11,6 +12,6 @@
                                         url: merchant_item_path(@merchant, @item),
                                         class: 'merchant_item_form',
                                         local: true,
-                                        model: @item} %>
+                                        model: @item } %>
 
 </div>

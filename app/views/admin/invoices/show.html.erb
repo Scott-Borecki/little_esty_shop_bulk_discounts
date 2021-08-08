@@ -1,52 +1,94 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
-<div class="row">
-  <div class="col-sm-12">
+<div class='row'>
+  <div class='col-sm-12'>
     <p class='col-head'>
       Invoice #<%= @invoice.id %>
     </p>
   </div>
 </div>
 
-<h4>Customer:</h4>
-<p>
-  <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
-  <%= @invoice.customer.address %><br>
-  <%= @invoice.customer.city %>, <%= @invoice.customer.state %> <%= @invoice.customer.zip %><br>
-</p>
+<div class='row'>
+  <div class='col-2'>
+    <h4>Customer:</h4>
+  </div>
+
+  <div class='col'>
+    <p>
+      <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
+      <%= @invoice.customer.address %><br>
+      <%= @invoice.customer.city %>, <%= @invoice.customer.state %> <%= @invoice.customer.zip %><br>
+    </p>
+  </div>
+</div>
 
 <p>
-  <strong>Created on: </strong><%= @invoice.formatted_time %><br>
-  <strong>Total Revenue: </strong><%= number_to_currency(@invoice.total_revenue) %>
+  <div class='row'>
+    <div class='col-2'>
+      <strong>Created on: </strong>
+    </div>
 
-  <div id='invoice-status'>
-    <section id="status-update-<%= @invoice.id %>">
-      <strong>Status: </strong>
-      <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
-        <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
+    <div class='col'>
+      <%= @invoice.formatted_time %><br>
+    </div>
+  </div>
 
-        <%= f.submit 'Update Invoice' %>
-      <% end %>
-    </section>
+  <div class='row'>
+    <div class='col-2'>
+      <strong>Total Revenue: </strong>
+    </div>
+
+    <div class='col'>
+      <%= number_to_currency(@invoice.total_revenue) %>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class='col-2'>
+      <strong>Total Discounted Revenue: </strong>
+    </div>
+
+    <div class='col'>
+      <%= number_to_currency(@invoice.total_discounted_revenue) %>
+    </div>
   </div>
 </p>
 
-<p class='col-head'>Items on this Invoice</p>
+<div id='invoice-status'>
+  <div id='status-update-<%= @invoice.id %>' class='row'>
+    <div class="col-2">
+      <p>
+        <strong>Status: </strong>
+      </p>
+    </div>
 
-<table class="table">
-  <tr>
-    <th class="th1">Item Name</th>
-    <th class="th1">Quantity</th>
-    <th class="th1">Unit Price</th>
-    <th class="th1">Status</th>
-  </tr>
+    <div class='col'>
+      <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
+        <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
+        <%= f.submit 'Update Invoice' %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-  <% @invoice.invoice_items.each do |i| %>
+<div id='invoice-items'>
+  <p class='col-head'>Items on this Invoice</p>
+
+  <table class='table'>
     <tr>
-      <td style="text-align:center"><%= i.item.name %></td>
-      <td style="text-align:center"><%= i.quantity %></td>
-      <td style="text-align:center"><%= number_to_currency(i.unit_price) %></td>
-      <td style="text-align:center"><%= i.status%></td>
+      <th>Item Name</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Status</th>
     </tr>
-  <% end %>
-</table>
+
+    <% @invoice.invoice_items.each do |invoice_item| %>
+      <tr>
+        <td><%= invoice_item.item.name %></td>
+        <td><%= invoice_item.quantity %></td>
+        <td><%= number_to_currency(invoice_item.unit_price) %></td>
+        <td><%= invoice_item.status%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

@@ -1,12 +1,17 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class="row">
+  <% # FULL COLUMN %>
   <div class="col-sm-12">
     <p class='col-head'>
       Create New Item
     </p>
   </div>
 
-  <%= render partial: 'form', locals: { method: :post, url: merchant_items_path(@merchant, @item), class: 'merchant_item_form', local: true, model: nil } %>
+  <%= render partial: 'form', locals: { method: :post,
+                                        url: merchant_items_path(@merchant, @item),
+                                        class: 'merchant_item_form',
+                                        local: true,
+                                        model: nil } %>
 
 </div>

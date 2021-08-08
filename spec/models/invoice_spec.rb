@@ -1,29 +1,51 @@
 require 'rails_helper'
 
 RSpec.describe Invoice, type: :model do
-  describe "validations" do
-    it { should validate_presence_of :status }
-    it { should validate_presence_of :customer_id }
+  describe 'validations' do
+    it { should validate_presence_of(:status) }
+    it { should validate_presence_of(:customer_id) }
   end
 
-  describe "relationships" do
-    it { should belong_to :customer }
+  describe 'relationships' do
+    it { should belong_to(:customer) }
     it { should have_many(:items).through(:invoice_items) }
     it { should have_many(:merchants).through(:items) }
-    it { should have_many :transactions}
+    it { should have_many(:transactions) }
   end
 
-  describe "instance methods" do
-    it "total_revenue" do
-      merchant1 = Merchant.create!(name: 'Hair Care')
-      item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: merchant1.id, status: 1)
-      item_8 = Item.create!(name: "Butterfly Clip", description: "This holds up your hair but in a clip", unit_price: 5, merchant_id: merchant1.id)
-      customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
-      invoice_1 = Invoice.create!(customer_id: customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
-      ii_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, quantity: 9, unit_price: 10, status: 2)
-      ii_11 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_8.id, quantity: 1, unit_price: 10, status: 1)
+  describe 'instance methods' do
+    # See spec/object_creation_helper.rb for objection creation details
+    create_factories
 
-      expect(invoice_1.total_revenue).to eq(100)
+    describe '#total_revenue' do
+      it 'returns the total revenue' do
+        expect(invoice1.total_revenue).to eq(500)
+        expect(invoice3.total_revenue).to eq(710)
+      end
+    end
+
+    describe '#discounted_invoice_items' do
+      it 'returns the items qualifying for a bulk discount' do
+        expect(invoice1.discounted_invoice_items.length).to eq(1)
+        expect(invoice1.discounted_invoice_items.ids).to eq([invoice_item1b.id])
+
+        expect(invoice3.discounted_invoice_items.length).to eq(2)
+        expect(invoice3.discounted_invoice_items.ids).to eq([invoice_item3.id, invoice_item3a.id])
+      end
+    end
+
+    describe '#revenue_discount' do
+      it 'returns the revenue for the discounted items' do
+        expect(invoice1.revenue_discount).to eq(80)
+        expect(invoice3.revenue_discount).to eq(180)
+      end
+    end
+
+    describe '#total_discounted_revenue' do
+      it 'returns the total discounted_revenue' do
+        expect(invoice1.total_discounted_revenue).to eq(420)
+        expect(invoice3.total_discounted_revenue).to eq(530)
+      end
     end
   end
 end
