@@ -40,7 +40,11 @@ end
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# Generates fake data to populate database
 gem 'faker'
+
+# An HTTP client library that allows developers to more easily write requests and handle responses in Ruby
+gem 'faraday'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
