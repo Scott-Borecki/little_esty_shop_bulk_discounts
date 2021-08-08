@@ -150,6 +150,7 @@ RSpec.describe 'merchant dashboard' do
         before { click_link 'View All My Discounts' }
 
         it 'takes me to my bulk discounts index page' do
+          allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)
           expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
         end
 

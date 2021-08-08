@@ -3,6 +3,7 @@ class BulkDiscountsController < ApplicationController
   before_action :fetch_current_merchant
 
   def index
+    @upcoming_holidays = HolidayFacade.upcoming_holidays
   end
 
   def new
