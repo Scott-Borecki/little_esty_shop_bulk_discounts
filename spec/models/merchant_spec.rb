@@ -21,13 +21,17 @@ describe Merchant do
     describe '.top_merchants_by_revenue' do
       it 'returns the top merchants by revenue' do
         top_five_merchants = [merchant3, merchant6, merchant5, merchant2, merchant4]
-        top_five_merchants_revenue = [710, 680, 150, 140, 130]
 
         expect(Merchant.top_merchants_by_revenue.to_a.size).to eq(5)
         expect(Merchant.top_merchants_by_revenue).to eq(top_five_merchants)
-        expect(Merchant.top_merchants_by_revenue.map(&:revenue)).to eq(top_five_merchants_revenue)
 
         expect(Merchant.top_merchants_by_revenue(2).to_a.size).to eq(2)
+      end
+
+      it 'returns the revenue of each top merchant' do
+        top_five_merchants_revenue = [710, 680, 150, 140, 130]
+
+        expect(Merchant.top_merchants_by_revenue.map(&:revenue)).to eq(top_five_merchants_revenue)
       end
     end
   end

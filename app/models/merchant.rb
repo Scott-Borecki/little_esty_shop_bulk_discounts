@@ -18,7 +18,7 @@ class Merchant < ApplicationRecord
       )
       .where(transactions: { result: :success })
       .group(:id)
-      .order('revenue desc')
+      .order(revenue: :desc)
       .limit(number)
   end
 
