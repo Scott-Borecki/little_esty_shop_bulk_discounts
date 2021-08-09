@@ -1,8 +1,8 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
-<div class="row">
+<div class='row'>
   <% # FULL COLUMN %>
-  <div class="col-sm-12">
+  <div class='col-sm-12'>
     <p class='col-head'>
       <%= @item.name %>
     </p>
@@ -14,6 +14,6 @@
     <strong>Description: </strong>
       <%= @item.description %><br><br>
 
-    <%= link_to "Update Item", edit_merchant_item_path(@merchant, @item) %>
+    <%= link_to 'Update Item', edit_merchant_item_path(@merchant, @item) %>
   </p>
 </div>

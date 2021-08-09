@@ -1,15 +1,15 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
-<div class="row">
-  <div class="col-sm-12">
+<div class='row'>
+  <div class='col-sm-12'>
     <p class='col-head'>
       Invoices
     </p>
   </div>
 </div>
 
-<% @invoices.each do |i| %>
+<% @invoices.each do |invoice| %>
   <li>
-    <%= link_to "Invoice ##{i.id}", admin_invoice_path(i) %>
+    <%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice) %>
   </li>
 <% end %>

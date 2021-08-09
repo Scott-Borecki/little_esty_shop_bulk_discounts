@@ -4,16 +4,16 @@
   <%= link_to 'View All My Discounts', merchant_bulk_discounts_path(@merchant) %>
 </p>
 
-<div class="row">
+<div class='row'>
   <% # LEFT COLUMN %>
-  <div class="col-sm-6">
+  <div class='col-sm-6'>
     <p class='col-head'>
       Favorite Customers
     </p>
 
     <ol>
       <% @merchant.favorite_customers.each do |customer| %>
-        <section id="customer-<%= customer.id %>">
+        <section id='customer-<%= customer.id %>'>
           <li>
             <%= customer.first_name %> <%= customer.last_name %> - <%= customer.top_result %> Purchases
           </li>
@@ -23,13 +23,13 @@
   </div>
 
   <% # RIGHT COLUMN %>
-  <div class="col-sm-6">
+  <div class='col-sm-6'>
     <p class='col-head'>
       Items Ready to Ship
     </p>
 
     <ul>
-      <section id = "items_ready_to_ship" >
+      <section id='items_ready_to_ship' >
         <p>
           <% @merchant.ordered_items_to_ship.each do |item| %>
             <li>
