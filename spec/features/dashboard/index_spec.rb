@@ -46,107 +46,35 @@ RSpec.describe 'merchant dashboard' do
     @bulk_discount2_3 = @merchant2.bulk_discounts.create!(percentage_discount: 22, quantity_threshold: 21)
   end
 
-  describe 'original view tests' do
-    before { visit merchant_dashboard_index_path(@merchant1) }
-
-    it 'shows the merchant name' do
-      expect(page).to have_content(@merchant1.name)
-    end
-
-    it 'can see a link to my merchant items index' do
-      expect(page).to have_link("Items")
-
-      click_link "Items"
-
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/items")
-    end
-
-    it 'can see a link to my merchant invoices index' do
-      expect(page).to have_link("Invoices")
-
-      click_link "Invoices"
-
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/invoices")
-    end
-
-    xit 'shows the names of the top 5 customers with successful transactions' do
-      within("#customer-#{@customer1.id}") do
-        expect(page).to have_content(@customer1.first_name)
-        expect(page).to have_content(@customer1.last_name)
-        expect(page).to have_content(2)
-      end
-
-      within("#customer-#{@customer2.id}") do
-        expect(page).to have_content(@customer2.first_name)
-        expect(page).to have_content(@customer2.last_name)
-        expect(page).to have_content(1)
-      end
-
-      within("#customer-#{@customer3.id}") do
-        expect(page).to have_content(@customer3.first_name)
-        expect(page).to have_content(@customer3.last_name)
-        expect(page).to have_content(1)
-      end
-
-      within("#customer-#{@customer4.id}") do
-        expect(page).to have_content(@customer4.first_name)
-        expect(page).to have_content(@customer4.last_name)
-        expect(page).to have_content(1)
-      end
-
-      within("#customer-#{@customer5.id}") do
-        expect(page).to have_content(@customer5.first_name)
-        expect(page).to have_content(@customer5.last_name)
-        expect(page).to have_content(1)
-      end
-
-      expect(page).to have_no_content(@customer6.first_name)
-      expect(page).to have_no_content(@customer6.last_name)
-    end
-
-    it "can see a section for Items Ready to Ship with list of names of items ordered and ids" do
-      within("#items_ready_to_ship") do
-        items = [@item1, @item2]
-
-        items.each do |item|
-          expect(page).to have_content(item.name)
-          item.invoice_ids.each do |invoice_id|
-            expect(page).to have_content(invoice_id)
-          end
-        end
-
-        expect(page).to have_no_content(@item3.name)
-
-        @item3.invoice_ids.each do |invoice_id|
-          expect(page).to have_no_content(invoice_id)
-        end
-      end
-    end
-
-    it "each invoice id is a link to my merchant's invoice show page " do
-      expect(page).to have_link(@item1.invoice_ids.first.to_s)
-      expect(page).to have_link(@item2.invoice_ids.first.to_s)
-      expect(page).to_not have_link(@item3.invoice_ids.first.to_s)
-
-      click_link(@item1.invoice_ids.first.to_s, match: :first)
-
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/invoices/#{@invoice1.id}")
-    end
-
-    it "shows the date that the invoice was created in this format: Monday, July 18, 2019" do
-      expect(page).to have_content(@invoice1.formatted_time)
-    end
-  end
-
   describe 'as a merchant' do
     describe 'when I visit my merchant dashboard (/merchant/:id/dashboard)' do
       before { visit merchant_dashboard_index_path(@merchant1) }
+
+      it 'displays the name of my merchant' do
+        expect(page).to have_content(@merchant1.name)
+      end
+
+      it 'displays a link to my merchant items index (/merchants/merchant_id/items)' do
+        expect(page).to have_link("Items")
+
+        click_link "Items"
+
+        expect(current_path).to eq("/merchant/#{@merchant1.id}/items")
+      end
+
+      it 'displays a link to my merchant invoices index (/merchants/merchant_id/invoices)' do
+        expect(page).to have_link("Invoices")
+
+        click_link "Invoices"
+
+        expect(current_path).to eq("/merchant/#{@merchant1.id}/invoices")
+      end
 
       it 'displays a link to view all my discounts' do
         expect(page).to have_link('View All My Discounts')
       end
 
-      describe 'when I click this link' do
+      describe 'when I click the View All My Discounts link' do
         before { click_link 'View All My Discounts' }
 
         it 'takes me to my bulk discounts index page' do
@@ -171,6 +99,62 @@ RSpec.describe 'merchant dashboard' do
         end
 
         it 'has a link to each bulk discount show page'
+      end
+
+      describe 'within the top five customers section' do
+        it 'displays the names of the top 5 customers by number of transactions' do
+          top_five_customers = @merchant1.top_customers_by_transactions
+
+          within '#top-five-customers' do
+            top_five_customers.each do |customer|
+              expect(page).to have_content("#{customer.first_name} #{customer.last_name}")
+            end
+          end
+        end
+
+        it 'displays the number of transactions next to each customer' do
+          top_five_customers = @merchant1.top_customers_by_transactions
+          top_five_customers_transactions =
+            top_five_customers.map do |customer|
+              [customer.id, customer.number_transactions]
+            end
+
+          top_five_customers_transactions.each do |customer_id, number_transactions|
+            within "#top-customer-#{customer_id}" do
+              expect(page).to have_content(number_transactions)
+            end
+          end
+        end
+      end
+
+      describe 'within the Items Ready to Ship section' do
+        it 'displays list of the unshipped item names, the associated invoice id, and invoice creation date' do
+          items_ready_to_ship = @merchant1.items_ready_to_ship
+
+          within '#items_ready_to_ship' do
+            items_ready_to_ship.each do |item|
+              expect(page).to have_content(item.item_name)
+              expect(page).to have_content(item.invoice_id)
+              expect(page).to have_content(item.invoice_created_at.strftime('%A, %B %-d, %Y'))
+            end
+          end
+        end
+
+        it 'displays a link to the invoice show page' do
+          items_ready_to_ship = @merchant1.items_ready_to_ship
+
+          items_ready_to_ship.each do |item|
+            visit merchant_dashboard_index_path(@merchant1)
+
+            within "#ship-item-#{item.id}" do
+              expect(page).to have_link(item.invoice_id.to_s)
+
+              click_link item.invoice_id.to_s
+
+              expect(current_path).to eq(merchant_invoice_path(@merchant1, item.invoice_id))
+            end
+          end
+        end
       end
     end
   end
