@@ -61,7 +61,7 @@ RSpec.describe Item, type: :model do
       @transaction6 = create(:transaction, result: 0, invoice: @invoice_6)
       @transaction7 = create(:transaction, result: 1, invoice: @invoice_7)
 
-      expect(@item_1.best_day).to eq(@invoice_2.formatted_time)
+      expect(@item_1.best_day).to eq(@invoice_2.formatted_date)
     end
   end
 end

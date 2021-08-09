@@ -65,6 +65,6 @@ class Merchant < ApplicationRecord
       .group(:id)
       .order('revenue desc', 'created_at desc')
       .first
-      .formatted_time
+      .formatted_date
   end
 end

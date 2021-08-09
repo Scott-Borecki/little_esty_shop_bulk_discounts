@@ -16,7 +16,7 @@
       <strong>Customer: </strong>
         <%= @customer.first_name %> <%= @customer.last_name %><br>
       <strong>Created on: </strong>
-        <%= @invoice.formatted_time %><br>
+        <%= @invoice.formatted_date %><br>
       <strong>Total Revenue: </strong>
         <%= number_to_currency(@invoice.total_revenue) %><br>
       <strong>Total Discounted Revenue: </strong>

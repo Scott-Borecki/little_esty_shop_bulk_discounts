@@ -29,7 +29,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
 
         within '#invoice-details' do
           expect(page).to have_content("#{invoice3.customer.first_name} #{invoice3.customer.last_name}")
-          expect(page).to have_content(invoice3.formatted_time)
+          expect(page).to have_content(invoice3.formatted_date)
 
           other_invoices.each do |invoice|
             expect(page).to have_no_content("#{invoice.customer.first_name} #{invoice.customer.last_name}")

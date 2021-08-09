@@ -19,6 +19,6 @@ class Item < ApplicationRecord
       .group(:id)
       .order('money desc', 'invoices.created_at desc')
       .first
-      .formatted_time
+      .formatted_date
   end
 end
