@@ -32,13 +32,13 @@ class Merchant < ApplicationRecord
          .limit(number)
   end
 
-  def ordered_items_to_ship
-    item_ids = InvoiceItem.where.not(status: :shipped)
-                          .order(:created_at)
-                          .pluck(:item_id)
-    item_ids.map do |id|
-      Item.find(id)
-    end.uniq
+  def items_ready_to_ship
+    invoice_items.joins(:invoice)
+                 .select('invoice_items.*,
+                          items.name AS item_name,
+                          invoices.created_at AS invoice_created_at')
+                 .where.not(status: :shipped)
+                 .order('invoices.created_at asc')
   end
 
   def top_items_by_revenue(number = 5)

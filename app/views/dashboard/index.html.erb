@@ -31,13 +31,10 @@
     <ul>
       <section id='items_ready_to_ship' >
         <p>
-          <% @merchant.ordered_items_to_ship.each do |item| %>
+          <% @merchant.items_ready_to_ship.each do |invoice_item| %>
             <li>
-              <%= item.name %> - Invoice #
-              <% item.invoice_ids.uniq.each do |invoice_id| %>
-                <%= link_to invoice_id, "/merchant/#{@merchant.id}/invoices/#{invoice_id}" %>
-              <% end %>
-              <%= item.formatted_time %>
+              <%= invoice_item.item_name %> - Invoice # <%= link_to invoice_item.invoice_id, "/merchant/#{@merchant.id}/invoices/#{invoice_item.invoice_id}" %>
+              <%= invoice_item.invoice_created_at.strftime('%A, %B %-d, %Y') %>
             </li>
           <% end %>
         </p>
