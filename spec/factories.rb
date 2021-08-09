@@ -2,8 +2,8 @@ require 'faker'
 
 FactoryBot.define do
   factory :bulk_discount do
-    percentage_discount { sample(0..30) }
-    quantity_threshold  { sample(10..30) }
+    percentage_discount { rand(0..30) }
+    quantity_threshold  { rand(10..30) }
     merchant
   end
 
