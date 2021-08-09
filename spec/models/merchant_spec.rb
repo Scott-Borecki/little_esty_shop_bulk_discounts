@@ -14,6 +14,24 @@ describe Merchant do
     it { should have_many(:transactions).through(:invoices) }
   end
 
+  describe 'class methods' do
+    # See /spec/factories.rb for more info on factories created
+    create_factories
+
+    describe '.top_merchants_by_revenue' do
+      it 'returns the top merchants by revenue' do
+        top_five_merchants = [merchant3, merchant6, merchant5, merchant2, merchant4]
+        top_five_merchants_revenue = [710, 680, 150, 140, 130]
+
+        expect(Merchant.top_merchants_by_revenue.to_a.size).to eq(5)
+        expect(Merchant.top_merchants_by_revenue).to eq(top_five_merchants)
+        expect(Merchant.top_merchants_by_revenue.map(&:revenue)).to eq(top_five_merchants_revenue)
+
+        expect(Merchant.top_merchants_by_revenue(2).to_a.size).to eq(2)
+      end
+    end
+  end
+
   describe "instance methods" do
     before :each do
       @merchant1 = Merchant.create!(name: 'Hair Care')
@@ -60,7 +78,6 @@ describe Merchant do
       @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_5.id)
       @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
       @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
-
     end
 
     it "can list items ready to ship" do

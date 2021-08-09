@@ -10,6 +10,18 @@ class Merchant < ApplicationRecord
 
   validates :name, presence: true
 
+  def self.top_merchants_by_revenue(number = 5)
+    joins(:transactions)
+      .select(
+        'merchants.*,
+        sum(invoice_items.quantity * invoice_items.unit_price) AS revenue'
+      )
+      .where(transactions: { result: :success })
+      .group(:id)
+      .order('revenue desc')
+      .limit(number)
+  end
+
   def favorite_customers
     transactions.joins(invoice: :customer)
                 .where('result = ?', 1)
@@ -39,18 +51,6 @@ class Merchant < ApplicationRecord
           .group(:id)
           .order('total_revenue desc')
           .limit(5)
-  end
-
-  def self.top_merchants
-    joins(invoices: [:invoice_items, :transactions])
-      .where('result = ?', 1)
-      .select(
-        'merchants.*,
-        sum(invoice_items.quantity * invoice_items.unit_price) AS total_revenue'
-      )
-      .group(:id)
-      .order('total_revenue DESC')
-      .limit(5)
   end
 
   def best_day
