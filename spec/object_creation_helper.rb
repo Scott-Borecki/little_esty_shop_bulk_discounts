@@ -178,6 +178,30 @@ def create_factories
   let!(:bulk_discount3c) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 21,  percentage_discount: 30) }
 end
 
+def create_objects_top_revenue_day
+  let!(:merchant) { create(:enabled_merchant) }
+
+  let!(:customer) { create(:customer) }
+
+  let!(:item6) { create(:item, merchant: merchant) }
+  let!(:item6a) { create(:item, merchant: merchant) }
+
+  let!(:invoice6a) { create(:invoice, :completed, customer: customer, created_at: "2021-07-29T17:30:05+0700") }
+  let!(:invoice6b) { create(:invoice, :completed, customer: customer, created_at: "2021-07-27T17:30:05+0700") }
+  let!(:invoice6c) { create(:invoice, :completed, customer: customer, created_at: "2021-07-25T17:30:05+0700") }
+
+  let!(:transaction6a) { create(:transaction, :success, invoice: invoice6a) }
+  let!(:transaction6b) { create(:transaction, :success, invoice: invoice6b) }
+  let!(:transaction6c) { create(:transaction, :success, invoice: invoice6c) }
+
+  let!(:invoice_item6a_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6a, quantity: 6,  unit_price: 10) }
+  let!(:invoice_item6a_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6a, quantity: 5,  unit_price: 20) }
+  let!(:invoice_item6b_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6b, quantity: 6,  unit_price: 10) }
+  let!(:invoice_item6b_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6b, quantity: 10, unit_price: 20) }
+  let!(:invoice_item6c_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6c, quantity: 6,  unit_price: 10) }
+  let!(:invoice_item6c_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6c, quantity: 10, unit_price: 20) }
+end
+
 def create_factories_merchant_with_many_customers_and_items
   let!(:customer1) {  create(:customer) } # Transaction_count = 1
   let!(:customer2) {  create(:customer) } # Transaction_count = 3
