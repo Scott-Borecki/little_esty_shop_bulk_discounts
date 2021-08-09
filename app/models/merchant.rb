@@ -22,14 +22,14 @@ class Merchant < ApplicationRecord
       .limit(number)
   end
 
-  def favorite_customers
-    transactions.joins(invoice: :customer)
-                .where('result = ?', 1)
-                .select("customers.*,
-                         count('transactions.result') as top_result")
-                .group('customers.id')
-                .order(top_result: :desc)
-                .limit(5)
+  def top_customers_by_transactions(number = 5)
+    items.joins(invoices: [:transactions, :customer])
+         .select('customers.*,
+                 count(distinct transactions.id) as number_transactions')
+         .group('customers.id')
+         .where(transactions: { result: 1 })
+         .order('number_transactions desc')
+         .limit(number)
   end
 
   def ordered_items_to_ship
