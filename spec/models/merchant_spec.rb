@@ -32,6 +32,36 @@ describe Merchant do
     end
   end
 
+  describe 'instance methods' do
+    describe '#top_revenue_day' do
+      it 'returns the best day by revenue' do
+        merchant = create(:enabled_merchant)
+
+        customer = create(:customer)
+
+        item6 = create(:item, merchant: merchant)
+        item6a = create(:item, merchant: merchant)
+
+        invoice6a = create(:invoice, :completed, customer: customer, created_at: "2021-07-29T17:30:05+0700")
+        invoice6b = create(:invoice, :completed, customer: customer, created_at: "2021-07-27T17:30:05+0700")
+        invoice6c = create(:invoice, :completed, customer: customer, created_at: "2021-07-25T17:30:05+0700")
+
+        create(:transaction, :success, invoice: invoice6a)
+        create(:transaction, :success, invoice: invoice6b)
+        create(:transaction, :success, invoice: invoice6c)
+
+        create(:invoice_item, :shipped,  item: item6,  invoice: invoice6a, quantity: 6,  unit_price: 10)
+        create(:invoice_item, :shipped,  item: item6a, invoice: invoice6a, quantity: 5,  unit_price: 20)
+        create(:invoice_item, :shipped,  item: item6,  invoice: invoice6b, quantity: 6,  unit_price: 10)
+        create(:invoice_item, :shipped,  item: item6a, invoice: invoice6b, quantity: 10, unit_price: 20)
+        create(:invoice_item, :shipped,  item: item6,  invoice: invoice6c, quantity: 6,  unit_price: 10)
+        create(:invoice_item, :shipped,  item: item6a, invoice: invoice6c, quantity: 10, unit_price: 20)
+
+        expect(merchant.top_revenue_day).to eq("Tuesday, July 27, 2021")
+      end
+    end
+  end
+
   describe "instance methods" do
     before :each do
       @merchant1 = Merchant.create!(name: 'Hair Care')
@@ -90,6 +120,8 @@ describe Merchant do
       end
       expect(expected).to eq([@customer_1.first_name, @customer_2.first_name, @customer_3.first_name, @customer_4.first_name, @customer_6.first_name])
     end
+
+
 
     it "top_5_items" do
       expect(@merchant1.top_5_items).to eq([@item_1, @item_2, @item_3, @item_8, @item_4])

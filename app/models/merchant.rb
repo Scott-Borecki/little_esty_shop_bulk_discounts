@@ -53,7 +53,7 @@ class Merchant < ApplicationRecord
           .limit(5)
   end
 
-  def best_day
+  def top_revenue_day
     invoices
       .select(
         'invoices.created_at',
