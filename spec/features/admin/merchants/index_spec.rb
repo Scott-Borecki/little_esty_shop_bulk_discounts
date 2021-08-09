@@ -8,6 +8,10 @@ describe 'admin merchant index (/admin/merchants)' do
     describe 'when I visit the admin merchants index' do
       before { visit admin_merchants_path }
 
+      it { expect(current_path).to eq(admin_merchants_path) }
+      it { expect(page).to have_no_content('Update successful!') }
+      it { expect(page).to have_no_content('Error! All fields must be completed.') }
+
       it 'displays the name of each merchant with a link' do
         Merchant.all.each do |merchant|
           expect(page).to have_content(merchant.name)
@@ -139,9 +143,7 @@ describe 'admin merchant index (/admin/merchants)' do
             top_five_merchants.each do |merchant|
               visit admin_merchants_path
 
-              within('#top-five-merchants') do
-                click_link merchant.name
-              end
+              within('#top-five-merchants') { click_link merchant.name }
 
               expect(current_path).to eq(admin_merchant_path(merchant))
             end

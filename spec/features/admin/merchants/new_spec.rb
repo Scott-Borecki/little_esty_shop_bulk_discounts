@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'admin merchants new (/admin/merchants/new)' do
   describe 'as an admin' do
-    describe 'when I visit the admin merchants new (/admin/merchants/new)' do
+    describe 'when I visit the admin merchants new' do
       before { visit new_admin_merchant_path }
 
-      specify { expect(current_path).to eq(new_admin_merchant_path) }
-
+      it { expect(current_path).to eq(new_admin_merchant_path) }
+      it { expect(page).to have_no_content('Update successful!') }
+      it { expect(page).to have_no_content('Error! All fields must be completed.') }
+      
       it 'displays a form that allows me to add merchant information' do
         expect(page).to have_field(:merchant_name)
         expect(page).to have_button('Submit')

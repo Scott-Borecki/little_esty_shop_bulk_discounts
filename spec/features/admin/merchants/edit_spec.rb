@@ -5,19 +5,16 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
   let!(:merchant2) { create(:enabled_merchant) }
   let!(:merchant3) { create(:enabled_merchant) }
 
-  describe 'object creation for tests' do
-    specify { expect(Merchant.all.count).to be_positive }
-  end
-
   describe 'as an admin' do
-    describe 'when I visit the admin merchants edit page (/admin/merchants/merchant_id/edit)' do
+    describe 'when I visit the admin merchants edit page' do
       before { visit edit_admin_merchant_path(merchant1) }
 
-      specify { expect(current_path).to eq(edit_admin_merchant_path(merchant1)) }
-      specify { expect(page).to have_no_content('Update successful!') }
+      it { expect(current_path).to eq(edit_admin_merchant_path(merchant1)) }
+      it { expect(page).to have_no_content('Update successful!') }
+      it { expect(page).to have_no_content('Error! All fields must be completed.') }
 
       it 'displays a form filled in with the existing merchant attribute information' do
-        expect(page).to have_field(:merchant_name, with: merchant1.name)
+        expect(page).to have_field(:merchant_name,    with: merchant1.name)
         expect(page).to have_no_field(:merchant_name, with: merchant2.name)
         expect(page).to have_no_field(:merchant_name, with: merchant3.name)
         expect(page).to have_button('Submit')
