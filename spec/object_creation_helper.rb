@@ -48,27 +48,27 @@ def create_factories
   # INVOICES #
   ############
 
-  let!(:invoice1) { create(:invoice, :completed, customer: customer1) }
+  let!(:invoice1) { create(:invoice, :completed, customer: customer1, created_at: "2021-07-28T17:30:05+0700") } # status = pending
 
-  let!(:invoice2a) { create(:invoice, :completed, customer: customer2) }
-  let!(:invoice2b) { create(:invoice, :completed, customer: customer2) }
-  let!(:invoice2c) { create(:invoice, :completed, customer: customer2) }
-  let!(:invoice2d) { create(:invoice, :completed, customer: customer2) }
-  let!(:invoice2e) { create(:invoice, :completed, customer: customer2) }
+  let!(:invoice2a) { create(:invoice, :completed, customer: customer2) } # status = shipped
+  let!(:invoice2b) { create(:invoice, :completed, customer: customer2) } # status = shipped
+  let!(:invoice2c) { create(:invoice, :completed, customer: customer2) } # status = shipped
+  let!(:invoice2d) { create(:invoice, :completed, customer: customer2) } # status = shipped
+  let!(:invoice2e) { create(:invoice, :completed, customer: customer2) } # status = shipped
 
-  let!(:invoice3) {  create(:invoice, :completed, customer: customer3) }
+  let!(:invoice3) {  create(:invoice, :completed, customer: customer3, created_at: "2021-07-27T17:30:05+0700") } # status = packaged
 
-  let!(:invoice4a) { create(:invoice, :completed, customer: customer4) }
-  let!(:invoice4b) { create(:invoice, :completed, customer: customer4) }
-  let!(:invoice4c) { create(:invoice, :completed, customer: customer4) }
-  let!(:invoice4d) { create(:invoice, :completed, customer: customer4) }
+  let!(:invoice4a) { create(:invoice, :completed, customer: customer4) } # status = shipped
+  let!(:invoice4b) { create(:invoice, :completed, customer: customer4) } # status = shipped
+  let!(:invoice4c) { create(:invoice, :completed, customer: customer4) } # status = shipped
+  let!(:invoice4d) { create(:invoice, :completed, customer: customer4) } # status = shipped
 
-  let!(:invoice5a) { create(:invoice, :completed, customer: customer5) }
-  let!(:invoice5b) { create(:invoice, :completed, customer: customer5) }
+  let!(:invoice5a) { create(:invoice, :completed, customer: customer5, created_at: "2021-07-23T17:30:05+0700") } # status = packaged
+  let!(:invoice5b) { create(:invoice, :completed, customer: customer5, created_at: "2021-07-25T17:30:05+0700") } # status = packaged
 
-  let!(:invoice6a) { create(:invoice, :completed, customer: customer6, created_at: "2021-07-29T17:30:05+0700") }
-  let!(:invoice6b) { create(:invoice, :completed, customer: customer6, created_at: "2021-07-27T17:30:05+0700") }
-  let!(:invoice6c) { create(:invoice, :completed, customer: customer6, created_at: "2021-07-25T17:30:05+0700") }
+  let!(:invoice6a) { create(:invoice, :completed, customer: customer6) } # status = shipped
+  let!(:invoice6b) { create(:invoice, :completed, customer: customer6) } # status = shipped
+  let!(:invoice6c) { create(:invoice, :completed, customer: customer6) } # status = shipped
 
   ################
   # TRANSACTIONS #

@@ -1,8 +1,25 @@
 require 'rails_helper'
 
 describe 'admin invoice show page (/admin/invoices/:id)' do
-  # See spec/object_creation_helper.rb for objection creation details
-  create_factories
+  include ActionView::Helpers::NumberHelper
+
+  let!(:customer1) { create(:customer) }
+  let!(:customer2) { create(:customer) }
+
+  let!(:invoice1) { create(:invoice, customer: customer1, status: 2) }
+  let!(:invoice2) { create(:invoice, customer: customer2) }
+
+  let!(:item1a) { create(:item) }
+  let!(:item1b) { create(:item) }
+  let!(:item2a) { create(:item) }
+  let!(:item2b) { create(:item) }
+  let!(:item2c) { create(:item) }
+
+  let!(:invoice_item1a) { create(:invoice_item, item: item1a, invoice: invoice1) }
+  let!(:invoice_item1b) { create(:invoice_item, item: item1b, invoice: invoice1) }
+  let!(:invoice_item2a) { create(:invoice_item, item: item2a, invoice: invoice2) }
+  let!(:invoice_item2b) { create(:invoice_item, item: item2b, invoice: invoice2) }
+  let!(:invoice_item2c) { create(:invoice_item, item: item2c, invoice: invoice2) }
 
   describe 'as an admin' do
     describe 'when I visit an admin invoice show page (/admin/invoices/:id)' do
@@ -12,9 +29,9 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
         expect(current_path).to eq(admin_invoice_path(invoice1))
 
         expect(page).to have_content("Invoice ##{invoice1.id}")
-        expect(page).to have_content("Created on:\n#{invoice1.formatted_time}")
+        expect(page).to have_content("Created on:\n#{invoice1.formatted_date}")
 
-        expect(page).to have_no_content("Invoice ##{invoice2a.id}")
+        expect(page).to have_no_content("Invoice ##{invoice2.id}")
       end
 
       it 'displays the customer details: name and address' do
@@ -27,34 +44,29 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
 
       it 'displays all the items on the invoice and the item details: name, quantity, price, and status' do
         within '#invoice-items' do
-          expect(page).to have_content(item1a.name)
-          expect(page).to have_content(invoice_item1a.quantity)
-          expect(page).to have_content(invoice_item1a.unit_price)
-          expect(page).to have_content(invoice_item1a.status)
+          invoice1.invoice_items.each do |invoice_item|
+            expect(page).to have_content(invoice_item.item.name)
+            expect(page).to have_content(invoice_item.quantity)
+            expect(page).to have_content(number_to_currency(invoice_item.unit_price))
+            expect(page).to have_content(invoice_item.status)
+          end
 
-          expect(page).to have_content(item1b.name)
-          expect(page).to have_content(invoice_item1b.quantity)
-          expect(page).to have_content(invoice_item1b.unit_price)
-          expect(page).to have_content(invoice_item1b.status)
-
-          expect(page).to have_no_content(item2.name)
-          expect(page).to have_no_content(item3.name)
-          expect(page).to have_no_content(item4.name)
-          expect(page).to have_no_content(item5.name)
-          expect(page).to have_no_content(item6.name)
+          expect(page).to have_no_content(item2a.name)
+          expect(page).to have_no_content(item2b.name)
+          expect(page).to have_no_content(item2c.name)
         end
       end
 
       it 'displays the total revenue' do
-        expect(page).to have_content("Total Revenue:\n$#{invoice1.total_revenue}")
+        expect(page).to have_content("Total Revenue:\n#{number_to_currency(invoice1.total_revenue)}")
 
-        expect(page).to have_no_content(invoice2a.total_revenue)
+        expect(page).to have_no_content(number_to_currency(invoice2.total_revenue))
       end
 
       it 'displays the total discounted revenue' do
-        expect(page).to have_content("Total Discounted Revenue:\n$#{invoice1.total_discounted_revenue}")
+        expect(page).to have_content("Total Discounted Revenue:\n#{number_to_currency(invoice1.total_discounted_revenue)}")
 
-        expect(page).to have_no_content(invoice2a.total_discounted_revenue)
+        expect(page).to have_no_content(number_to_currency(invoice2.total_discounted_revenue))
       end
 
       it 'has a status select field that updates the invoices status' do

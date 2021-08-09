@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'merchant dashboard' do
+RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
   before :each do
     @merchant1 = Merchant.create!(name: 'Hair Care')
     @merchant2 = Merchant.create!(name: 'Skin Care')
@@ -47,7 +47,7 @@ RSpec.describe 'merchant dashboard' do
   end
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant dashboard (/merchant/:id/dashboard)' do
+    describe 'when I visit my merchant dashboard' do
       before { visit merchant_dashboard_index_path(@merchant1) }
 
       it 'displays the name of my merchant' do
@@ -97,8 +97,6 @@ RSpec.describe 'merchant dashboard' do
             end
           end
         end
-
-        it 'has a link to each bulk discount show page'
       end
 
       describe 'within the top five customers section' do

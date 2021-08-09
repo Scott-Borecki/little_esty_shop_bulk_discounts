@@ -38,7 +38,7 @@ FactoryBot.define do
 
   factory :invoice_item do
     quantity   { rand(20) }
-    unit_price { rand(10_000) }
+    unit_price { rand(999) }
     status     { rand(0..2) }
     invoice
     item

@@ -1,95 +1,98 @@
 require 'rails_helper'
 
-describe 'Admin Dashboard Index Page' do
-  before :each do
-    @m1 = Merchant.create!(name: 'Merchant 1')
+RSpec.describe 'admin dashboard index (/admin/dashboard)' do
+  # See /spec/factories.rb for more info on factories created
+  create_factories
 
-    @c1 = create(:customer)
-    @c2 = create(:customer)
-    @c3 = create(:customer)
-    @c4 = create(:customer)
-    @c5 = create(:customer)
-    @c6 = create(:customer)
+  describe 'as an admin' do
+    describe 'when I visit the admin dashboard' do
+      before { visit admin_dashboard_index_path }
 
-    @i1 = create(:invoice, customer: @c1, status: 2)
-    @i2 = create(:invoice, customer: @c1, status: 2)
-    @i3 = create(:invoice, customer: @c2, status: 2)
-    @i4 = create(:invoice, customer: @c3, status: 2)
-    @i5 = create(:invoice, customer: @c4, status: 2)
+      specify { expect(current_path).to eq(admin_dashboard_index_path) }
 
-    @t1 = create(:transaction, invoice: @i1, result: 1)
-    @t2 = create(:transaction, invoice: @i2, result: 1)
-    @t3 = create(:transaction, invoice: @i3, result: 1)
-    @t4 = create(:transaction, invoice: @i4, result: 1)
-    @t5 = create(:transaction, invoice: @i5, result: 1)
+      it 'displays a header indicating that I am on the admin dashboard' do
+        expect(page).to have_content('Admin Dashboard')
+      end
 
-    @item_1 = Item.create!(name: 'Shampoo', description: 'This washes your hair', unit_price: 10, merchant_id: @m1.id)
-    @item_2 = Item.create!(name: 'Conditioner', description: 'This makes your hair shiny', unit_price: 8, merchant_id: @m1.id)
-    @item_3 = Item.create!(name: 'Brush', description: 'This takes out tangles', unit_price: 5, merchant_id: @m1.id)
+      it 'displays a link to the admin merchants index (/admin/merchants)' do
+        expect(page).to have_link('Merchants')
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 0)
-    @ii_2 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_2.id, quantity: 1, unit_price: 8, status: 0)
-    @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 2)
-    @ii_4 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
+        click_link 'Merchants'
 
-    visit admin_dashboard_index_path
-  end
+        expect(current_path).to eq(admin_merchants_path)
+      end
 
-  it 'should display a header indicating the admin dashboard' do
-    expect(page).to have_content('Admin Dashboard')
-  end
+      it 'displays a link to the admin merchants index (/admin/invoices)' do
+        expect(page).to have_link('Invoices')
 
-  it 'should have link to admin merchant index' do
-    expect(page).to have_link('Merchants')
+        click_link 'Invoices'
 
-    click_link 'Merchants'
-    expect(current_path).to eq(admin_merchants_path)
-  end
+        expect(current_path).to eq(admin_invoices_path)
+      end
 
-  it 'should have link to admin invoice index' do
-    expect(page).to have_link('Invoices')
+      describe 'when I look in the top 5 customers section' do
+        it 'displays the names and number of puchases of the top 5 customers' do
+          top_customers = Customer.top_customers
 
-    click_link 'Invoices'
-    expect(current_path).to eq(admin_invoices_path)
-  end
+          within '#top-customers' do
+            expect(page).to have_content('Top Customers')
+            top_customers.each do |customer|
+              expect(page).to have_content("#{customer.first_name} #{customer.last_name} - #{customer.number_of_transactions} purchases")
+            end
+          end
+        end
+      end
 
-  it 'should display the top 5 customers with largest successful transactions' do
-    expect(page).to have_content('Top 5 Customers')
+      describe 'when I look in the incomplete invoices section' do
+        it 'displays a list of the ids of all invoices that have items that have not yet been shipped' do
+          not_shipped_items = [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
+          shipped_items = [invoice2a, invoice2b, invoice2c, invoice2d,
+                           invoice2e, invoice4a, invoice4b, invoice4c,
+                           invoice4d, invoice6a, invoice6b, invoice6c]
 
-    expect(page).to have_content(@c1.first_name)
-    expect(page).to have_content(@c1.last_name)
+          within '#incomplete-invoices' do
+            not_shipped_items.each do |not_shipped_item_id|
+              expect(page).to have_content("Invoice # #{not_shipped_item_id}")
+            end
 
-    expect(page).to have_content(@c2.first_name)
-    expect(page).to have_content(@c2.last_name)
+            shipped_items.each do |shipped_item_id|
+              expect(page).to have_no_content(shipped_item_id)
+            end
+          end
+        end
 
-    expect(page).to have_content(@c3.first_name)
-    expect(page).to have_content(@c3.last_name)
+        it 'links the invoice ids to that invoices admin show page' do
+          not_shipped_items = [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
+          shipped_items = [invoice2a, invoice2b, invoice2c, invoice2d,
+                           invoice2e, invoice4a, invoice4b, invoice4c,
+                           invoice4d, invoice6a, invoice6b, invoice6c]
 
-    expect(page).to have_content(@c4.first_name)
-    expect(page).to have_content(@c4.last_name)
+          within '#incomplete-invoices' do
+            not_shipped_items.each do |not_shipped_item_id|
+              expect(page).to have_link(not_shipped_item_id.to_s)
+            end
 
-    expect(page).to_not have_content(@c5.first_name)
-  end
+            shipped_items.each do |shipped_item_id|
+              expect(page).to have_no_link(shipped_item_id.to_s)
+            end
+          end
+        end
 
-  it 'should display a number of successful transactions each top customer has with a merchant' do
-    expect(page).to have_content(@c1.number_of_transactions)
-    expect(page).to have_content(@c2.number_of_transactions)
-    expect(page).to have_content(@c3.number_of_transactions)
-    expect(page).to have_content(@c4.number_of_transactions)
-    expect(page).to have_content(@c5.number_of_transactions)
-  end
+        it 'displays the invoice date and sorts by oldest to newest' do
+          not_shipped_items = [invoice5a.formatted_date, invoice5b.formatted_date,
+                               invoice3.formatted_date, invoice1.formatted_date]
 
-  it 'should display a list of Invoice IDs and Items that have not been shipped' do
-    expect(page).to have_content(@i1.id)
-    expect(page).to have_content(@i3.id)
+          within '#incomplete-invoices' do
+            not_shipped_items.each do |not_shipped_item_created_date|
+              expect(page).to have_content(not_shipped_item_created_date)
+            end
 
-    expect(page).to_not have_content(@i2.id)
-  end
-
-  it 'should link to the invoice admin show page via id' do
-    expect(page).to have_link("Invoice # #{@i1.id}")
-    click_link("Invoice # #{@i1.id}")
-
-    expect(current_path).to eq(admin_invoice_path(@i1))
+            expect(not_shipped_items[0]).to appear_before(not_shipped_items[1])
+            expect(not_shipped_items[1]).to appear_before(not_shipped_items[2])
+            expect(not_shipped_items[2]).to appear_before(not_shipped_items[3])
+          end
+        end
+      end
+    end
   end
 end
