@@ -24,7 +24,7 @@ describe 'admin merchant index (/admin/merchants)' do
       end
 
       it 'displays an Enabled Merchants section with all the enabled merchants' do
-        enabled_merchants = Merchant.all.where(status: :enabled)
+        enabled_merchants  = Merchant.all.where(status: :enabled)
         disabled_merchants = Merchant.all.where(status: :disabled)
 
         within('#enabled-merchants') do
@@ -60,7 +60,7 @@ describe 'admin merchant index (/admin/merchants)' do
       end
 
       it 'displays a button next to each merchant name to disable or enable that merchant' do
-        enabled_merchants = Merchant.all.where(status: :enabled)
+        enabled_merchants  = Merchant.all.where(status: :enabled)
         disabled_merchants = Merchant.all.where(status: :disabled)
 
         enabled_merchants.each do |merchant|
