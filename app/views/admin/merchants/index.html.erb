@@ -33,7 +33,7 @@
     <section id='enabled-merchants'>
       <p class='col-head'>Enabled Merchants</p>
 
-      <% @enabled_merchants.each do |merchant| %>
+      <% @merchants.enabled.each do |merchant| %>
         <section id='merchant-<%= merchant.id %>' class='row'>
           <div class='col-auto'>
             <%= button_to 'Disable', admin_merchant_status_path(merchant), method: :patch, params: { status: 'disabled' } %><br>
@@ -49,7 +49,7 @@
     <section id='disabled-merchants'>
       <p class='col-head'>Disabled Merchants</p>
 
-        <% @disabled_merchants.each do |merchant| %>
+        <% @merchants.disabled.each do |merchant| %>
           <section id='merchant-<%= merchant.id %>' class='row'>
             <div class='col-auto'>
               <%= button_to 'Enable', admin_merchant_status_path(merchant), method: :patch, params: { status: 'enabled' } %><br>

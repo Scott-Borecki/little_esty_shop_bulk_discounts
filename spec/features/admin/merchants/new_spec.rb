@@ -1,19 +1,38 @@
 require 'rails_helper'
 
-describe 'Admin Merchant New' do
-  before :each do
-    @m1 = Merchant.create!(name: 'Merchant 1')
-  end
-  
-  it 'should be able to fill in a form and create a new merchant' do
-    visit new_admin_merchant_path
+RSpec.describe 'admin merchants new (/admin/merchants/new)' do
+  describe 'as an admin' do
+    describe 'when I visit the admin merchants new (/admin/merchants/new)' do
+      before { visit new_admin_merchant_path }
 
-    fill_in :name, with: 'Dingley Doo'
+      specify { expect(current_path).to eq(new_admin_merchant_path) }
 
-    click_button
+      it 'displays a form that allows me to add merchant information' do
+        expect(page).to have_field(:merchant_name)
+        expect(page).to have_button('Submit')
+      end
 
-    expect(current_path).to eq(admin_merchants_path)
-    expect(page).to have_content('Dingley Doo')
-    expect(page).to have_content('Merchant Has Been Created!')
+      describe 'when I fill out the form and click Submit' do
+        before do
+          fill_in :merchant_name, with: 'Foo Bar'
+          click_button 'Submit'
+        end
+
+        it 'takes me back to the admin merchants index page' do
+          expect(current_path).to eq(admin_merchants_path)
+        end
+
+        it 'displays the merchant that was just created' do
+          within('#disabled-merchants') do
+            expect(page).to have_content('Foo Bar')
+          end
+        end
+
+        it 'displays a flash success message' do
+          flash_message = 'Success! A new merchant was created.'
+          expect(page).to have_content(flash_message)
+        end
+      end
+    end
   end
 end

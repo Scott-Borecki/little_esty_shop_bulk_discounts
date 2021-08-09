@@ -12,9 +12,6 @@
 <div class='row'>
   <% # FULL COLUMN %>
   <div class='col-sm-12'>
-    <%= render partial: 'form', locals: { method: :patch,
-                                         url: admin_merchant_path(@merchant),
-                                         class: 'merchant_form',
-                                         local: true } %>
+    <%= render partial: 'form', locals: { button_text: 'Submit' } %>
   </div>
 </div>
