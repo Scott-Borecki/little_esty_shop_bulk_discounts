@@ -48,7 +48,10 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
 
   describe 'as a merchant' do
     describe 'when I visit my merchant dashboard bulk discounts index (/merchant/:merchant_id/bulk_discounts)' do
-      before { visit merchant_bulk_discounts_path(@merchant1) }
+      before do
+        visit merchant_bulk_discounts_path(@merchant1)
+        allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)
+      end
 
       it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
         within '#bulk-discounts' do
@@ -105,6 +108,23 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
 
           expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
           expect(page).to have_no_css("#bd-#{bulk_discount.id}")
+        end
+      end
+
+      it 'displays a section with a header of Upcoming Holidays' do
+        within '#upcoming-holidays' do
+          expect(page).to have_content('Upcoming Holidays')
+        end
+      end
+
+      it 'displays the name and date of the next three upcoming US holidays' do
+        upcoming_holidays = HolidayFacade.upcoming_holidays
+
+        within '#upcoming-holidays' do
+          upcoming_holidays.each do |holiday|
+            expect(page).to have_content(holiday.local_name)
+            expect(page).to have_content(holiday.date)
+          end
         end
       end
     end

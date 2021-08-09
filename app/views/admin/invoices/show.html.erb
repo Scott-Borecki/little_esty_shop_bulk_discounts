@@ -15,9 +15,9 @@
 
   <div class='col'>
     <p>
-      <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
+      <%= "#{@invoice.customer.first_name} #{@invoice.customer.last_name}" %><br>
       <%= @invoice.customer.address %><br>
-      <%= @invoice.customer.city %>, <%= @invoice.customer.state %> <%= @invoice.customer.zip %><br>
+      <%= "#{@invoice.customer.city}, #{@invoice.customer.state} #{@invoice.customer.zip}" %><br>
     </p>
   </div>
 </div>

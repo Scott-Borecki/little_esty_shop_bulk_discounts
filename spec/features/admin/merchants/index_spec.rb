@@ -56,7 +56,7 @@ describe 'Admin Merchant Index' do
   end
 
   it 'should have rerouting links on all merchants names to their admin show page' do
-    within("#toppy-#{@m1.id}") do
+    within("#top-merchant-#{@m1.id}") do
       click_link "#{@m1.name}"
       expect(current_path).to eq(admin_merchant_path(@m1))
     end
@@ -94,7 +94,7 @@ describe 'Admin Merchant Index' do
   end
 
   it 'should display the best day for each top 5 merchant' do
-    within("#top-#{@m1.id}") do
+    within("#top-day-#{@m1.id}") do
       expect(page).to have_content("Top Selling Date for #{@m1.name} was on #{@m1.best_day}")
     end
   end

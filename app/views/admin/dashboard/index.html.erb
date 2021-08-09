@@ -1,30 +1,30 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
-<div class="row">
-  <div class="col-sm-6">
+<div class='row'>
+  <div class='col-sm-6'>
     <p class='col-head'>
       Top 5 Customers
     </p>
 
     <ol>
-      <% @customers.each do |c| %>
+      <% @customers.each do |customer| %>
         <li>
-          <%= c.first_name + ' ' + c.last_name %> -
-          <%= c.number_of_transactions %> Purchases
+          <%= "#{customer.first_name} #{customer.last_name}" %> -
+          <%= customer.number_of_transactions %> Purchases
         </li>
       <% end %>
     </ol>
   </div>
 
-<div class="col-sm-6">
+<div class='col-sm-6'>
   <p class='col-head'>
     Incomplete Invoices
   </p>
 
   <ul>
-    <% @invoices.each do |i| %>
+    <% @invoices.each do |invoice| %>
       <li>
-        <%= link_to "Invoice # #{i.id}", admin_invoice_path(i.id) %> - <%= i.created_at.strftime("%A, %B %d, %Y") %>
+        <%= link_to "Invoice # #{invoice.id}", admin_invoice_path(invoice.id) %> - <%= invoice.formatted_time %>
       </li>
     <% end %>
   </ul>

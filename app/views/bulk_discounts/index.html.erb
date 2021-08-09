@@ -1,8 +1,8 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
-<div class="row">
-  <% # FULL COLUMN %>
-  <div class="col-sm-12" id='bulk-discounts'>
+<div class='row'>
+  <% # LEFT COLUMN %>
+  <div class='col-sm-6' id='bulk-discounts'>
     <p class='col-head'>
       My Bulk Discounts
     </p>
@@ -19,5 +19,19 @@
         </div>
       <% end %>
     </ul>
+  </div>
+
+  <% # RIGHT COLUMN %>
+  <div class='col-sm-6' id='upcoming-holidays'>
+    <p class='col-head'>
+      Upcoming Holidays
+    </p>
+
+    <p>
+      <% @upcoming_holidays.each do |holiday| %>
+        <%= holiday.date %>: <%= holiday.local_name %><br>
+      <% end %>
+    </p>
+
   </div>
 </div>
