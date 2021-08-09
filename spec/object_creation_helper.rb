@@ -215,27 +215,27 @@ def create_factories_merchant_with_many_customers_and_items
   let!(:customer10) { create(:customer) } # Transaction_count = 1
 
   let!(:merchant) { create(:enabled_merchant) }
-
-  let!(:item1) {  create(:item, merchant: merchant) }
-  let!(:item2) {  create(:item, merchant: merchant) }
-  let!(:item3) {  create(:item, merchant: merchant) }
-  let!(:item4) {  create(:item, merchant: merchant) }
-  let!(:item5) {  create(:item, merchant: merchant) }
-  let!(:item6) {  create(:item, merchant: merchant) }
-  let!(:item7) {  create(:item, merchant: merchant) }
-  let!(:item8) {  create(:item, merchant: merchant) }
-  let!(:item9) {  create(:item, merchant: merchant) }
-  let!(:item10) { create(:item, merchant: merchant) }
-  let!(:item11) { create(:item, merchant: merchant) }
-  let!(:item12) { create(:item, merchant: merchant) }
-  let!(:item13) { create(:item, merchant: merchant) }
-  let!(:item14) { create(:item, merchant: merchant) }
-  let!(:item15) { create(:item, merchant: merchant) }
-  let!(:item16) { create(:item, merchant: merchant) }
-  let!(:item17) { create(:item, merchant: merchant) }
-  let!(:item18) { create(:item, merchant: merchant) }
-  let!(:item19) { create(:item, merchant: merchant) }
-  let!(:item20) { create(:item, merchant: merchant) }
+                                                      # total_revenue only considers successful transaction
+  let!(:item1) {  create(:item, merchant: merchant) } # total_revenue = 100
+  let!(:item2) {  create(:item, merchant: merchant) } # total_revenue = 140
+  let!(:item3) {  create(:item, merchant: merchant) } # total_revenue = 110
+  let!(:item4) {  create(:item, merchant: merchant) } # total_revenue = 130
+  let!(:item5) {  create(:item, merchant: merchant) } # total_revenue = 250
+  let!(:item6) {  create(:item, merchant: merchant) } # total_revenue = 160
+  let!(:item7) {  create(:item, merchant: merchant) } # total_revenue = 120
+  let!(:item8) {  create(:item, merchant: merchant) } # total_revenue = 210
+  let!(:item9) {  create(:item, merchant: merchant) } # total_revenue = 110
+  let!(:item10) { create(:item, merchant: merchant) } # total_revenue = 130
+  let!(:item11) { create(:item, merchant: merchant) } # total_revenue = 150
+  let!(:item12) { create(:item, merchant: merchant) } # total_revenue = 200
+  let!(:item13) { create(:item, merchant: merchant) } # total_revenue = 160
+  let!(:item14) { create(:item, merchant: merchant) } # total_revenue = 160
+  let!(:item15) { create(:item, merchant: merchant) } # total_revenue = 180
+  let!(:item16) { create(:item, merchant: merchant) } # total_revenue = 160
+  let!(:item17) { create(:item, merchant: merchant) } # total_revenue = 160
+  let!(:item18) { create(:item, merchant: merchant) } # total_revenue = 240
+  let!(:item19) { create(:item, merchant: merchant) } # total_revenue = 160
+  let!(:item20) { create(:item, merchant: merchant) } # total_revenue = 160
 
   let!(:invoice1a) {  create(:invoice, :completed, customer: customer1) }
   let!(:invoice1b) {  create(:invoice, :completed, customer: customer1) }
@@ -246,9 +246,11 @@ def create_factories_merchant_with_many_customers_and_items
   let!(:invoice3b) {  create(:invoice, :completed, customer: customer3) }
   let!(:invoice3c) {  create(:invoice, :completed, customer: customer3) }
   let!(:invoice3d) {  create(:invoice, :completed, customer: customer3) }
+  let!(:invoice3e) {  create(:invoice, :completed, customer: customer3) }
   let!(:invoice4a) {  create(:invoice, :completed, customer: customer4) }
   let!(:invoice4b) {  create(:invoice, :completed, customer: customer4) }
   let!(:invoice4c) {  create(:invoice, :completed, customer: customer4) }
+  let!(:invoice4d) {  create(:invoice, :completed, customer: customer4) }
   let!(:invoice5a) {  create(:invoice, :completed, customer: customer5) }
   let!(:invoice6a) {  create(:invoice, :completed, customer: customer6) }
   let!(:invoice7a) {  create(:invoice, :completed, customer: customer7) }
@@ -267,11 +269,11 @@ def create_factories_merchant_with_many_customers_and_items
   let!(:transaction3b) {  create(:transaction, :success, invoice: invoice3b) }
   let!(:transaction3c) {  create(:transaction, :success, invoice: invoice3c) }
   let!(:transaction3d) {  create(:transaction, :success, invoice: invoice3d) }
-  let!(:transaction3e) {  create(:transaction, :success, invoice: invoice3d) }
+  let!(:transaction3e) {  create(:transaction, :success, invoice: invoice3e) } # new
   let!(:transaction4a) {  create(:transaction, :success, invoice: invoice4a) }
   let!(:transaction4b) {  create(:transaction, :success, invoice: invoice4b) }
   let!(:transaction4c) {  create(:transaction, :success, invoice: invoice4c) }
-  let!(:transaction4d) {  create(:transaction, :success, invoice: invoice4c) }
+  let!(:transaction4d) {  create(:transaction, :success, invoice: invoice4d) } # new
   let!(:transaction5a) {  create(:transaction, :success, invoice: invoice5a) }
   let!(:transaction6a) {  create(:transaction, :success, invoice: invoice6a) }
   let!(:transaction7a) {  create(:transaction, :success, invoice: invoice7a) }
@@ -280,47 +282,47 @@ def create_factories_merchant_with_many_customers_and_items
   let!(:transaction8b) {  create(:transaction, :success, invoice: invoice8b) }
   let!(:transaction9a) {  create(:transaction, :success, invoice: invoice9a) }
   let!(:transaction10a) { create(:transaction, :success, invoice: invoice10a) }
-
-  let!(:invoice_item1a) {  create(:invoice_item, :pending,  item: item1,  invoice: invoice1a,  quantity: 2, unit_price: 10) }
-  let!(:invoice_item1b) {  create(:invoice_item, :pending,  item: item1,  invoice: invoice1a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item2a) {  create(:invoice_item, :pending,  item: item2,  invoice: invoice1b,  quantity: 4, unit_price: 10) }
-  let!(:invoice_item2b) {  create(:invoice_item, :pending,  item: item2,  invoice: invoice1b,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item3a) {  create(:invoice_item, :pending,  item: item3,  invoice: invoice2a,  quantity: 1, unit_price: 10) }
-  let!(:invoice_item3b) {  create(:invoice_item, :pending,  item: item3,  invoice: invoice2a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item4a) {  create(:invoice_item, :shipped,  item: item4,  invoice: invoice2b,  quantity: 3, unit_price: 10) }
-  let!(:invoice_item4b) {  create(:invoice_item, :shipped,  item: item4,  invoice: invoice2b,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item5a) {  create(:invoice_item, :shipped,  item: item5,  invoice: invoice2c,  quantity: 5, unit_price: 10) }
-  let!(:invoice_item5b) {  create(:invoice_item, :shipped,  item: item5,  invoice: invoice2c,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item6a) {  create(:invoice_item, :shipped,  item: item6,  invoice: invoice3a,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item6b) {  create(:invoice_item, :shipped,  item: item6,  invoice: invoice3a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item7a) {  create(:invoice_item, :packaged, item: item7,  invoice: invoice3b,  quantity: 2, unit_price: 10) }
-  let!(:invoice_item7b) {  create(:invoice_item, :packaged, item: item7,  invoice: invoice3b,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item8a) {  create(:invoice_item, :packaged, item: item8,  invoice: invoice3c,  quantity: 4, unit_price: 10) }
-  let!(:invoice_item8b) {  create(:invoice_item, :packaged, item: item8,  invoice: invoice3c,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item9a) {  create(:invoice_item, :packaged, item: item9,  invoice: invoice3d,  quantity: 1, unit_price: 10) }
-  let!(:invoice_item9b) {  create(:invoice_item, :packaged, item: item9,  invoice: invoice3d,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item10a) { create(:invoice_item, :shipped,  item: item10, invoice: invoice4a,  quantity: 3, unit_price: 10) }
-  let!(:invoice_item10b) { create(:invoice_item, :shipped,  item: item10, invoice: invoice4a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item11a) { create(:invoice_item, :shipped,  item: item11, invoice: invoice4b,  quantity: 5, unit_price: 10) }
-  let!(:invoice_item11b) { create(:invoice_item, :packaged, item: item11, invoice: invoice4b,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item12a) { create(:invoice_item, :packaged, item: item12, invoice: invoice4c,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item12b) { create(:invoice_item, :packaged, item: item12, invoice: invoice4c,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item13a) { create(:invoice_item, :packaged, item: item13, invoice: invoice5a,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item13b) { create(:invoice_item, :packaged, item: item13, invoice: invoice5a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item14a) { create(:invoice_item, :packaged, item: item14, invoice: invoice6a,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item14b) { create(:invoice_item, :packaged, item: item14, invoice: invoice6a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item15a) { create(:invoice_item, :packaged, item: item15, invoice: invoice7a,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item15b) { create(:invoice_item, :packaged, item: item15, invoice: invoice7a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item16a) { create(:invoice_item, :pending,  item: item16, invoice: invoice7b,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item16b) { create(:invoice_item, :pending,  item: item16, invoice: invoice7b,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item17a) { create(:invoice_item, :pending,  item: item17, invoice: invoice8a,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item17b) { create(:invoice_item, :pending,  item: item17, invoice: invoice8a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item18a) { create(:invoice_item, :pending,  item: item18, invoice: invoice8b,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item18b) { create(:invoice_item, :pending,  item: item18, invoice: invoice8b,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item19a) { create(:invoice_item, :pending,  item: item19, invoice: invoice9a,  quantity: 6, unit_price: 10) }
-  let!(:invoice_item19b) { create(:invoice_item, :pending,  item: item19, invoice: invoice9a,  quantity: 5, unit_price: 20) }
-  let!(:invoice_item20a) { create(:invoice_item, :pending,  item: item20, invoice: invoice10a, quantity: 6, unit_price: 10) }
-  let!(:invoice_item20b) { create(:invoice_item, :pending,  item: item20, invoice: invoice10a, quantity: 5, unit_price: 20) }
+                                                                                                                               # total_revenue only considers successful transaction
+  let!(:invoice_item1a) {  create(:invoice_item, :pending,  item: item1,  invoice: invoice1a,  quantity: 2,  unit_price: 10) } # total_revenue = 0 (failed transaction)
+  let!(:invoice_item1b) {  create(:invoice_item, :pending,  item: item1,  invoice: invoice1a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item2a) {  create(:invoice_item, :pending,  item: item2,  invoice: invoice1b,  quantity: 4,  unit_price: 10) } # total_revenue = 40
+  let!(:invoice_item2b) {  create(:invoice_item, :pending,  item: item2,  invoice: invoice1b,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item3a) {  create(:invoice_item, :pending,  item: item3,  invoice: invoice2a,  quantity: 1,  unit_price: 10) } # total_revenue = 10
+  let!(:invoice_item3b) {  create(:invoice_item, :pending,  item: item3,  invoice: invoice2a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item4a) {  create(:invoice_item, :shipped,  item: item4,  invoice: invoice2b,  quantity: 3,  unit_price: 10) } # total_revenue = 30
+  let!(:invoice_item4b) {  create(:invoice_item, :shipped,  item: item4,  invoice: invoice2b,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item5a) {  create(:invoice_item, :shipped,  item: item5,  invoice: invoice2c,  quantity: 5,  unit_price: 10) } # total_revenue = 50
+  let!(:invoice_item5b) {  create(:invoice_item, :shipped,  item: item5,  invoice: invoice2c,  quantity: 10, unit_price: 20) } # total_revenue = 200
+  let!(:invoice_item6a) {  create(:invoice_item, :shipped,  item: item6,  invoice: invoice3a,  quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item6b) {  create(:invoice_item, :shipped,  item: item6,  invoice: invoice3a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item7a) {  create(:invoice_item, :packaged, item: item7,  invoice: invoice3b,  quantity: 2,  unit_price: 10) } # total_revenue = 20
+  let!(:invoice_item7b) {  create(:invoice_item, :packaged, item: item7,  invoice: invoice3b,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item8a) {  create(:invoice_item, :packaged, item: item8,  invoice: invoice3c,  quantity: 9,  unit_price: 10) } # total_revenue = 90
+  let!(:invoice_item8b) {  create(:invoice_item, :packaged, item: item8,  invoice: invoice3c,  quantity: 6,  unit_price: 20) } # total_revenue = 120
+  let!(:invoice_item9a) {  create(:invoice_item, :packaged, item: item9,  invoice: invoice3d,  quantity: 1,  unit_price: 10) } # total_revenue = 10
+  let!(:invoice_item9b) {  create(:invoice_item, :packaged, item: item9,  invoice: invoice3e,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item10a) { create(:invoice_item, :shipped,  item: item10, invoice: invoice4a,  quantity: 3,  unit_price: 10) } # total_revenue = 30
+  let!(:invoice_item10b) { create(:invoice_item, :shipped,  item: item10, invoice: invoice4a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item11a) { create(:invoice_item, :shipped,  item: item11, invoice: invoice4b,  quantity: 5,  unit_price: 10) } # total_revenue = 50
+  let!(:invoice_item11b) { create(:invoice_item, :packaged, item: item11, invoice: invoice4b,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item12a) { create(:invoice_item, :packaged, item: item12, invoice: invoice4c,  quantity: 10, unit_price: 10) } # total_revenue = 100
+  let!(:invoice_item12b) { create(:invoice_item, :packaged, item: item12, invoice: invoice4d,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item13a) { create(:invoice_item, :packaged, item: item13, invoice: invoice5a,  quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item13b) { create(:invoice_item, :packaged, item: item13, invoice: invoice5a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item14a) { create(:invoice_item, :packaged, item: item14, invoice: invoice6a,  quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item14b) { create(:invoice_item, :packaged, item: item14, invoice: invoice6a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item15a) { create(:invoice_item, :packaged, item: item15, invoice: invoice7a,  quantity: 8,  unit_price: 10) } # total_revenue = 80
+  let!(:invoice_item15b) { create(:invoice_item, :packaged, item: item15, invoice: invoice7a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item16a) { create(:invoice_item, :pending,  item: item16, invoice: invoice7b,  quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item16b) { create(:invoice_item, :pending,  item: item16, invoice: invoice7b,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item17a) { create(:invoice_item, :pending,  item: item17, invoice: invoice8a,  quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item17b) { create(:invoice_item, :pending,  item: item17, invoice: invoice8a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item18a) { create(:invoice_item, :pending,  item: item18, invoice: invoice8b,  quantity: 8,  unit_price: 10) } # total_revenue = 80
+  let!(:invoice_item18b) { create(:invoice_item, :pending,  item: item18, invoice: invoice8b,  quantity: 8,  unit_price: 20) } # total_revenue = 160
+  let!(:invoice_item19a) { create(:invoice_item, :pending,  item: item19, invoice: invoice9a,  quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item19b) { create(:invoice_item, :pending,  item: item19, invoice: invoice9a,  quantity: 5,  unit_price: 20) } # total_revenue = 100
+  let!(:invoice_item20a) { create(:invoice_item, :pending,  item: item20, invoice: invoice10a, quantity: 6,  unit_price: 10) } # total_revenue = 60
+  let!(:invoice_item20b) { create(:invoice_item, :pending,  item: item20, invoice: invoice10a, quantity: 5,  unit_price: 20) } # total_revenue = 100
 end
 
 def holidays_parsed

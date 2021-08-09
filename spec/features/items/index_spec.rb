@@ -156,11 +156,11 @@ describe "merchant items index" do
 
   it 'shows the total revenue next to the item' do
     within '#top-items' do
-      expect(page).to have_content("#{@merchant1.top_5_items[0].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[1].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[2].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[3].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[4].total_revenue}")
+      expect(page).to have_content("#{@merchant1.top_items_by_revenue[0].total_revenue}")
+      expect(page).to have_content("#{@merchant1.top_items_by_revenue[1].total_revenue}")
+      expect(page).to have_content("#{@merchant1.top_items_by_revenue[2].total_revenue}")
+      expect(page).to have_content("#{@merchant1.top_items_by_revenue[3].total_revenue}")
+      expect(page).to have_content("#{@merchant1.top_items_by_revenue[4].total_revenue}")
     end
   end
 

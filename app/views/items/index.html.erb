@@ -16,7 +16,7 @@
 
     <div id='top-items'>
       <ol>
-        <% @merchant.top_5_items.each do |item| %>
+        <% @merchant.top_items_by_revenue.each do |item| %>
           <li><%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> -
             <%= number_to_currency(item.total_revenue) %> in sales</li>
           <p>Top selling date for <%= item.name %> was <%= item.best_day %> </p>

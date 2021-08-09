@@ -64,6 +64,21 @@ describe Merchant do
         expect(merchant.top_customers_by_transactions.map(&:number_transactions)).to eq(top_customer_transactions)
       end
     end
+
+    describe '#top_items_by_revenue' do
+      # See /spec/factories.rb for more info on factories created
+      create_factories_merchant_with_many_customers_and_items
+
+      it 'returns the top items by revenue' do
+        top_five_items = [item5, item18, item8, item12, item15]
+        top_five_items_revenue = [250, 240, 210, 200, 180]
+
+        expect(merchant.top_items_by_revenue.to_a.size).to eq(5)
+        expect(merchant.top_items_by_revenue(2).to_a.size).to eq(2)
+        expect(merchant.top_items_by_revenue).to eq(top_five_items)
+        expect(merchant.top_items_by_revenue.map(&:total_revenue)).to eq(top_five_items_revenue)
+      end
+    end
   end
 
   # describe "instance methods" do
@@ -117,9 +132,4 @@ describe Merchant do
   #   it "can list items ready to ship" do
   #     expect(@merchant1.ordered_items_to_ship).to eq([@item_1, @item_3, @item_4, @item_7, @item_8])
   #   end
-  #
-  #   it "top_5_items" do
-  #     expect(@merchant1.top_5_items).to eq([@item_1, @item_2, @item_3, @item_8, @item_4])
-  #   end
-  # end
 end

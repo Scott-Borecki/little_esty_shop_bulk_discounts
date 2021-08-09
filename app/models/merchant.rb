@@ -41,16 +41,16 @@ class Merchant < ApplicationRecord
     end.uniq
   end
 
-  def top_5_items
+  def top_items_by_revenue(number = 5)
      items.joins(invoices: :transactions)
-          .where('transactions.result = 1')
+          .where(transactions: { result: 1 })
           .select(
             "items.*,
             sum(invoice_items.quantity * invoice_items.unit_price) as total_revenue"
           )
           .group(:id)
-          .order('total_revenue desc')
-          .limit(5)
+          .order(total_revenue: :desc)
+          .limit(number)
   end
 
   def top_revenue_day
