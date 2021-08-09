@@ -15,12 +15,12 @@ describe "merchant invoices index" do
     @item_5 = Item.create!(name: "Bracelet", description: "Wrist bling", unit_price: 200, merchant_id: @merchant2.id)
     @item_6 = Item.create!(name: "Necklace", description: "Neck bling", unit_price: 300, merchant_id: @merchant2.id)
 
-    @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
-    @customer_2 = Customer.create!(first_name: 'Cecilia', last_name: 'Jones')
-    @customer_3 = Customer.create!(first_name: 'Mariah', last_name: 'Carrey')
-    @customer_4 = Customer.create!(first_name: 'Leigh Ann', last_name: 'Bron')
-    @customer_5 = Customer.create!(first_name: 'Sylvester', last_name: 'Nader')
-    @customer_6 = Customer.create!(first_name: 'Herber', last_name: 'Coon')
+    @customer_1 = create(:customer)
+    @customer_2 = create(:customer)
+    @customer_3 = create(:customer)
+    @customer_4 = create(:customer)
+    @customer_5 = create(:customer)
+    @customer_6 = create(:customer)
 
     @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
     @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-28 14:54:09")
@@ -42,14 +42,14 @@ describe "merchant invoices index" do
     @ii_9 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
     @ii_10 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_5.id, quantity: 1, unit_price: 1, status: 1)
 
-    @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
-    @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_2.id)
-    @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_3.id)
-    @transaction4 = Transaction.create!(credit_card_number: 230429, result: 1, invoice_id: @invoice_4.id)
-    @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_5.id)
-    @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
-    @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
-    @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
+    @transaction1 = create(:transaction, result: 1, invoice: @invoice_1)
+    @transaction2 = create(:transaction, result: 1, invoice: @invoice_2)
+    @transaction3 = create(:transaction, result: 1, invoice: @invoice_3)
+    @transaction4 = create(:transaction, result: 1, invoice: @invoice_4)
+    @transaction5 = create(:transaction, result: 1, invoice: @invoice_5)
+    @transaction6 = create(:transaction, result: 0, invoice: @invoice_6)
+    @transaction7 = create(:transaction, result: 1, invoice: @invoice_7)
+    @transaction8 = create(:transaction, result: 1, invoice: @invoice_8)
   end
 
   it "can see all invoice ids that include at least one of my merchant's items" do

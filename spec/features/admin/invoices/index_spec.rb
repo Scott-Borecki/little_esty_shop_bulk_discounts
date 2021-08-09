@@ -4,14 +4,14 @@ describe 'Admin Invoices Index Page' do
   before :each do
     @m1 = Merchant.create!(name: 'Merchant 1')
 
-    @c1 = Customer.create!(first_name: 'Yo', last_name: 'Yoz')
-    @c2 = Customer.create!(first_name: 'Hey', last_name: 'Heyz')
+    @c1 = create(:customer)
+    @c2 = create(:customer)
 
     @i1 = Invoice.create!(customer_id: @c1.id, status: 2)
     @i2 = Invoice.create!(customer_id: @c1.id, status: 2)
     @i3 = Invoice.create!(customer_id: @c2.id, status: 2)
     @i4 = Invoice.create!(customer_id: @c2.id, status: 2)
-    
+
     visit admin_invoices_path
   end
 

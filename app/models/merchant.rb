@@ -9,6 +9,7 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
 
   validates :name, presence: true
+  validates :status, presence: true
 
   def self.top_merchants_by_revenue(number = 5)
     joins(:transactions)

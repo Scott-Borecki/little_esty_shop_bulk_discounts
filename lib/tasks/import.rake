@@ -12,7 +12,7 @@ task :import, [:customers] => :environment do
                      address:     Faker::Address.street_address,
                      city:        Faker::Address.city,
                      state:       Faker::Address.state,
-                     zip:         Faker::Address.zip_code)
+                     zip:         Faker::Address.zip_code.first(5))
   end
 end
 
@@ -59,7 +59,7 @@ task :import, [:transactions] => :environment do
     Transaction.create!(id:                          row[0],
                         invoice_id:                  row[1],
                         credit_card_number:          row[2],
-                        credit_card_expiration_date: row[3],
+                        credit_card_expiration_date: row[3] || Faker::Number.decimal_part(digits: 4),
                         result:                      result,
                         created_at:                  row[5],
                         updated_at:                  row[6])

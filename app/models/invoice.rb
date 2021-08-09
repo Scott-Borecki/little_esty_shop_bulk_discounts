@@ -9,7 +9,6 @@ class Invoice < ApplicationRecord
   has_many :merchants, through: :items
 
   validates :status, presence: true
-  validates :customer_id, presence: true
 
   def total_revenue
     invoice_items.sum('unit_price * quantity')

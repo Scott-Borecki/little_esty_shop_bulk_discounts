@@ -4,24 +4,24 @@ describe 'Admin Dashboard Index Page' do
   before :each do
     @m1 = Merchant.create!(name: 'Merchant 1')
 
-    @c1 = Customer.create!(first_name: 'Bilbo', last_name: 'Baggins')
-    @c2 = Customer.create!(first_name: 'Frodo', last_name: 'Baggins')
-    @c3 = Customer.create!(first_name: 'Samwise', last_name: 'Gamgee')
-    @c4 = Customer.create!(first_name: 'Aragorn', last_name: 'Elessar')
-    @c5 = Customer.create!(first_name: 'Arwen', last_name: 'Undomiel')
-    @c6 = Customer.create!(first_name: 'Legolas', last_name: 'Greenleaf')
+    @c1 = create(:customer)
+    @c2 = create(:customer)
+    @c3 = create(:customer)
+    @c4 = create(:customer)
+    @c5 = create(:customer)
+    @c6 = create(:customer)
 
-    @i1 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i2 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i3 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i4 = Invoice.create!(customer_id: @c3.id, status: 2)
-    @i5 = Invoice.create!(customer_id: @c4.id, status: 2)
+    @i1 = create(:invoice, customer: @c1, status: 2)
+    @i2 = create(:invoice, customer: @c1, status: 2)
+    @i3 = create(:invoice, customer: @c2, status: 2)
+    @i4 = create(:invoice, customer: @c3, status: 2)
+    @i5 = create(:invoice, customer: @c4, status: 2)
 
-    @t1 = Transaction.create!(invoice_id: @i1.id, credit_card_number: 00000, credit_card_expiration_date: 00000, result: 1)
-    @t2 = Transaction.create!(invoice_id: @i2.id, credit_card_number: 00000, credit_card_expiration_date: 00000, result: 1)
-    @t3 = Transaction.create!(invoice_id: @i3.id, credit_card_number: 00000, credit_card_expiration_date: 00000, result: 1)
-    @t4 = Transaction.create!(invoice_id: @i4.id, credit_card_number: 00000, credit_card_expiration_date: 00000, result: 1)
-    @t5 = Transaction.create!(invoice_id: @i5.id, credit_card_number: 00000, credit_card_expiration_date: 00000, result: 1)
+    @t1 = create(:transaction, invoice: @i1, result: 1)
+    @t2 = create(:transaction, invoice: @i2, result: 1)
+    @t3 = create(:transaction, invoice: @i3, result: 1)
+    @t4 = create(:transaction, invoice: @i4, result: 1)
+    @t5 = create(:transaction, invoice: @i5, result: 1)
 
     @item_1 = Item.create!(name: 'Shampoo', description: 'This washes your hair', unit_price: 10, merchant_id: @m1.id)
     @item_2 = Item.create!(name: 'Conditioner', description: 'This makes your hair shiny', unit_price: 8, merchant_id: @m1.id)
@@ -31,7 +31,7 @@ describe 'Admin Dashboard Index Page' do
     @ii_2 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_2.id, quantity: 1, unit_price: 8, status: 0)
     @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 2)
     @ii_4 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 1)
-    
+
     visit admin_dashboard_index_path
   end
 

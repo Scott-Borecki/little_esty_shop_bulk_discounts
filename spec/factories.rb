@@ -13,7 +13,7 @@ FactoryBot.define do
     address    { Faker::Address.street_address }
     city       { Faker::Address.city }
     state      { Faker::Address.state }
-    zip        { Faker::Address.zip_code }
+    zip        { Faker::Address.zip_code.first(5) }
   end
 
   factory :invoice do
@@ -58,7 +58,8 @@ FactoryBot.define do
 
   factory :transaction do
     credit_card_number          { Faker::Business.credit_card_number.delete('-') }
-    credit_card_expiration_date { Faker::Business.credit_card_expiry_date }
+    credit_card_expiration_date { Faker::Number.decimal_part(digits: 4) }
+    result                      { rand(0..1) }
     invoice
   end
 end
