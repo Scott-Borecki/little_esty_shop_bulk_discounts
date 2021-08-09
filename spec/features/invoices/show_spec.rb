@@ -85,12 +85,20 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
       it 'displays a link to the bulk discount applied to each item' do
         within "#ii-#{invoice_item3.id}" do
           expect(page).to have_link("#{invoice_item3.max_discount_percentage}%")
+          click_link "#{invoice_item3.max_discount_percentage}%"
+          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3.max_discount_id))
         end
 
+        visit merchant_invoice_path(merchant3, invoice3)
         within "#ii-#{invoice_item3a.id}" do
           expect(page).to have_link("#{invoice_item3a.max_discount_percentage}%")
+
+          click_link "#{invoice_item3a.max_discount_percentage}%"
+
+          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3a.max_discount_id))        
         end
 
+        visit merchant_invoice_path(merchant3, invoice3)
         within "#ii-#{invoice_item3b.id}" do
           expect(page).to have_no_link("#{bulk_discount3a.percentage_discount}%")
           expect(page).to have_no_link("#{bulk_discount3b.percentage_discount}%")
