@@ -2,8 +2,8 @@ require 'faker'
 
 FactoryBot.define do
   factory :bulk_discount do
-    percentage_discount { rand(0..30) }
-    quantity_threshold  { rand(10..30) }
+    percentage_discount { Faker::Number.between(from: 1, to: 99) }
+    quantity_threshold  { Faker::Number.between(from: 2, to: 99) }
     merchant
   end
 
@@ -24,7 +24,7 @@ FactoryBot.define do
   factory :item do
     name        { Faker::Name.name }
     description { Faker::Movies::LordOfTheRings.location }
-    unit_price  { Faker::Number.binary(digits: 5) }
+    unit_price  { Faker::Number.between(from: 1, to: 10_000) }
     merchant
 
     factory :enabled_item do
@@ -37,8 +37,8 @@ FactoryBot.define do
   end
 
   factory :invoice_item do
-    quantity   { rand(20) }
-    unit_price { rand(999) }
+    quantity   { Faker::Number.between(from: 1, to: 99) }
+    unit_price { Faker::Number.between(from: 1, to: 10_000) }
     status     { rand(0..2) }
     invoice
     item
