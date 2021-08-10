@@ -92,6 +92,6 @@ task :import, [:bulk_discounts] => :environment do
   200.times do
     BulkDiscount.create!(merchant: Merchant.all.sample,
                          percentage_discount: Faker::Number.between(from: 1, to: 80),
-                         quantity_threshold: Faker::Number.between(from: 2, to: 11))
+                         quantity_threshold: Faker::Number.between(from: 2, to: 9))
   end
 end
