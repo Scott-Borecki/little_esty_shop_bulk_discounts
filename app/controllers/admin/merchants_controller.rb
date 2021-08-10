@@ -37,11 +37,11 @@ class Admin::MerchantsController < ApplicationController
 
   private
 
-  def merchant_params
-    params.require(:merchant).permit(:name)
-  end
-
   def fetch_current_merchant
     @merchant = Merchant.find(params[:id])
+  end
+
+  def merchant_params
+    params.require(:merchant).permit(:name)
   end
 end
