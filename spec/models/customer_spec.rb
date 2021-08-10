@@ -18,6 +18,22 @@ RSpec.describe Customer, type: :model do
     it { should have_many(:transactions).through(:invoices) }
   end
 
+  describe 'class methods' do
+    describe '.top_customers' do
+      # See /spec/object_creation_helper.rb for more info on factories created
+      create_factories_merchant_with_many_customers_and_items
+
+      it 'returns the top customers' do
+        top_five_customers = [customer3, customer4, customer2, customer7, customer8]
+
+        expect(Customer.top_customers.to_a.size).to eq(5)
+        expect(Customer.top_customers).to eq(top_five_customers)
+
+        expect(Customer.top_customers(2).to_a.size).to eq(2)
+      end
+    end
+  end
+
   describe 'instance methods' do
     describe '#number_of_transactions' do
       # See /spec/object_creation_helper.rb for more info on factories created

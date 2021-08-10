@@ -10,13 +10,13 @@ class Customer < ApplicationRecord
   validates :state, presence: true
   validates :zip, presence: true, numericality: true, length: { is: 5 }
 
-  def self.top_customers
+  def self.top_customers(number = 5)
     joins(:transactions)
-      .where('result = ?', 1)
-      .group(:id)
       .select('customers.*, count(transactions.result) as top_result')
+      .where(transactions: { result: :success })
+      .group(:id)
       .order(top_result: :desc)
-      .limit(5)
+      .limit(number)
   end
 
   def number_of_transactions
