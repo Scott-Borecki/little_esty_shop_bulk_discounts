@@ -9,15 +9,6 @@ class InvoicesController < ApplicationController
   def show
   end
 
-  # TODO: Add dynamic flash messages
-  def update
-    invoice = Invoice.find(params[:id])
-    invoice.update(invoice_params)
-
-    flash.notice = 'Success! The invoice was updated.'
-    redirect_to merchant_invoice_path(@merchant, invoice)
-  end
-
   private
 
   def fetch_current_invoice
@@ -26,9 +17,5 @@ class InvoicesController < ApplicationController
 
   def fetch_current_merchant
     @merchant = Merchant.find(params[:merchant_id])
-  end
-
-  def invoice_params
-    params.require(:invoice).permit(:status)
   end
 end
