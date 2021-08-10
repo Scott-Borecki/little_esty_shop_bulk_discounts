@@ -2,8 +2,8 @@ require 'faker'
 
 FactoryBot.define do
   factory :bulk_discount do
-    percentage_discount { Faker::Number.between(from: 1, to: 99) }
-    quantity_threshold  { Faker::Number.between(from: 2, to: 99) }
+    percentage_discount { Faker::Number.between(from: 1, to: 96) }
+    quantity_threshold  { Faker::Number.between(from: 2, to: 96) }
     merchant
   end
 

@@ -9,9 +9,9 @@ RSpec.describe 'bulk discount show page (/merchant/:merchant_id/bulk_discounts/:
   let!(:bulk_discount1_1) { create(:bulk_discount, merchant: merchant1) }
   let!(:bulk_discount1_2) { create(:bulk_discount, merchant: merchant1) }
   let!(:bulk_discount1_3) { create(:bulk_discount, merchant: merchant1) }
-  let!(:bulk_discount2_1) { create(:bulk_discount, merchant: merchant2) }
-  let!(:bulk_discount2_2) { create(:bulk_discount, merchant: merchant2) }
-  let!(:bulk_discount2_3) { create(:bulk_discount, merchant: merchant2) }
+  let!(:bulk_discount2_1) { create(:bulk_discount, merchant: merchant2, quantity_threshold: 97, percentage_discount: 97) }
+  let!(:bulk_discount2_2) { create(:bulk_discount, merchant: merchant2, quantity_threshold: 98, percentage_discount: 98) }
+  let!(:bulk_discount2_3) { create(:bulk_discount, merchant: merchant2, quantity_threshold: 99, percentage_discount: 99) }
 
   describe 'as a merchant' do
     describe 'when I visit my merchant dashboard bulk discount show (/merchant/:merchant_id/bulk_discounts/:id)' do
