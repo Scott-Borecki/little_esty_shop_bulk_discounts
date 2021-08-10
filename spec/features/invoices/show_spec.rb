@@ -63,29 +63,23 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
         end
       end
 
-      it 'displays a select field to update the invoice status' do
-        within '#invoice-status' do
-          expect(page).to have_content('Completed')
-
-          expect(page).to have_no_content('In progress')
-          expect(page).to have_no_content('in progress')
-          expect(page).to have_no_content('Cancelled')
-          expect(page).to have_no_content('cancelled')
-        end
-
+      it 'displays a select field to update the invoice item status' do
         within "#ii-#{invoice_item3a.id}" do
-          page.select 'Cancelled'
+          expect(page).to have_select(:invoice_item_status, selected: 'Packaged')
+          page.select 'Shipped'
           click_button 'Update'
         end
 
-        within '#invoice-status' do
-          expect(page).to have_content('Cancelled')
+        expect(current_path).to eq(merchant_invoice_path(merchant3, invoice3))
+        expect(page).to have_content('Success! The item was updated.')
 
-          expect(page).to have_no_content('In Progress')
-          expect(page).to have_no_content('In progress')
-          expect(page).to have_no_content('in progress')
-          expect(page).to have_no_content('Completed')
-          expect(page).to have_no_content('completed')
+        within "#ii-#{invoice_item3a.id}" do
+          expect(page).to have_select(:invoice_item_status, selected: 'Shipped')
+
+          expect(page).to have_no_select(:invoice_item_status, selected: 'Packaged')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'packaged')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'Pending')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'pending')
         end
       end
 
