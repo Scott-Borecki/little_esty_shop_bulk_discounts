@@ -19,6 +19,18 @@ RSpec.describe Customer, type: :model do
   end
 
   describe 'instance methods' do
+    describe '#number_of_transactions' do
+      # See /spec/object_creation_helper.rb for more info on factories created
+      create_factories_merchant_with_many_customers_and_items
+
+      it 'returns the number of transactions by the customer' do
+        expect(customer1.number_of_transactions).to eq(1)
+        expect(customer2.number_of_transactions).to eq(3)
+        expect(customer3.number_of_transactions).to eq(5)
+        expect(customer4.number_of_transactions).to eq(4)
+      end
+    end
+
     describe '#full_name' do
       it 'returns the full name of the customer' do
         customer = create(:customer)
