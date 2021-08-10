@@ -18,7 +18,7 @@ describe 'merchant items show (/merchant/:merchant_id/items/:id)' do
       it 'displays the items attributes' do
         expect(page).to have_content(item1.name)
         expect(page).to have_content(item1.description)
-        expect(page).to have_content(item1.unit_price)
+        expect(page).to have_content(item1.unit_price / 100.00)
         expect(page).to have_no_content(item2.name)
       end
 

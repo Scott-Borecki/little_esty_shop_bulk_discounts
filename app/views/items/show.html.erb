@@ -9,7 +9,7 @@
 
   <p>
     <strong>Price: </strong>
-      <%= number_to_currency(@item.unit_price) %><br>
+      <%= number_to_currency(@item.unit_price / 100.00) %><br>
     <strong>Description: </strong>
       <%= @item.description %><br><br>
 
