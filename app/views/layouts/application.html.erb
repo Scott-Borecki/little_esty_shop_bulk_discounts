@@ -131,8 +131,20 @@
   </head>
 
   <body>
-    <% flash.each do |type, notice| %>
-      <h3><b><%= notice %></b></h3>
+    <% flash.each do |type, message| %>
+      <% if type == 'alert' %>
+        <div class='alert alert-danger'>
+          <%= message %>
+        </div>
+      <% elsif type == 'notice' %>
+        <div class='alert alert-success'>
+          <%= message %>
+        </div>
+      <% else %>
+        <div class='alert alert-warning'>
+          <%= message %>
+        </div>
+      <% end %>
     <% end %>
 
     <div class='top-container'>

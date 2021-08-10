@@ -28,6 +28,9 @@ describe "merchant invoices index (/merchant/:merchant_id/invoices)" do
     describe 'when I visit my merchants invoices index' do
       before { visit merchant_invoices_path(merchant1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays all the invoices that include at least one of my merchant\'s items' do
         merchant1.invoices.each do |invoice|
           expect(page).to have_content(invoice.id)

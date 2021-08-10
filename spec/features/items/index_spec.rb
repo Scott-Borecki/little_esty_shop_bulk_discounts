@@ -51,9 +51,8 @@ describe 'merchant items index (merchants/merchant_id/items)' do
       before { visit merchant_items_path(merchant1) }
 
       it { expect(current_path).to eq(merchant_items_path(merchant1)) }
-      it { expect(page).to have_no_content('Success! The item was created.') }
-      it { expect(page).to have_no_content('Success! The item was updated.') }
-      it { expect(page).to have_no_content('Error! All fields must be completed.') }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it 'displays a list of the names of all my items' do
         merchant1.items.each do |item|
@@ -151,6 +150,10 @@ describe 'merchant items index (merchants/merchant_id/items)' do
             expect(page).to have_content(item2.name)
           end
         end
+
+        it 'displays a flash success message' do
+          expect(page).to have_content('Success! The item was updated.')
+        end
       end
 
       describe 'when I click on the disable button' do
@@ -172,6 +175,10 @@ describe 'merchant items index (merchants/merchant_id/items)' do
           within '#disabled-items' do
             expect(page).to have_content(item1.name)
           end
+        end
+
+        it 'displays a flash success message' do
+          expect(page).to have_content('Success! The item was updated.')
         end
       end
 

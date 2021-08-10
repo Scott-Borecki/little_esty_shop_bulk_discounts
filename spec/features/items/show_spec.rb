@@ -12,6 +12,9 @@ describe 'merchant items show (/merchant/:merchant_id/items/:id)' do
     describe 'when I visit the merchant item show page' do
       before { visit merchant_item_path(merchant, item1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays the items attributes' do
         expect(page).to have_content(item1.name)
         expect(page).to have_content(item1.description)
@@ -21,7 +24,7 @@ describe 'merchant items show (/merchant/:merchant_id/items/:id)' do
 
       it 'displays a link to update item info' do
         expect(page).to have_link('Update Item')
-        
+
         click_link 'Update Item'
 
         expect(current_path).to eq(edit_merchant_item_path(merchant, item1))

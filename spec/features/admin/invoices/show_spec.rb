@@ -28,6 +28,9 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
     describe 'when I visit an admin invoice show page (/admin/invoices/:id)' do
       before { visit admin_invoice_path(invoice1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays the invoice detials: id, status, and created_at' do
         expect(current_path).to eq(admin_invoice_path(invoice1))
 
@@ -91,6 +94,8 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
           expect(page).to have_select('invoice[status]', selected: 'Cancelled')
           expect(invoice1.reload.status).to eq('cancelled')
         end
+
+        expect(page).to have_content('Success! The invoice was updated.')
       end
     end
   end

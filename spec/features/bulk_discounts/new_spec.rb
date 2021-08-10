@@ -20,6 +20,9 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
     describe 'when I visit my merchant dashboard bulk discounts new (/merchant/:merchant_id/bulk_discounts/new)' do
       before { visit new_merchant_bulk_discount_path(merchant1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays a form to create a new discount' do
         expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
         expect(page).to have_field(:bulk_discount_percentage_discount)
@@ -37,6 +40,10 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
         it 'takes me back tot he bulk discount index' do
           allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)
           expect(current_path).to eq(merchant_bulk_discounts_path(merchant1))
+        end
+
+        it 'displays a flash success message' do
+          expect(page).to have_content('Success! A new bulk discount was created.')
         end
 
         it 'displays my new bulk discount' do

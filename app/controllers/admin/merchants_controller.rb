@@ -30,7 +30,7 @@ class Admin::MerchantsController < ApplicationController
       flash.notice = 'Success! The merchant was updated.'
       redirect_to admin_merchant_path(merchant)
     else
-      flash.notice = 'Error! All fields must be completed.'
+      flash.alert = 'Error! All fields must be completed.'
       redirect_to edit_admin_merchant_path(merchant)
     end
   end

@@ -16,7 +16,9 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
     describe 'when I visit the admin dashboard' do
       before { visit admin_dashboard_index_path }
 
-      specify { expect(current_path).to eq(admin_dashboard_index_path) }
+      it { expect(current_path).to eq(admin_dashboard_index_path) }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it 'displays a header indicating that I am on the admin dashboard' do
         expect(page).to have_content('Admin Dashboard')

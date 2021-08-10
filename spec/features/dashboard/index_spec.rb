@@ -11,6 +11,9 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
     describe 'when I visit my merchant dashboard' do
       before { visit merchant_dashboard_index_path(merchant1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays the name of my merchant' do
         expect(page).to have_content(merchant1.name)
       end

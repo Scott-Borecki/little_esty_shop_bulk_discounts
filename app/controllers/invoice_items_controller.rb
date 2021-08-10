@@ -4,7 +4,7 @@ class InvoiceItemsController < ApplicationController
     invoice_item = InvoiceItem.find(params[:id])
     invoice_item.update!(invoice_item_params)
 
-    flash.notice = 'Success! The item was updated.'
+    flash.notice = 'Success! The invoice item was updated.'
     redirect_to merchant_invoice_path(merchant, invoice_item.invoice)
   end
 

@@ -18,6 +18,9 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
     describe 'when I visit my merchant dashboard bulk discount edit (/merchant/:merchant_id/bulk_discounts/:id/edit)' do
       before { visit edit_merchant_bulk_discount_path(merchant1, bulk_discount1_1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays a prepopulated form' do
         expect(current_path).to eq(edit_merchant_bulk_discount_path(merchant1, bulk_discount1_1))
         expect(page).to have_field(:bulk_discount_percentage_discount, with: bulk_discount1_1.percentage_discount)
@@ -54,6 +57,10 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
 
         it 'takes me to the bulk discounts show page' do
           expect(current_path).to eq(merchant_bulk_discount_path(merchant1, bulk_discount1_1))
+        end
+
+        it 'displays a flash success message' do
+          expect(page).to have_content('Success! The bulk discount was updated.')
         end
 
         it 'displays the updated bulk discount attributes' do

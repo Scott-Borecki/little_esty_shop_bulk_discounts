@@ -6,9 +6,9 @@ RSpec.describe 'admin merchants new (/admin/merchants/new)' do
       before { visit new_admin_merchant_path }
 
       it { expect(current_path).to eq(new_admin_merchant_path) }
-      it { expect(page).to have_no_content('Update successful!') }
-      it { expect(page).to have_no_content('Error! All fields must be completed.') }
-      
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays a form that allows me to add merchant information' do
         expect(page).to have_field(:merchant_name)
         expect(page).to have_button('Submit')

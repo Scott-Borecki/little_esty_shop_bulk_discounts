@@ -10,13 +10,16 @@ describe "merchant items edit (/merchant/:merchant_id/items/:id/edit)" do
   let(:new_name) { 'Bar Shampoo' }
   let(:new_description) { 'Eco friendly shampoo' }
   let(:new_unit_price) { 15 }
-  
+
   let(:flash_error) { 'Error! All fields must be completed.' }
   let(:flash_success) { 'Success! The item was updated.' }
 
   describe 'as a merchant' do
     describe 'when I visit the merchant items edit page' do
       before { visit edit_merchant_item_path(merchant1, item1) }
+
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it "displays a prepopulated form with the items attributes" do
         expect(page).to have_field(:item_name, with: item1.name)

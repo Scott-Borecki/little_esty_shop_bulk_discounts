@@ -16,8 +16,8 @@ describe 'admin merchant index (/admin/merchants)' do
       before { visit admin_merchants_path }
 
       it { expect(current_path).to eq(admin_merchants_path) }
-      it { expect(page).to have_no_content('Update successful!') }
-      it { expect(page).to have_no_content('Error! All fields must be completed.') }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it 'displays the name of each merchant with a link' do
         all_merchants.all.each do |merchant|

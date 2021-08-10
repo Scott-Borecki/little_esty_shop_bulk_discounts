@@ -17,6 +17,9 @@ RSpec.describe 'bulk discount show page (/merchant/:merchant_id/bulk_discounts/:
     describe 'when I visit my merchant dashboard bulk discount show (/merchant/:merchant_id/bulk_discounts/:id)' do
       before { visit merchant_bulk_discount_path(merchant1, bulk_discount1_1) }
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays the bulk discounts quantity threshold and percentage discount' do
         expect(current_path).to eq(merchant_bulk_discount_path(merchant1, bulk_discount1_1))
 

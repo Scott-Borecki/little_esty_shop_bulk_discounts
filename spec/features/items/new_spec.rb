@@ -9,9 +9,8 @@ RSpec.describe 'merchant items new (/merchant/:merchant_id/items/new)' do
       before { visit new_merchant_item_path(merchant1) }
 
       it { expect(current_path).to eq(new_merchant_item_path(merchant1)) }
-      it { expect(page).to have_no_content('Success! The item was created.') }
-      it { expect(page).to have_no_content('Success! The item was updated.') }
-      it { expect(page).to have_no_content('Error! All fields must be completed.') }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it 'displays a form that allows me to add item information' do
         expect(page).to have_field(:item_name)

@@ -10,8 +10,8 @@ RSpec.describe 'admin merchants show (/admin/merchants/merchant_id)' do
       before { visit admin_merchant_path(merchant1) }
 
       it { expect(current_path).to eq(admin_merchant_path(merchant1)) }
-      it { expect(page).to have_no_content('Update successful!') }
-      it { expect(page).to have_no_content('Error! All fields must be completed.') }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it 'displays the name of the merchant' do
         expect(page).to have_content(merchant1.name)

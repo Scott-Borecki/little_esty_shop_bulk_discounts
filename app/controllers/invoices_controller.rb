@@ -14,6 +14,7 @@ class InvoicesController < ApplicationController
     invoice = Invoice.find(params[:id])
     invoice.update(invoice_params)
 
+    flash.notice = 'Success! The invoice was updated.'
     redirect_to merchant_invoice_path(@merchant, invoice)
   end
 

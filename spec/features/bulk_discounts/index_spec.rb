@@ -20,6 +20,9 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
         allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)
       end
 
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
       it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
         within '#bulk-discounts' do
           merchant1.bulk_discounts.each do |bulk_discount|

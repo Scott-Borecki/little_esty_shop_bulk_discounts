@@ -14,6 +14,7 @@ class BulkDiscountsController < ApplicationController
   def create
     @merchant.bulk_discounts.create!(bulk_discount_params)
 
+    flash.notice = 'Success! A new bulk discount was created.'
     redirect_to merchant_bulk_discounts_path(@merchant)
   end
 
@@ -27,12 +28,16 @@ class BulkDiscountsController < ApplicationController
   def update
     bulk_discount = BulkDiscount.find(params[:id])
     bulk_discount.update!(bulk_discount_params)
+
+    flash.notice = 'Success! The bulk discount was updated.'
     redirect_to merchant_bulk_discount_path(@merchant, bulk_discount)
   end
 
   def destroy
     bulk_discount = BulkDiscount.find(params[:id])
     bulk_discount.destroy!
+
+    flash.notice = 'Success! The bulk discount was deleted.'
     redirect_to merchant_bulk_discounts_path(@merchant)
   end
 

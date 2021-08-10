@@ -19,7 +19,7 @@ class ItemsController < ApplicationController
       flash.notice = 'Success! The item was updated.'
       redirect_to merchant_item_path(@merchant, @item)
     else
-      flash.notice = 'Error! All fields must be completed.'
+      flash.alert = 'Error! All fields must be completed.'
       redirect_to edit_merchant_item_path(@merchant, @item)
     end
   end
