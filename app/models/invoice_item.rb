@@ -8,12 +8,6 @@ class InvoiceItem < ApplicationRecord
   validates :unit_price, presence: true
   validates :status, presence: true
 
-  # TODO: Fix this method.  Seems like it could be improved.
-  def self.incomplete_invoices
-    invoice_ids = InvoiceItem.where("status = 0 OR status = 1").pluck(:invoice_id)
-    Invoice.order(created_at: :asc).find(invoice_ids)
-  end
-
   def revenue
     unit_price * quantity
   end

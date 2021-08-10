@@ -13,6 +13,27 @@ RSpec.describe Invoice, type: :model do
     it { should have_many(:transactions) }
   end
 
+  describe 'class methods' do
+    describe '.incomplete_invoices' do
+      # See /spec/object_creation_helper.rb for more info on factories created
+      create_factories
+
+      let(:invoices_not_shipped) { [invoice5a, invoice5b, invoice3, invoice1] }
+
+      it 'returns all the incomplete invoices (i.e. not shipped) ordered by oldest to newest' do
+        expect(Invoice.incomplete_invoices).to eq(invoices_not_shipped)
+      end
+
+      it 'returns all the ids of the incomplete invoices (i.e. not shipped)' do
+        expect(Invoice.incomplete_invoices.first.id).to eq(invoices_not_shipped.first.id)
+      end
+
+      it 'returns all the invoice dates of the incomplete invoices (i.e. not shipped)' do
+        expect(Invoice.incomplete_invoices.first.formatted_date).to eq(invoices_not_shipped.first.formatted_date)
+      end
+    end
+  end
+
   describe 'instance methods' do
     # See spec/object_creation_helper.rb for objection creation details
     create_factories
