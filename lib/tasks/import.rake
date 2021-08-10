@@ -86,3 +86,12 @@ task :import, [:invoice_items] => :environment do
                         updated_at:  row[7])
   end
 end
+
+task :import, [:bulk_discounts] => :environment do
+  ActiveRecord::Base.connection.reset_pk_sequence!('bulk_discounts')
+  200.times do
+    BulkDiscount.create!(merchant: Merchant.all.sample,
+                         percentage_discount: Faker::Number.between(from: 1, to: 80),
+                         quantity_threshold: Faker::Number.between(from: 2, to: 9))
+  end
+end

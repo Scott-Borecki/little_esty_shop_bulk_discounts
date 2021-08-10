@@ -7,6 +7,7 @@ Rails.application.load_tasks
 
 namespace :csv_load do
   task destroy_all: :environment do
+    BulkDiscount.destroy_all
     InvoiceItem.destroy_all
     Transaction.destroy_all
     Invoice.destroy_all

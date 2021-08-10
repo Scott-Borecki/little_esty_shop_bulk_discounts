@@ -69,7 +69,7 @@
           <tr id='ii-<%= invoice_item.id %>'>
             <td><%= invoice_item.item.name %></td>
             <td><%= invoice_item.quantity %></td>
-            <td><%= number_to_currency(invoice_item.unit_price) %></td>
+            <td><%= number_to_currency(invoice_item.unit_price / 100.00) %></td>
             <td>
               <% if invoice_item.max_discount %>
                 <%= link_to number_to_percentage(invoice_item.max_discount_percentage, precision: 0), merchant_bulk_discount_path(@merchant, invoice_item.max_discount) %>
