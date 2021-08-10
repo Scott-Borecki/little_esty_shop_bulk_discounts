@@ -1,1 +1,158 @@
 @import 'bootstrap';
+
+/* MIXINS, VARIABLES, ETC. */
+
+$color1: #E8E8E8; /* background; CLEAN - LIGHT GRAY */
+$color2: #333A56; /* link text, VERMILLION - DARK BLUE */
+$color3: #52658F; /* header bg; SUNSHINE - LIGHT BLUE */
+$color4: #E8E8E8; /* nav bg; CLEAN - LIGHT GRAY */
+
+$text_color_light: white;
+$text_color_dark: black;
+
+/* UNIVERSAL */
+
+a {
+  color: $color2;
+}
+
+a:hover {
+  color: $color3;
+}
+
+body {
+  padding-top:   20px;
+  padding-left:  20px;
+  padding-right: 20px;
+  background: $color1;
+}
+
+h1.title {
+  text-align: center;
+  background-color: $color3;
+  color: $text_color_light;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* NAVIGATION BAR */
+
+.nav {
+  color: $color2!important;
+}
+
+.navbar {
+  margin-bottom: 10px;
+  padding-left:  20px;
+  padding-right: 20px;
+  background-color: $color4;
+}
+
+.navbar-text {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  font-weight: bold;
+  color: $color3;
+}
+
+/* COLUMNS */
+
+.col-head {
+  background-color: $color3;
+  color: $text_color_light;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.col-sm-4 {
+  text-align: left;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.col-sm-5 {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.col-sm-6 {
+}
+
+.col-12 {
+  background-color:#EBEFF3;
+  font-weight: bold;
+  text-align:center;
+}
+
+.row {
+}
+
+/* TABLES */
+
+.table {
+  border: $color3;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  table-layout: fixed;
+}
+
+.td {
+  border: 1px solid $color3;
+  text-align: left;
+  padding: 8px;
+}
+
+.th1 {
+  color: $text_color_dark;
+  text-align: center;
+  padding: 4px;
+}
+
+.th2 {
+  border: 1px solid $color3;
+  text-align: left;
+  padding: 8px;
+}
+
+.th-top {
+  text-align: left;
+  vertical-align: top;
+}
+
+.pad-right {
+  padding-right: 30px;
+}
+
+.table-invoice {
+  text-align: left;
+  vertical-align: top;
+  margin-bottom: 20px;
+}
+
+.blank_row {
+  height: 10px!important;
+}
+
+/* FORMS AND BUTTONS */
+
+.select {
+  padding: 5px 40px 5px 5px;
+  margin: 2px 6px 2px 0;
+  vertical-align: middle;
+}
+
+.btn-primary {
+    color: $text_color_light;
+    background-color: $color2;
+    border-color: $color2;
+}
+
+.btn-primary:hover {
+    color: $text_color_light;
+    background-color: $color3;
+    border-color: $color3;
+}
