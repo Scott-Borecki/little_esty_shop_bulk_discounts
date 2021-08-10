@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoice_id)' do
+  include ActionView::Helpers::NumberHelper
+
   # See spec/object_creation_helper.rb for objection creation details
   create_factories
 
@@ -36,15 +38,19 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
           end
         end
 
-        within('#invoice-status') { expect(page).to have_content(invoice3.status.humanize) }
+        within('#invoice-status') { expect(page).to have_content(invoice3.status.titleize) }
       end
 
       it 'displays the total revenue for this invoice' do
-        expect(page).to have_content("Total Revenue: $#{invoice3.total_revenue}")
+        expect(page).to have_content("Total Revenue: #{number_to_currency(invoice3.total_revenue / 100.00)}")
+      end
+
+      it 'displays the total discount for this invoice' do
+        expect(page).to have_content("Total Discounts: #{number_to_currency(invoice3.revenue_discount / 100.00)}")
       end
 
       it 'displays the total discounted revenue for this invoice' do
-        expect(page).to have_content("Total Discounted Revenue: $#{invoice3.total_discounted_revenue}")
+        expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(invoice3.total_discounted_revenue / 100.00)}")
       end
 
       it 'displays the details of the invoice items' do
@@ -68,13 +74,14 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
         end
 
         within "#ii-#{invoice_item3a.id}" do
-          page.select 'cancelled'
-          click_button 'Update Invoice'
+          page.select 'Cancelled'
+          click_button 'Update'
         end
 
         within '#invoice-status' do
           expect(page).to have_content('Cancelled')
 
+          expect(page).to have_no_content('In Progress')
           expect(page).to have_no_content('In progress')
           expect(page).to have_no_content('in progress')
           expect(page).to have_no_content('Completed')
@@ -95,7 +102,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
 
           click_link "#{invoice_item3a.max_discount_percentage}%"
 
-          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3a.max_discount_id))        
+          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3a.max_discount_id))
         end
 
         visit merchant_invoice_path(merchant3, invoice3)

@@ -9,24 +9,57 @@
   </div>
 </div>
 
+
+<div id='invoice-details' class='col-6'>
+  <table class='table-invoice'>
+    <tr>
+      <th class='th-top pad-right'>Customer:</th>
+      <td class='top'><%= @invoice.customer_full_name %></td>
+    </tr>
+
+    <tr>
+      <th class='pad-right'>Created on:</th>
+      <td><%= @invoice.formatted_date %></td>
+    </tr>
+
+    <tr class='blank_row'>
+      <td colspan='2'></td>
+    </tr>
+
+    <tr>
+      <th class='pad-right'>Total Revenue:</th>
+      <td><%= number_to_currency(@invoice.total_revenue / 100.00) %></td>
+    </tr>
+
+    <tr>
+      <th class='pad-right'>Total Discounts: </th>
+      <td><em><%= number_to_currency(@invoice.revenue_discount / 100.00) %></em></td>
+    </tr>
+
+    <tr>
+      <th class='pad-right'>Total Discounted Revenue: </th>
+      <td><%= number_to_currency(@invoice.total_discounted_revenue / 100.00) %></td>
+    </tr>
+
+    <tr class='blank_row'>
+      <td colspan='2'></td>
+    </tr>
+
+    <tr>
+      <th class='pad-right'>Status: </th>
+      <td id='invoice-status' class='col-auto'>
+        <%= @invoice.status.titleize %>
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+
+
 <div class='row'>
   <% # FULL COLUMN %>
   <div class='col-sm-12'>
-    <p id='invoice-details'>
-      <strong>Customer: </strong>
-        <%= @invoice.customer_full_name %><br>
-      <strong>Created on: </strong>
-        <%= @invoice.formatted_date %><br>
-      <strong>Total Revenue: </strong>
-        <%= number_to_currency(@invoice.total_revenue) %><br>
-      <strong>Total Discounted Revenue: </strong>
-        <%= number_to_currency(@invoice.total_discounted_revenue) %>
-      <div id='invoice-status'>
-        <strong>Status: </strong>
-          <%= @invoice.status.humanize %>
-      </div>
-    </p>
-
     <p class='col-head'>Items on this Invoice</p>
 
     <table class='table'>
@@ -53,8 +86,8 @@
                             url: merchant_invoice_path(@merchant, @invoice),
                             method: :patch,
                             local: true do |f| %>
-                <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
-                <%= f.submit 'Update Invoice' %>
+                <%= f.select :status, Invoice.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: @invoice.status }, { class: 'select' } %>
+                <%= f.submit 'Update', class: 'btn btn-primary' %>
               <% end %>
             </td>
           </tr>

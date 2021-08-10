@@ -21,6 +21,9 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
   let!(:invoice_item2b) { create(:invoice_item, item: item2b, invoice: invoice2) }
   let!(:invoice_item2c) { create(:invoice_item, item: item2c, invoice: invoice2) }
 
+  let!(:bulk_discount1) { create(:bulk_discount, merchant: item1a.merchant, quantity_threshold: 5) }
+  let!(:bulk_discount2) { create(:bulk_discount, merchant: item2a.merchant, quantity_threshold: 10) }
+
   describe 'as an admin' do
     describe 'when I visit an admin invoice show page (/admin/invoices/:id)' do
       before { visit admin_invoice_path(invoice1) }
@@ -29,7 +32,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
         expect(current_path).to eq(admin_invoice_path(invoice1))
 
         expect(page).to have_content("Invoice ##{invoice1.id}")
-        expect(page).to have_content("Created on:\n#{invoice1.formatted_date}")
+        expect(page).to have_content("Created on: #{invoice1.formatted_date}")
 
         expect(page).to have_no_content("Invoice ##{invoice2.id}")
       end
@@ -48,7 +51,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
             expect(page).to have_content(invoice_item.item.name)
             expect(page).to have_content(invoice_item.quantity)
             expect(page).to have_content(number_to_currency(invoice_item.unit_price / 100.00))
-            expect(page).to have_content(invoice_item.status)
+            expect(page).to have_content(invoice_item.status.titleize)
           end
 
           expect(page).to have_no_content(item2a.name)
@@ -58,13 +61,19 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
       end
 
       it 'displays the total revenue' do
-        expect(page).to have_content("Total Revenue:\n#{number_to_currency(invoice1.total_revenue / 100.00)}")
+        expect(page).to have_content("Total Revenue: #{number_to_currency(invoice1.total_revenue / 100.00)}")
 
         expect(page).to have_no_content(number_to_currency(invoice2.total_revenue / 100.00))
       end
 
+      it 'displays the total discounts' do
+        expect(page).to have_content("Total Discounts: #{number_to_currency(invoice1.revenue_discount / 100.00)}")
+
+        expect(page).to have_no_content(number_to_currency(invoice2.revenue_discount / 100.00))
+      end
+
       it 'displays the total discounted revenue' do
-        expect(page).to have_content("Total Discounted Revenue:\n#{number_to_currency(invoice1.total_discounted_revenue / 100.00)}")
+        expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(invoice1.total_discounted_revenue / 100.00)}")
 
         expect(page).to have_no_content(number_to_currency(invoice2.total_discounted_revenue / 100.00))
       end
@@ -72,14 +81,14 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
       it 'has a status select field that updates the invoices status' do
         within "#status-update-#{invoice1.id}" do
           expect(invoice1.status).to eq('completed')
-          expect(page).to have_select('invoice[status]', selected: 'completed')
-          expect(page).to have_button('Update Invoice')
+          expect(page).to have_select('invoice[status]', selected: 'Completed')
+          expect(page).to have_button('Update')
 
-          select 'cancelled', from: :invoice_status
-          click_button 'Update Invoice'
+          select 'Cancelled', from: :invoice_status
+          click_button 'Update'
 
           expect(current_path).to eq(admin_invoice_path(invoice1))
-          expect(page).to have_select('invoice[status]', selected: 'cancelled')
+          expect(page).to have_select('invoice[status]', selected: 'Cancelled')
           expect(invoice1.reload.status).to eq('cancelled')
         end
       end
