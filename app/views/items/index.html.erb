@@ -1,15 +1,18 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class='row'>
-  <% # FULL COLUMN %>
   <div class='col-sm-12'>
     <p class='col-head'>
       My Items
     </p>
   </div>
+</div>
 
+<div class='row'>
   <p><%= link_to "Create New Item", new_merchant_item_path(@merchant) %></p>
+</div>
 
+<div class='row'>
   <% # LEFT COLUMN %>
   <div class='col-sm-6'>
     <p class='col-head'>Top Items</p>

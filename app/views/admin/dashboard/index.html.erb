@@ -1,6 +1,7 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
 <div class='row'>
+  <% # LEFT COLUMN %>
   <div class='col-sm-6' id='top-customers'>
     <p class='col-head'>
       Top Customers
@@ -16,16 +17,18 @@
     </ol>
   </div>
 
-<div class='col-sm-6' id='incomplete-invoices'>
-  <p class='col-head'>
-    Incomplete Invoices
-  </p>
+  <% # RIGHT COLUMN %>
+  <div class='col-sm-6' id='incomplete-invoices'>
+    <p class='col-head'>
+      Incomplete Invoices
+    </p>
 
-  <ul>
-    <% @incomplete_invoices.each do |invoice| %>
-      <li>
-        <%= link_to "Invoice # #{invoice.id}", admin_invoice_path(invoice.id) %> - <%= invoice.formatted_date %>
-      </li>
-    <% end %>
-  </ul>
+    <ul>
+      <% @incomplete_invoices.each do |invoice| %>
+        <li>
+          <%= link_to "Invoice # #{invoice.id}", admin_invoice_path(invoice.id) %> - <%= invoice.formatted_date %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

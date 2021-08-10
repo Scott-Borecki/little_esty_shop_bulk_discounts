@@ -1,7 +1,6 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
 <div class='row'>
-  <% # FULL COLUMN %>
   <div class='col-sm-12'>
     <p class='col-head'>
       Update <%= @merchant.name %>
@@ -10,7 +9,6 @@
 </div>
 
 <div class='row'>
-  <% # FULL COLUMN %>
   <div class='col-sm-12'>
     <%= render partial: 'form', locals: { button_text: 'Submit' } %>
   </div>

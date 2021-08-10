@@ -1,14 +1,12 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class='row'>
-  <% # FULL COLUMN %>
   <div class='col-sm-12'>
     <p class='col-head' id='invoice-id'>
       Invoice #<%= @invoice.id %>
     </p>
   </div>
 </div>
-
 
 <div id='invoice-details' class='col-6'>
   <table class='table-invoice'>
@@ -54,11 +52,7 @@
   </table>
 </div>
 
-
-
-
 <div class='row'>
-  <% # FULL COLUMN %>
   <div class='col-sm-12'>
     <p class='col-head'>Items on this Invoice</p>
 
