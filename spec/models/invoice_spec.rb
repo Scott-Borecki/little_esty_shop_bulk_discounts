@@ -55,5 +55,19 @@ RSpec.describe Invoice, type: :model do
         expect(invoice1.customer_full_name).to eq(expected)
       end
     end
+
+    describe '#customer_address' do
+      it 'returns the address of the customer' do
+        expected = customer1.address
+        expect(invoice1.customer_address).to eq(expected)
+      end
+    end
+
+    describe '#city_state_zip' do
+      it 'returns the city, state, and zip code of the customer' do
+        expected = "#{customer1.city}, #{customer1.state} #{customer1.zip}"
+        expect(invoice1.customer_city_state_zip).to eq(expected)
+      end
+    end
   end
 end

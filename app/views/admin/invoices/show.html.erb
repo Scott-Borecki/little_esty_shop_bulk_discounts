@@ -14,8 +14,8 @@
       <th class='th-top pad-right'><h4>Customer:</h4></th>
       <td class='top'>
         <%= @invoice.customer_full_name %><br>
-        <%= @invoice.customer.address %><br>
-        <%= "#{@invoice.customer.city}, #{@invoice.customer.state} #{@invoice.customer.zip}" %>
+        <%= @invoice.customer_address %><br>
+        <%= @invoice.customer_city_state_zip %>
       </td>
     </tr>
 

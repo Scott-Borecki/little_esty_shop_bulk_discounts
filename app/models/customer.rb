@@ -27,4 +27,8 @@ class Customer < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def city_state_zip
+    "#{city}, #{state} #{zip}"
+  end
 end

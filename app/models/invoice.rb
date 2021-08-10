@@ -34,4 +34,12 @@ class Invoice < ApplicationRecord
   def customer_full_name
     customer.full_name
   end
+
+  def customer_address
+    customer.address
+  end
+
+  def customer_city_state_zip
+    customer.city_state_zip
+  end
 end
