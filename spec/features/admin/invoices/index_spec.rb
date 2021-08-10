@@ -1,24 +1,34 @@
 require 'rails_helper'
 
-describe 'Admin Invoices Index Page' do
-  before :each do
-    @m1 = Merchant.create!(name: 'Merchant 1')
+describe 'admin invoices index (/admin/invoices)' do
+  let!(:invoice1) { create(:invoice) }
+  let!(:invoice2) { create(:invoice) }
+  let!(:invoice3) { create(:invoice) }
+  let!(:invoice4) { create(:invoice) }
 
-    @c1 = Customer.create!(first_name: 'Yo', last_name: 'Yoz')
-    @c2 = Customer.create!(first_name: 'Hey', last_name: 'Heyz')
+  let(:all_invoices) { Invoice.all }
 
-    @i1 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i2 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i3 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i4 = Invoice.create!(customer_id: @c2.id, status: 2)
-    
-    visit admin_invoices_path
-  end
+  describe 'as an admin' do
+    describe 'when I visit the admin invoices index' do
+      before { visit admin_invoices_path }
 
-  it 'should list all invoice ids in the system as links to their show page' do
-    expect(page).to have_link("Invoice ##{@i1.id}")
-    expect(page).to have_link("Invoice ##{@i2.id}")
-    expect(page).to have_link("Invoice ##{@i3.id}")
-    expect(page).to have_link("Invoice ##{@i4.id}")
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
+
+      it 'displays a list of all invoice ids in the system as links' do
+        all_invoices.each do |invoice|
+          expect(page).to have_link("Invoice ##{invoice.id}")
+        end
+      end
+
+      it 'links to each admin invoice show page' do
+        all_invoices.each do |invoice|
+          visit admin_invoices_path
+          click_link "Invoice ##{invoice.id}"
+
+          expect(current_path).to eq(admin_invoice_path(invoice))
+        end
+      end
+    end
   end
 end

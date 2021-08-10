@@ -1,12 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoice_id)' do
+  include ActionView::Helpers::NumberHelper
+
   # See spec/object_creation_helper.rb for objection creation details
   create_factories
 
   describe 'as a merchant' do
     describe 'when I visit my merchant invoices show page' do
       before { visit merchant_invoice_path(merchant3, invoice3) }
+
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
       it 'displays the invoice id' do
         other_invoices = Invoice.all.to_a
@@ -29,22 +34,26 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
 
         within '#invoice-details' do
           expect(page).to have_content("#{invoice3.customer.first_name} #{invoice3.customer.last_name}")
-          expect(page).to have_content(invoice3.formatted_time)
+          expect(page).to have_content(invoice3.formatted_date)
 
           other_invoices.each do |invoice|
             expect(page).to have_no_content("#{invoice.customer.first_name} #{invoice.customer.last_name}")
           end
         end
 
-        within('#invoice-status') { expect(page).to have_content(invoice3.status.humanize) }
+        within('#invoice-status') { expect(page).to have_content(invoice3.status.titleize) }
       end
 
       it 'displays the total revenue for this invoice' do
-        expect(page).to have_content("Total Revenue: $#{invoice3.total_revenue}")
+        expect(page).to have_content("Total Revenue: #{number_to_currency(invoice3.total_revenue / 100.00)}")
+      end
+
+      it 'displays the total discount for this invoice' do
+        expect(page).to have_content("Total Discounts: #{number_to_currency(invoice3.revenue_discount / 100.00)}")
       end
 
       it 'displays the total discounted revenue for this invoice' do
-        expect(page).to have_content("Total Discounted Revenue: $#{invoice3.total_discounted_revenue}")
+        expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(invoice3.total_discounted_revenue / 100.00)}")
       end
 
       it 'displays the details of the invoice items' do
@@ -57,40 +66,43 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
         end
       end
 
-      it 'displays a select field to update the invoice status' do
-        within '#invoice-status' do
-          expect(page).to have_content('Completed')
-
-          expect(page).to have_no_content('In progress')
-          expect(page).to have_no_content('in progress')
-          expect(page).to have_no_content('Cancelled')
-          expect(page).to have_no_content('cancelled')
+      it 'displays a select field to update the invoice item status' do
+        within "#ii-#{invoice_item3a.id}" do
+          expect(page).to have_select(:invoice_item_status, selected: 'Packaged')
+          page.select 'Shipped'
+          click_button 'Update'
         end
+
+        expect(current_path).to eq(merchant_invoice_path(merchant3, invoice3))
+        expect(page).to have_content('Success! The invoice item was updated.')
 
         within "#ii-#{invoice_item3a.id}" do
-          page.select 'cancelled'
-          click_button 'Update Invoice'
-        end
+          expect(page).to have_select(:invoice_item_status, selected: 'Shipped')
 
-        within '#invoice-status' do
-          expect(page).to have_content('Cancelled')
-
-          expect(page).to have_no_content('In progress')
-          expect(page).to have_no_content('in progress')
-          expect(page).to have_no_content('Completed')
-          expect(page).to have_no_content('completed')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'Packaged')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'packaged')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'Pending')
+          expect(page).to have_no_select(:invoice_item_status, selected: 'pending')
         end
       end
 
       it 'displays a link to the bulk discount applied to each item' do
         within "#ii-#{invoice_item3.id}" do
           expect(page).to have_link("#{invoice_item3.max_discount_percentage}%")
+          click_link "#{invoice_item3.max_discount_percentage}%"
+          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3.max_discount_id))
         end
 
+        visit merchant_invoice_path(merchant3, invoice3)
         within "#ii-#{invoice_item3a.id}" do
           expect(page).to have_link("#{invoice_item3a.max_discount_percentage}%")
+
+          click_link "#{invoice_item3a.max_discount_percentage}%"
+
+          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3a.max_discount_id))
         end
 
+        visit merchant_invoice_path(merchant3, invoice3)
         within "#ii-#{invoice_item3b.id}" do
           expect(page).to have_no_link("#{bulk_discount3a.percentage_discount}%")
           expect(page).to have_no_link("#{bulk_discount3b.percentage_discount}%")

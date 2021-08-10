@@ -1,176 +1,229 @@
 require 'rails_helper'
 
-describe "merchant items index" do
-  before :each do
-    @merchant1 = Merchant.create!(name: 'Hair Care')
-    @merchant2 = Merchant.create!(name: 'Jewelry')
+describe 'merchant items index (merchants/merchant_id/items)' do
+  include ActionView::Helpers::NumberHelper
 
-    @item1 = Item.create!(name: 'Shampoo', description: 'This washes your hair', unit_price: 10, merchant_id: @merchant1.id, status: 1)
-    @item2 = Item.create!(name: 'Conditioner', description: 'This makes your hair shiny', unit_price: 8, merchant_id: @merchant1.id)
-    @item3 = Item.create!(name: 'Brush', description: 'This takes out tangles', unit_price: 5, merchant_id: @merchant1.id)
-    @item4 = Item.create!(name: 'Hair tie', description: 'This holds up your hair', unit_price: 1, merchant_id: @merchant1.id)
-    @item7 = Item.create!(name: 'Scrunchie', description: 'This holds up your hair but is bigger', unit_price: 3, merchant_id: @merchant1.id)
-    @item8 = Item.create!(name: 'Butterfly Clip', description: 'This holds up your hair but in a clip', unit_price: 5, merchant_id: @merchant1.id)
+  let!(:merchant1) { create(:merchant) }
+  let!(:merchant2) { create(:merchant) }
 
-    @item5 = Item.create!(name: 'Bracelet', description: 'Wrist bling', unit_price: 200, merchant_id: @merchant2.id)
-    @item6 = Item.create!(name: 'Necklace', description: 'Neck bling', unit_price: 300, merchant_id: @merchant2.id)
+  let!(:item1) {create(:item, merchant: merchant1, status: 1) }
+  let!(:item2) {create(:item, merchant: merchant1) }
+  let!(:item3) {create(:item, merchant: merchant1) }
+  let!(:item4) {create(:item, merchant: merchant1) }
+  let!(:item7) {create(:item, merchant: merchant1) }
+  let!(:item8) {create(:item, merchant: merchant1) }
 
-    @customer1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
-    @customer2 = Customer.create!(first_name: 'Cecilia', last_name: 'Jones')
-    @customer3 = Customer.create!(first_name: 'Mariah', last_name: 'Carrey')
-    @customer4 = Customer.create!(first_name: 'Leigh Ann', last_name: 'Bron')
-    @customer5 = Customer.create!(first_name: 'Sylvester', last_name: 'Nader')
-    @customer6 = Customer.create!(first_name: 'Herber', last_name: 'Coon')
+  let!(:item5) {create(:item, merchant: merchant2) }
+  let!(:item6) {create(:item, merchant: merchant2) }
 
-    @invoice1 = Invoice.create!(customer_id: @customer1.id, status: 2, created_at: '2012-03-27 14:54:09')
-    @invoice2 = Invoice.create!(customer_id: @customer1.id, status: 2, created_at: '2012-03-28 14:54:09')
-    @invoice3 = Invoice.create!(customer_id: @customer2.id, status: 2)
-    @invoice4 = Invoice.create!(customer_id: @customer3.id, status: 2)
-    @invoice5 = Invoice.create!(customer_id: @customer4.id, status: 2)
-    @invoice6 = Invoice.create!(customer_id: @customer5.id, status: 2)
-    @invoice7 = Invoice.create!(customer_id: @customer6.id, status: 2)
+  let!(:invoice1) { create(:invoice, status: 2, created_at: '2012-03-27 14:54:09') }
+  let!(:invoice2) { create(:invoice, status: 2, created_at: '2012-03-28 14:54:09') }
+  let!(:invoice3) { create(:invoice, status: 2) }
+  let!(:invoice4) { create(:invoice, status: 2) }
+  let!(:invoice5) { create(:invoice, status: 2) }
+  let!(:invoice6) { create(:invoice, status: 2) }
+  let!(:invoice7) { create(:invoice, status: 2) }
 
-    @ii1 = InvoiceItem.create!(invoice_id: @invoice1.id, item_id: @item1.id, quantity: 9, unit_price: 10, status: 0)
-    @ii2 = InvoiceItem.create!(invoice_id: @invoice2.id, item_id: @item1.id, quantity: 1, unit_price: 10, status: 0)
-    @ii3 = InvoiceItem.create!(invoice_id: @invoice3.id, item_id: @item2.id, quantity: 2, unit_price: 8, status: 2)
-    @ii4 = InvoiceItem.create!(invoice_id: @invoice4.id, item_id: @item3.id, quantity: 3, unit_price: 5, status: 1)
-    @ii6 = InvoiceItem.create!(invoice_id: @invoice5.id, item_id: @item4.id, quantity: 1, unit_price: 1, status: 1)
-    @ii7 = InvoiceItem.create!(invoice_id: @invoice6.id, item_id: @item7.id, quantity: 1, unit_price: 3, status: 1)
-    @ii8 = InvoiceItem.create!(invoice_id: @invoice7.id, item_id: @item8.id, quantity: 1, unit_price: 5, status: 1)
-    @ii9 = InvoiceItem.create!(invoice_id: @invoice7.id, item_id: @item4.id, quantity: 1, unit_price: 1, status: 1)
+  let!(:ii1) { create(:invoice_item, invoice: invoice1, item: item1, quantity: 9, unit_price: 10099, status: 0) }
+  let!(:ii2) { create(:invoice_item, invoice: invoice2, item: item1, quantity: 1, unit_price: 10099, status: 0) }
+  let!(:ii3) { create(:invoice_item, invoice: invoice3, item: item2, quantity: 2, unit_price: 8099,  status: 2) }
+  let!(:ii4) { create(:invoice_item, invoice: invoice4, item: item3, quantity: 3, unit_price: 5099,  status: 1) }
+  let!(:ii6) { create(:invoice_item, invoice: invoice5, item: item4, quantity: 1, unit_price: 1099,  status: 1) }
+  let!(:ii7) { create(:invoice_item, invoice: invoice6, item: item7, quantity: 1, unit_price: 3099,  status: 1) }
+  let!(:ii8) { create(:invoice_item, invoice: invoice7, item: item8, quantity: 1, unit_price: 5099,  status: 1) }
+  let!(:ii9) { create(:invoice_item, invoice: invoice7, item: item4, quantity: 1, unit_price: 1099,  status: 1) }
 
-    @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice1.id)
-    @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice2.id)
-    @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice3.id)
-    @transaction4 = Transaction.create!(credit_card_number: 230429, result: 1, invoice_id: @invoice4.id)
-    @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice5.id)
-    @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice6.id)
-    @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice7.id)
+  let!(:transaction1) { create(:transaction, result: 1, invoice: invoice1) }
+  let!(:transaction2) { create(:transaction, result: 1, invoice: invoice2) }
+  let!(:transaction3) { create(:transaction, result: 1, invoice: invoice3) }
+  let!(:transaction4) { create(:transaction, result: 1, invoice: invoice4) }
+  let!(:transaction5) { create(:transaction, result: 1, invoice: invoice5) }
+  let!(:transaction6) { create(:transaction, result: 0, invoice: invoice6) }
+  let!(:transaction7) { create(:transaction, result: 1, invoice: invoice7) }
 
-    visit merchant_items_path(@merchant1)
-  end
+  let(:merchant1_enabled_items) { merchant1.items.where(status: :enabled) }
+  let(:merchant1_disabled_items) { merchant1.items.where(status: :disabled) }
+  let(:merchant1_top_items) { merchant1.top_items_by_revenue }
 
-  it 'can see a list of all the names of my items and not items for other merchants' do
-    expect(page).to have_content(@item1.name)
-    expect(page).to have_content(@item2.name)
-    expect(page).to have_content(@item3.name)
-    expect(page).to have_content(@item4.name)
 
-    expect(page).to have_no_content(@item5.name)
-    expect(page).to have_no_content(@item6.name)
-  end
+  describe 'as a merchant' do
+    describe 'when I visit my merchant items index page' do
+      before { visit merchant_items_path(merchant1) }
 
-  it "has links to each item's show pages" do
-    expect(page).to have_link(@item1.name)
-    expect(page).to have_link(@item2.name)
-    expect(page).to have_link(@item3.name)
-    expect(page).to have_link(@item4.name)
+      it { expect(current_path).to eq(merchant_items_path(merchant1)) }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
-    within '#enabled-items' do
-      click_link @item1.name
+      it 'displays a list of the names of all my items' do
+        merchant1.items.each do |item|
+          expect(page).to have_content(item.name)
+        end
 
-      expect(current_path).to eq("/merchant/#{@merchant1.id}/items/#{@item1.id}")
-    end
-  end
+        merchant2.items.each do |item|
+          expect(page).to have_no_content(item.name)
+        end
+      end
 
-  it 'can make a button to disable items' do
-    within "#item-#{@item1.id}" do
-      click_button "Disable"
+      it 'links each items name to its show page' do
+        merchant1.items.each do |item|
+          expect(page).to have_link(item.name)
+        end
 
-      item = Item.find(@item1.id)
-      expect(item.status).to eq('disabled')
-    end
+        within "#item-#{item1.id}" do
+          click_link item1.name
+        end
 
-    within "#item-#{@item2.id}" do
-      click_button 'Enable'
+        expect(current_path).to eq(merchant_item_path(merchant1, item1))
+      end
 
-      item = Item.find(@item2.id)
-      expect(item.status).to eq('enabled')
-    end
+      it 'displays a link to create a new item' do
+        expect(page).to have_link('Create New Item')
 
-    within "#item-#{@item3.id}" do
-      click_button 'Enable'
+        click_link 'Create New Item'
 
-      item = Item.find(@item3.id)
-      expect(item.status).to eq('enabled')
-    end
-  end
+        expect(current_path).to eq(new_merchant_item_path(merchant1))
+      end
 
-  it 'has a section for disabled items' do
-    within '#disabled-items' do
-      expect(page).to have_content(@item3.name)
-      expect(page).to have_content(@item2.name)
-      expect(page).to_not have_content(@item1.name)
-    end
-  end
+      it 'displays an Enabled Items section with all the enabled items' do
+        within('#enabled-items') do
+          expect(page).to have_content('Enabled Items')
+          expect(page).to have_no_content('Disabled Items')
 
-  it 'has a section for enabled items' do
-    within '#enabled-items' do
-      expect(page).to_not have_content(@item2.name)
-      expect(page).to_not have_content(@item3.name)
-      expect(page).to have_content(@item1.name)
-    end
-  end
+          merchant1_enabled_items.each do |item|
+            expect(page).to have_content(item.name)
+          end
 
-  it 'has a link to create a new item' do
-    click_link 'Create New Item'
+          merchant1_disabled_items.each do |item|
+            expect(page).to have_no_content(item.name)
+          end
+        end
+      end
 
-    expect(current_path).to eq(new_merchant_item_path(@merchant1))
+      it 'displays an Disabled Items section with all the disabled items' do
+        within('#disabled-items') do
+          expect(page).to have_content('Disabled Items')
+          expect(page).to have_no_content('Enabled Items')
 
-    fill_in 'Name', with: 'Bar Shampoo'
-    fill_in 'Description', with: 'Eco friendly shampoo'
-    fill_in 'Unit price', with: '15'
-    click_button 'Submit'
+          merchant1_disabled_items.each do |item|
+            expect(page).to have_content(item.name)
+          end
 
-    expect(current_path).to eq(merchant_items_path(@merchant1))
+          merchant1_enabled_items.each do |item|
+            expect(page).to have_no_content(item.name)
+          end
+        end
+      end
 
-    within '#disabled-items' do
-      expect(page).to have_content('Bar Shampoo')
-    end
-  end
+      it 'displays a button next to each item name to disable or enable that item' do
+        merchant1_enabled_items.each do |item|
+          within("#item-#{item.id}") do
+            expect(page).to have_button('Disable')
+            expect(page).to have_no_button('Enable')
+          end
+        end
 
-  it 'shows the top 5 most popular items by total revenue' do
-    within '#top-items' do
-      expect(@item1.name).to appear_before(@item2.name)
-      expect(@item2.name).to appear_before(@item3.name)
-      expect(@item3.name).to appear_before(@item8.name)
-      expect(@item8.name).to appear_before(@item4.name)
+        merchant1_disabled_items.each do |item|
+          within("#item-#{item.id}") do
+            expect(page).to have_button('Enable')
+            expect(page).to have_no_button('Disable')
+          end
+        end
+      end
 
-      expect(page).to have_no_content(@item7.name)
-    end
-  end
+      describe 'when I click on the enable button' do
+        before do
+          within("#item-#{item2.id}") { click_button 'Enable' }
+        end
 
-  it 'links the top 5 to the item show page' do
-    within '#top-items' do
-      expect(page).to have_link(@item1.name)
-      expect(page).to have_link(@item2.name)
-      expect(page).to have_link(@item3.name)
-      expect(page).to have_link(@item4.name)
-      expect(page).to have_link(@item8.name)
+        it 'redirects me back to the merchant items index' do
+          expect(current_path).to eq(merchant_items_path(merchant1))
+        end
 
-      click_link @item1.name.to_s
+        it 'changes the items status' do
+          expect(item2.status).to eq('disabled')
 
-      expect(current_path).to eq(merchant_item_path(@merchant1, @item1))
-    end
-  end
+          item2.reload
 
-  it 'shows the total revenue next to the item' do
-    within '#top-items' do
-      expect(page).to have_content("#{@merchant1.top_5_items[0].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[1].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[2].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[3].total_revenue}")
-      expect(page).to have_content("#{@merchant1.top_5_items[4].total_revenue}")
-    end
-  end
+          expect(item2.status).to eq('enabled')
 
-  it 'shows the best day next to the item' do
-    within '#top-items' do
-      expect(page).to have_content("Top selling date for #{@item1.name} was #{@item1.best_day}")
-      expect(page).to have_content("Top selling date for #{@item2.name} was #{@item2.best_day}")
-      expect(page).to have_content("Top selling date for #{@item3.name} was #{@item3.best_day}")
-      expect(page).to have_content("Top selling date for #{@item4.name} was #{@item4.best_day}")
-      expect(page).to have_content("Top selling date for #{@item8.name} was #{@item8.best_day}")
+          within '#enabled-items' do
+            expect(page).to have_content(item2.name)
+          end
+        end
+
+        it 'displays a flash success message' do
+          expect(page).to have_content('Success! The item was updated.')
+        end
+      end
+
+      describe 'when I click on the disable button' do
+        before do
+          within("#item-#{item1.id}") { click_button 'Disable' }
+        end
+
+        it 'redirects me back to the merchant items index' do
+          expect(current_path).to eq(merchant_items_path(merchant1))
+        end
+
+        it 'changes the items status' do
+          expect(item1.status).to eq('enabled')
+
+          item1.reload
+
+          expect(item1.status).to eq('disabled')
+
+          within '#disabled-items' do
+            expect(page).to have_content(item1.name)
+          end
+        end
+
+        it 'displays a flash success message' do
+          expect(page).to have_content('Success! The item was updated.')
+        end
+      end
+
+      describe 'within the top 5 items section' do
+        it 'displays the five most popular items by total revenue generated' do
+          within '#top-items' do
+            merchant1_top_items.each do |top_item|
+              expect(page).to have_content(top_item.name)
+            end
+
+            expect(merchant1_top_items[0].name).to appear_before(merchant1_top_items[1].name)
+            expect(merchant1_top_items[1].name).to appear_before(merchant1_top_items[2].name)
+            expect(merchant1_top_items[2].name).to appear_before(merchant1_top_items[3].name)
+            expect(merchant1_top_items[3].name).to appear_before(merchant1_top_items[4].name)
+
+            expect(page).to have_no_content(item7.name)
+          end
+        end
+
+        it 'links the top 5 to the item show page' do
+          within '#top-items' do
+            merchant1_top_items.each do |top_item|
+              expect(page).to have_link(top_item.name)
+            end
+
+            click_link item1.name
+
+            expect(current_path).to eq(merchant_item_path(merchant1, item1))
+          end
+        end
+
+        it 'displays the total revenue next to each top item' do
+          within '#top-items' do
+            merchant1_top_items.each do |top_item|
+              expect(page).to have_content(number_to_currency(top_item.total_revenue / 100.00))
+            end
+          end
+        end
+
+        it 'displays the best day next to each top item' do
+          merchant1_top_items.each do |top_item|
+            expect(page).to have_content("Top selling date for #{item1.name} was #{item1.best_day}")
+          end
+        end
+      end
     end
   end
 end

@@ -1,85 +1,58 @@
 require 'rails_helper'
 
-describe "merchant invoices index" do
-  before :each do
-    @merchant1 = Merchant.create!(name: 'Hair Care')
-    @merchant2 = Merchant.create!(name: 'Jewelry')
+describe "merchant invoices index (/merchant/:merchant_id/invoices)" do
+  let!(:merchant1) { create(:merchant) }
+  let!(:merchant2) { create(:merchant) }
 
-    @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant1.id, status: 1)
-    @item_2 = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 8, merchant_id: @merchant1.id)
-    @item_3 = Item.create!(name: "Brush", description: "This takes out tangles", unit_price: 5, merchant_id: @merchant1.id)
-    @item_4 = Item.create!(name: "Hair tie", description: "This holds up your hair", unit_price: 1, merchant_id: @merchant1.id)
-    @item_7 = Item.create!(name: "Scrunchie", description: "This holds up your hair but is bigger", unit_price: 3, merchant_id: @merchant1.id)
-    @item_8 = Item.create!(name: "Butterfly Clip", description: "This holds up your hair but in a clip", unit_price: 5, merchant_id: @merchant1.id)
+  let!(:item1) { create(:item, merchant: merchant1) }
+  let!(:item2) { create(:item, merchant: merchant1) }
+  let!(:item3) { create(:item, merchant: merchant1) }
+  let!(:item4) { create(:item, merchant: merchant1) }
 
-    @item_5 = Item.create!(name: "Bracelet", description: "Wrist bling", unit_price: 200, merchant_id: @merchant2.id)
-    @item_6 = Item.create!(name: "Necklace", description: "Neck bling", unit_price: 300, merchant_id: @merchant2.id)
+  let!(:item5) {create(:item, merchant: merchant2)}
+  let!(:item6) {create(:item, merchant: merchant2)}
+  let!(:item7) {create(:item, merchant: merchant2)}
+  let!(:item8) {create(:item, merchant: merchant2)}
 
-    @customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
-    @customer_2 = Customer.create!(first_name: 'Cecilia', last_name: 'Jones')
-    @customer_3 = Customer.create!(first_name: 'Mariah', last_name: 'Carrey')
-    @customer_4 = Customer.create!(first_name: 'Leigh Ann', last_name: 'Bron')
-    @customer_5 = Customer.create!(first_name: 'Sylvester', last_name: 'Nader')
-    @customer_6 = Customer.create!(first_name: 'Herber', last_name: 'Coon')
+  let!(:invoice_item1) {  create(:invoice_item, item: item1) }
+  let!(:invoice_item2) {  create(:invoice_item, item: item1) }
+  let!(:invoice_item3) {  create(:invoice_item, item: item2) }
+  let!(:invoice_item4) {  create(:invoice_item, item: item3) }
+  let!(:invoice_item6) {  create(:invoice_item, item: item4) }
+  let!(:invoice_item7) {  create(:invoice_item, item: item7) }
+  let!(:invoice_item8) {  create(:invoice_item, item: item8) }
+  let!(:invoice_item9) {  create(:invoice_item, item: item4) }
+  let!(:invoice_item10) { create(:invoice_item, item: item5) }
 
-    @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-27 14:54:09")
-    @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 2, created_at: "2012-03-28 14:54:09")
-    @invoice_3 = Invoice.create!(customer_id: @customer_2.id, status: 2)
-    @invoice_4 = Invoice.create!(customer_id: @customer_3.id, status: 2)
-    @invoice_5 = Invoice.create!(customer_id: @customer_4.id, status: 2)
-    @invoice_6 = Invoice.create!(customer_id: @customer_5.id, status: 2)
-    @invoice_7 = Invoice.create!(customer_id: @customer_6.id, status: 2)
+  describe 'as a merchant' do
+    describe 'when I visit my merchants invoices index' do
+      before { visit merchant_invoices_path(merchant1) }
 
-    @invoice_8 = Invoice.create!(customer_id: @customer_6.id, status: 2)
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 0)
-    @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 0)
-    @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
-    @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_3.id, quantity: 3, unit_price: 5, status: 1)
-    @ii_6 = InvoiceItem.create!(invoice_id: @invoice_5.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
-    @ii_7 = InvoiceItem.create!(invoice_id: @invoice_6.id, item_id: @item_7.id, quantity: 1, unit_price: 3, status: 1)
-    @ii_8 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_8.id, quantity: 1, unit_price: 5, status: 1)
-    @ii_9 = InvoiceItem.create!(invoice_id: @invoice_7.id, item_id: @item_4.id, quantity: 1, unit_price: 1, status: 1)
-    @ii_10 = InvoiceItem.create!(invoice_id: @invoice_8.id, item_id: @item_5.id, quantity: 1, unit_price: 1, status: 1)
+      it 'displays all the invoices that include at least one of my merchant\'s items' do
+        merchant1.invoices.each do |invoice|
+          expect(page).to have_content(invoice.id)
+        end
+        merchant2.invoices.each do |invoice|
+          expect(page).to have_no_content(invoice.id)
+        end
+      end
 
-    @transaction1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_1.id)
-    @transaction2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @invoice_2.id)
-    @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_3.id)
-    @transaction4 = Transaction.create!(credit_card_number: 230429, result: 1, invoice_id: @invoice_4.id)
-    @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_5.id)
-    @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
-    @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
-    @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
+      it 'links each invoice id to the merchant invoice show page' do
+        merchant1.invoices.each do |invoice|
+          expect(page).to have_link("Invoice ##{invoice.id}")
+        end
+
+        merchant2.invoices.each do |invoice|
+          expect(page).to have_no_link("Invoice ##{invoice.id}")
+        end
+
+        click_link "Invoice ##{merchant1.invoices.first.id}"
+
+        expect(current_path).to eq(merchant_invoice_path(merchant1, merchant1.invoices.first))
+      end
+    end
   end
-
-  it "can see all invoice ids that include at least one of my merchant's items" do
-    visit merchant_invoices_path(@merchant1)
-
-    expect(page).to have_content(@invoice_1.id)
-    expect(page).to have_content(@invoice_2.id)
-    expect(page).to have_content(@invoice_3.id)
-    expect(page).to have_content(@invoice_4.id)
-    expect(page).to have_content(@invoice_5.id)
-    expect(page).to have_content(@invoice_6.id)
-    expect(page).to have_content(@invoice_7.id)
-    expect(page).to_not have_content(@invoice_8.id)
-  end
-
-  it "for each invoice id it is a link to the merchant invoice show page" do
-    visit merchant_invoices_path(@merchant1)
-
-    expect(page).to have_link(@invoice_1.id.to_s)
-    expect(page).to have_link(@invoice_2.id.to_s)
-    expect(page).to have_link(@invoice_3.id.to_s)
-    expect(page).to have_link(@invoice_4.id.to_s)
-    expect(page).to have_link(@invoice_5.id.to_s)
-    expect(page).to have_link(@invoice_6.id.to_s)
-    expect(page).to have_link(@invoice_7.id.to_s)
-    expect(page).to_not have_link(@invoice_8.id.to_s)
-
-    click_link @invoice_1.id.to_s
-
-    expect(current_path).to eq(merchant_invoice_path(@merchant1, @invoice_1))
-  end
-
 end

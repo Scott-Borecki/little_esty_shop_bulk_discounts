@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :fetch_current_item_and_merchant, only: [:show, :edit, :update]
-  before_action :fetch_current_merchant, only: [:new, :create, :index]
+  before_action :fetch_current_item, only: [:show, :edit, :update]
+  before_action :fetch_current_merchant, except: :destroy
 
   def index
     @enabled_items = @merchant.items.where(status: 1)
@@ -13,45 +13,38 @@ class ItemsController < ApplicationController
   def edit
   end
 
+  # TODO: Add dynamic flash messages
   def update
     if @item.update(item_params)
-      flash.notice = "Succesfully Updated Item Info!"
+      flash.notice = 'Success! The item was updated.'
       redirect_to merchant_item_path(@merchant, @item)
     else
-      flash.notice = "All fields must be completed, get your act together."
+      flash.alert = 'Error! All fields must be completed.'
       redirect_to edit_merchant_item_path(@merchant, @item)
     end
   end
 
   def new
-
+    @item = Item.new
   end
 
   def create
-    Item.create!(name: params[:name],
-                 description: params[:description],
-                 unit_price: params[:unit_price],
-                 id: find_new_id,
-                 merchant: @merchant)
-
+    @merchant.items.create!(item_params)
+    flash.notice = 'Success! A new item was created.'
     redirect_to merchant_items_path(@merchant)
   end
 
   private
-  def item_params
-    params.require(:item).permit(:name, :description, :unit_price, :merchant_id)
-  end
 
-  def fetch_current_item_and_merchant
+  def fetch_current_item
     @item = Item.find(params[:id])
-    @merchant = Merchant.find(params[:merchant_id])
   end
 
   def fetch_current_merchant
     @merchant = Merchant.find(params[:merchant_id])
   end
 
-  def find_new_id
-    Item.last.id + 1
+  def item_params
+    params.require(:item).permit(:name, :description, :unit_price)
   end
 end

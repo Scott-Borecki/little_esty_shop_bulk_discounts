@@ -8,67 +8,59 @@
   </div>
 </div>
 
-<div class='row'>
-  <div class='col-2'>
-    <h4>Customer:</h4>
-  </div>
+<div id='invoice-details' class='col-6'>
+  <table class='table-invoice'>
+    <tr>
+      <th class='th-top pad-right'><h4>Customer:</h4></th>
+      <td class='top'>
+        <%= @invoice.customer_full_name %><br>
+        <%= @invoice.customer_address %><br>
+        <%= @invoice.customer_city_state_zip %>
+      </td>
+    </tr>
 
-  <div class='col'>
-    <p>
-      <%= "#{@invoice.customer.first_name} #{@invoice.customer.last_name}" %><br>
-      <%= @invoice.customer.address %><br>
-      <%= "#{@invoice.customer.city}, #{@invoice.customer.state} #{@invoice.customer.zip}" %><br>
-    </p>
-  </div>
-</div>
+    <tr class='blank-row'>
+      <td colspan='2'></td>
+    </tr>
 
-<p>
-  <div class='row'>
-    <div class='col-2'>
-      <strong>Created on: </strong>
-    </div>
+    <tr>
+      <th class='pad-right'>Created on:</th>
+      <td><%= @invoice.formatted_date %></td>
+    </tr>
 
-    <div class='col'>
-      <%= @invoice.formatted_time %><br>
-    </div>
-  </div>
+    <tr class='blank-row'>
+      <td colspan='2'></td>
+    </tr>
 
-  <div class='row'>
-    <div class='col-2'>
-      <strong>Total Revenue: </strong>
-    </div>
+    <tr>
+      <th class='pad-right'>Total Revenue:</th>
+      <td><%= number_to_currency(@invoice.total_revenue / 100.00) %></td>
+    </tr>
 
-    <div class='col'>
-      <%= number_to_currency(@invoice.total_revenue) %>
-    </div>
-  </div>
+    <tr>
+      <th class='pad-right'>Total Discounts: </th>
+      <td><em><%= number_to_currency(@invoice.revenue_discount / 100.00) %></em></td>
+    </tr>
 
-  <div class='row'>
-    <div class='col-2'>
-      <strong>Total Discounted Revenue: </strong>
-    </div>
+    <tr>
+      <th class='pad-right'>Total Discounted Revenue: </th>
+      <td><%= number_to_currency(@invoice.total_discounted_revenue / 100.00) %></td>
+    </tr>
 
-    <div class='col'>
-      <%= number_to_currency(@invoice.total_discounted_revenue) %>
-    </div>
-  </div>
-</p>
+    <tr class='blank-row'>
+      <td colspan='2'></td>
+    </tr>
 
-<div id='invoice-status'>
-  <div id='status-update-<%= @invoice.id %>' class='row'>
-    <div class="col-2">
-      <p>
-        <strong>Status: </strong>
-      </p>
-    </div>
-
-    <div class='col'>
-      <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
-        <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
-        <%= f.submit 'Update Invoice' %>
-      <% end %>
-    </div>
-  </div>
+    <tr>
+      <th class='pad-right'>Status: </th>
+      <td id='status-update-<%= @invoice.id %>' class='col-auto'>
+        <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
+          <%= f.select :status, Invoice.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: @invoice.status }, { class: 'select' } %>
+          <%= f.submit 'Update', class: 'btn btn-primary' %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <div id='invoice-items'>
@@ -86,8 +78,8 @@
       <tr>
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
-        <td><%= number_to_currency(invoice_item.unit_price) %></td>
-        <td><%= invoice_item.status%></td>
+        <td><%= number_to_currency(invoice_item.unit_price / 100.00) %></td>
+        <td><%= invoice_item.status.titleize %></td>
       </tr>
     <% end %>
   </table>

@@ -8,18 +8,17 @@ class Item < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
-  validates :unit_price, presence: true
-  validates :merchant_id, presence: true
+  validates :unit_price, presence: true, numericality: true
 
   def best_day
     invoices
       .joins([:invoice_items, :transactions])
       .where(transactions: { result: :success })
       .select('invoices.*,
-               sum(invoice_items.unit_price * invoice_items.quantity) as money')
+               SUM(invoice_items.unit_price * invoice_items.quantity) as money')
       .group(:id)
       .order('money desc', 'invoices.created_at desc')
       .first
-      .formatted_time
+      .formatted_date
   end
 end

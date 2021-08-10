@@ -1,24 +1,27 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class='row'>
-  <% # FULL COLUMN %>
   <div class='col-sm-12'>
     <p class='col-head'>
       My Items
     </p>
   </div>
+</div>
 
+<div class='row'>
   <p><%= link_to "Create New Item", new_merchant_item_path(@merchant) %></p>
+</div>
 
+<div class='row'>
   <% # LEFT COLUMN %>
   <div class='col-sm-6'>
     <p class='col-head'>Top Items</p>
 
     <div id='top-items'>
       <ol>
-        <% @merchant.top_5_items.each do |item| %>
+        <% @merchant.top_items_by_revenue.each do |item| %>
           <li><%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> -
-            <%= number_to_currency(item.total_revenue) %> in sales</li>
+            <%= number_to_currency(item.total_revenue / 100.00) %> in sales</li>
           <p>Top selling date for <%= item.name %> was <%= item.best_day %> </p>
         <% end %>
       </ol>
@@ -33,7 +36,7 @@
       <% @enabled_items.each do |item| %>
         <div id='item-<%= item.id %>' class='row'>
           <div class='col-auto'>
-            <%= button_to "Disable", merchant_item_status_path(@merchant, item), method: :patch, params: {status: "disabled"} %><br>
+            <%= button_to "Disable", merchant_item_status_path(@merchant, item), method: :patch, params: {status: "disabled"}, class: 'btn btn-primary' %><br>
           </div>
 
           <div class='col'>
@@ -49,7 +52,7 @@
       <% @disabled_items.each do |item| %>
         <div id='item-<%= item.id %>' class='row'>
           <div class='col-auto'>
-            <%= button_to 'Enable', merchant_item_status_path(@merchant, item), method: :patch, params: {status: 'enabled'} %><br>
+            <%= button_to 'Enable', merchant_item_status_path(@merchant, item), method: :patch, params: {status: 'enabled'}, class: 'btn btn-primary' %><br>
           </div>
 
           <div class='col'>

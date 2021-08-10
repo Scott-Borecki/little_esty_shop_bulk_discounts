@@ -9,51 +9,52 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
 
   validates :name, presence: true
+  validates :status, presence: true
 
-  def favorite_customers
-    transactions.joins(invoice: :customer)
-                .where('result = ?', 1)
-                .select("customers.*,
-                         count('transactions.result') as top_result")
-                .group('customers.id')
-                .order(top_result: :desc)
-                .limit(5)
-  end
-
-  def ordered_items_to_ship
-    item_ids = InvoiceItem.where.not(status: :shipped)
-                          .order(:created_at)
-                          .pluck(:item_id)
-    item_ids.map do |id|
-      Item.find(id)
-    end.uniq
-  end
-
-  def top_5_items
-     items.joins(invoices: :transactions)
-          .where('transactions.result = 1')
-          .select(
-            "items.*,
-            sum(invoice_items.quantity * invoice_items.unit_price) as total_revenue"
-          )
-          .group(:id)
-          .order('total_revenue desc')
-          .limit(5)
-  end
-
-  def self.top_merchants
-    joins(invoices: [:invoice_items, :transactions])
-      .where('result = ?', 1)
+  def self.top_merchants_by_revenue(number = 5)
+    joins(:transactions)
       .select(
         'merchants.*,
-        sum(invoice_items.quantity * invoice_items.unit_price) AS total_revenue'
+        SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue'
       )
+      .where(transactions: { result: :success })
       .group(:id)
-      .order('total_revenue DESC')
-      .limit(5)
+      .order(revenue: :desc)
+      .limit(number)
   end
 
-  def best_day
+  def top_customers_by_transactions(number = 5)
+    items.joins(invoices: [:transactions, :customer])
+         .select('customers.*,
+                 COUNT(distinct transactions.id) as number_transactions')
+         .group('customers.id')
+         .where(transactions: { result: 1 })
+         .order('number_transactions desc')
+         .limit(number)
+  end
+
+  def items_ready_to_ship
+    invoice_items.joins(:invoice)
+                 .select('invoice_items.*,
+                          items.name AS item_name,
+                          invoices.created_at AS invoice_created_at')
+                 .where.not(status: :shipped)
+                 .order('invoices.created_at asc')
+  end
+
+  def top_items_by_revenue(number = 5)
+     items.joins(invoices: :transactions)
+          .where(transactions: { result: 1 })
+          .select(
+            "items.*,
+            SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue"
+          )
+          .group(:id)
+          .order(total_revenue: :desc)
+          .limit(number)
+  end
+
+  def top_revenue_day
     invoices
       .select(
         'invoices.created_at',
@@ -64,6 +65,6 @@ class Merchant < ApplicationRecord
       .group(:id)
       .order('revenue desc', 'created_at desc')
       .first
-      .formatted_time
+      .formatted_date
   end
 end

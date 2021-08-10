@@ -2,8 +2,8 @@ require 'faker'
 
 FactoryBot.define do
   factory :bulk_discount do
-    percentage_discount { sample(0..30) }
-    quantity_threshold  { sample(10..30) }
+    percentage_discount { Faker::Number.between(from: 1, to: 99) }
+    quantity_threshold  { Faker::Number.between(from: 2, to: 99) }
     merchant
   end
 
@@ -13,7 +13,7 @@ FactoryBot.define do
     address    { Faker::Address.street_address }
     city       { Faker::Address.city }
     state      { Faker::Address.state }
-    zip        { Faker::Address.zip_code }
+    zip        { Faker::Address.zip_code.first(5) }
   end
 
   factory :invoice do
@@ -24,7 +24,7 @@ FactoryBot.define do
   factory :item do
     name        { Faker::Name.name }
     description { Faker::Movies::LordOfTheRings.location }
-    unit_price  { Faker::Number.binary(digits: 5) }
+    unit_price  { Faker::Number.between(from: 1, to: 10_000) }
     merchant
 
     factory :enabled_item do
@@ -37,8 +37,8 @@ FactoryBot.define do
   end
 
   factory :invoice_item do
-    quantity   { rand(20) }
-    unit_price { rand(10_000) }
+    quantity   { Faker::Number.between(from: 1, to: 99) }
+    unit_price { Faker::Number.between(from: 1, to: 10_000) }
     status     { rand(0..2) }
     invoice
     item
@@ -58,7 +58,8 @@ FactoryBot.define do
 
   factory :transaction do
     credit_card_number          { Faker::Business.credit_card_number.delete('-') }
-    credit_card_expiration_date { Faker::Business.credit_card_expiry_date }
+    credit_card_expiration_date { Faker::Number.decimal_part(digits: 4) }
+    result                      { rand(0..1) }
     invoice
   end
 end

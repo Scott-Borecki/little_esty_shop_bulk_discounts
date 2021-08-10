@@ -1,101 +1,201 @@
 require 'rails_helper'
 
-describe 'Admin Merchant Index' do
-  before :each do
-    @m1 = Merchant.create!(name: 'Merchant 1')
-    @m2 = Merchant.create!(name: 'Merchant 2')
-    @m3 = Merchant.create!(name: 'Merchant 3', status: 1)
-    @m4 = Merchant.create!(name: 'Merchant 4')
-    @m5 = Merchant.create!(name: 'Merchant 5')
-    @m6 = Merchant.create!(name: 'Merchant 6')
+describe 'admin merchant index (/admin/merchants)' do
+  include ActionView::Helpers::NumberHelper
 
-    @c1 = Customer.create!(first_name: 'Yo', last_name: 'Yoz')
-    @c2 = Customer.create!(first_name: 'Hey', last_name: 'Heyz')
+  # See /spec/object_creation_helper.rb for more info on factories created
+  create_factories
 
-    @i1 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i2 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i3 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i4 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i5 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i6 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i7 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i8 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i9 = Invoice.create!(customer_id: @c1.id, status: 2)
-    @i10 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i11 = Invoice.create!(customer_id: @c2.id, status: 2)
-    @i12 = Invoice.create!(customer_id: @c2.id, status: 2)
+  let(:all_merchants) {      Merchant.all }
+  let(:enabled_merchants) {  Merchant.all.where(status: :enabled) }
+  let(:disabled_merchants) { Merchant.all.where(status: :disabled) }
+  let(:top_five_merchants) { Merchant.top_merchants_by_revenue }
 
-    @item_1 = Item.create!(name: 'Shampoo', description: 'This washes your hair', unit_price: 10, merchant_id: @m1.id)
-    @item_2 = Item.create!(name: 'Conditioner', description: 'This makes your hair shiny', unit_price: 8, merchant_id: @m2.id)
-    @item_3 = Item.create!(name: 'Brush', description: 'This takes out tangles', unit_price: 5, merchant_id: @m3.id)
-    @item_4 = Item.create!(name: 'test', description: 'lalala', unit_price: 6, merchant_id: @m4.id)
-    @item_5 = Item.create!(name: 'rest', description: 'dont test me', unit_price: 12, merchant_id: @m5.id)
+  describe 'as an admin' do
+    describe 'when I visit the admin merchants index' do
+      before { visit admin_merchants_path }
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_1.id, quantity: 12, unit_price: 10, status: 0)
-    @ii_2 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_2.id, quantity: 6, unit_price: 8, status: 1)
-    @ii_3 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_3.id, quantity: 16, unit_price: 5, status: 2)
-    @ii_4 = InvoiceItem.create!(invoice_id: @i4.id, item_id: @item_3.id, quantity: 2, unit_price: 5, status: 2)
-    @ii_5 = InvoiceItem.create!(invoice_id: @i5.id, item_id: @item_3.id, quantity: 10, unit_price: 5, status: 2)
-    @ii_6 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_3.id, quantity: 7, unit_price: 5, status: 2)
-    @ii_7 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_3.id, quantity: 1, unit_price: 5, status: 2)
+      it { expect(current_path).to eq(admin_merchants_path) }
+      it { expect(page).to have_no_content('Success!') }
+      it { expect(page).to have_no_content('Error!') }
 
-    @t1 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @i1.id)
-    @t2 = Transaction.create!(credit_card_number: 230948, result: 1, invoice_id: @i2.id)
-    @t3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @i3.id)
-    @t4 = Transaction.create!(credit_card_number: 230429, result: 1, invoice_id: @i5.id)
-    @t5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @i6.id)
-    @t6 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @i1.id)
+      it 'displays the name of each merchant with a link' do
+        all_merchants.all.each do |merchant|
+          expect(page).to have_content(merchant.name)
+          expect(page).to have_link(merchant.name)
+        end
+      end
 
-    visit admin_merchants_path
-  end
+      it 'displays a link to create a new merchant' do
+        expect(page).to have_link('Create New Merchant')
+      end
 
-  it 'should display all the merchants' do
-    expect(page).to have_content(@m1.name)
-    expect(page).to have_content(@m2.name)
-    expect(page).to have_content(@m3.name)
-  end
+      it 'displays an Enabled Merchants section with all the enabled merchants' do
+        within('#enabled-merchants') do
+          expect(page).to have_content('Enabled Merchants')
+          expect(page).to have_no_content('Disabled Merchants')
 
-  it 'should have rerouting links on all merchants names to their admin show page' do
-    within("#top-merchant-#{@m1.id}") do
-      click_link "#{@m1.name}"
-      expect(current_path).to eq(admin_merchant_path(@m1))
-    end
-      expect(page).to have_content(@m1.name)
-      expect(page).to_not have_content(@m2.name)
-  end
+          enabled_merchants.each do |merchant|
+            expect(page).to have_content(merchant.name)
+          end
 
-  it 'should have set merchants to disabled by default' do
-    expect(@m1.status).to eq('disabled')
-  end
+          disabled_merchants.each do |merchant|
+            expect(page).to have_no_content(merchant.name)
+          end
+        end
+      end
 
-  it 'should have button to disable merchants' do
-    within("#merchant-#{@m1.id}") do
-      click_button 'Enable'
+      it 'displays an Disabled Merchants section with all the disabled merchants' do
+        within('#disabled-merchants') do
+          expect(page).to have_content('Disabled Merchants')
+          expect(page).to have_no_content('Enabled Merchants')
 
-      @merchant = Merchant.find(@m1.id)
-      expect(@merchant.status).to eq('enabled')
-    end
-  end
+          disabled_merchants.each do |merchant|
+            expect(page).to have_content(merchant.name)
+          end
 
-  it 'should group by enabled/disabled' do
-    expect(@m1.name).to appear_before(@m3.name)
-  end
+          enabled_merchants.each do |merchant|
+            expect(page).to have_no_content(merchant.name)
+          end
+        end
+      end
 
-  it 'should have a link to create a new merchant' do
-    expect(page).to have_link('Create Merchant')
-    click_link 'Create Merchant'
+      it 'displays a button next to each merchant name to disable or enable that merchant' do
+        enabled_merchants.each do |merchant|
+          within("#merchant-#{merchant.id}") do
+            expect(page).to have_button('Disable')
+            expect(page).to have_no_button('Enable')
+          end
+        end
 
-    expect(current_path).to eq(new_admin_merchant_path)
-    fill_in :name, with: 'Dingley Doo'
-    click_button
+        disabled_merchants.each do |merchant|
+          within("#merchant-#{merchant.id}") do
+            expect(page).to have_button('Enable')
+            expect(page).to have_no_button('Disable')
+          end
+        end
+      end
 
-    expect(current_path).to eq(admin_merchants_path)
-    expect(page).to have_content('Dingley Doo')
-  end
+      context 'within the top 5 merchants section' do
+        it 'displays the names of the top 5 merchants by total revenue generated' do
+          within('#top-five-merchants') do
+            top_five_merchants.each do |merchant|
+              expect(page).to have_content(merchant.name)
+            end
 
-  it 'should display the best day for each top 5 merchant' do
-    within("#top-day-#{@m1.id}") do
-      expect(page).to have_content("Top Selling Date for #{@m1.name} was on #{@m1.best_day}")
+            expect(top_five_merchants[0].name).to appear_before(top_five_merchants[1].name)
+            expect(top_five_merchants[1].name).to appear_before(top_five_merchants[2].name)
+            expect(top_five_merchants[2].name).to appear_before(top_five_merchants[3].name)
+            expect(top_five_merchants[3].name).to appear_before(top_five_merchants[4].name)
+            expect(page).to have_no_content(merchant1.name)
+          end
+        end
+
+        it 'links the names of the top 5 merchants to their admin merchant show page' do
+          top_five_merchants.each do |merchant|
+            within("#top-merchant-#{merchant.id}") do
+              expect(page).to have_link(merchant.name)
+              expect(page).to have_no_link(merchant1.name)
+            end
+          end
+        end
+
+        it 'displays the total revenue generated next to each top 5 merchants' do
+          top_five_merchants.each do |merchant|
+            within("#top-merchant-#{merchant.id}") do
+              expect(page).to have_content(number_to_currency(merchant.revenue / 100.00))
+            end
+          end
+        end
+
+        it 'displays the merchants best day' do
+          top_five_merchants.each do |merchant|
+            within("#top-day-#{merchant.id}") do
+              expect(page).to have_content("Top selling date for #{merchant.name} was #{merchant.top_revenue_day}")
+            end
+          end
+        end
+      end
+
+      describe 'when I click on the name of a merchant' do
+        context 'within the enabled/disabled section' do
+          it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
+            all_merchants.each do |merchant|
+              visit admin_merchants_path
+
+              within("#merchant-#{merchant.id}") do
+                click_link merchant.name
+              end
+
+              expect(current_path).to eq(admin_merchant_path(merchant))
+            end
+          end
+        end
+
+        context 'within the top 5 merchants section' do
+          it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
+            top_five_merchants.each do |merchant|
+              visit admin_merchants_path
+
+              within('#top-five-merchants') { click_link merchant.name }
+
+              expect(current_path).to eq(admin_merchant_path(merchant))
+            end
+          end
+        end
+      end
+
+      describe 'when I click on the enable button' do
+        before do
+          within("#merchant-#{merchant4.id}") { click_button 'Enable' }
+        end
+
+        it 'redirects me back to the admin merchants index' do
+          expect(current_path).to eq(admin_merchants_path)
+        end
+
+        it 'changes the merchants status' do
+          expect(merchant4.enabled?).to be false
+
+          merchant4.reload
+
+          expect(merchant4.enabled?).to be true
+
+          within '#enabled-merchants' do
+            expect(page).to have_content(merchant4.name)
+          end
+        end
+      end
+
+      describe 'when I click on the disable button' do
+        before do
+          within("#merchant-#{merchant1.id}") { click_button 'Disable' }
+        end
+
+        it 'redirects me back to the admin merchants index' do
+          expect(current_path).to eq(admin_merchants_path)
+        end
+
+        it 'changes the merchants status' do
+          expect(merchant1.enabled?).to be true
+
+          merchant1.reload
+
+          expect(merchant1.enabled?).to be false
+
+          within '#disabled-merchants' do
+            expect(page).to have_content(merchant1.name)
+          end
+        end
+      end
+
+      describe 'when I click on Create New Merchant' do
+        before { click_link 'Create New Merchant' }
+
+        it 'takes me to the new admin merchant page' do
+          expect(current_path).to eq(new_admin_merchant_path)
+        end
+      end
     end
   end
 end
