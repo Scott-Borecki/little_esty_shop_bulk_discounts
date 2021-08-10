@@ -17,7 +17,7 @@ describe Merchant do
   end
 
   describe 'class methods' do
-    # See /spec/factories.rb for more info on factories created
+    # See /spec/object_creation_helper.rb for more info on factories created
     create_factories
 
     describe '.top_merchants_by_revenue' do
@@ -40,7 +40,7 @@ describe Merchant do
 
   describe 'instance methods' do
     describe '#top_revenue_day' do
-      # See /spec/factories.rb for more info on factories created
+      # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_top_revenue_day
 
       it 'returns the best day by revenue' do
@@ -49,7 +49,7 @@ describe Merchant do
     end
 
     describe '#top_customers_by_transactions' do
-      # See /spec/factories.rb for more info on factories created
+      # See /spec/object_creation_helper.rb for more info on factories created
       create_factories_merchant_with_many_customers_and_items
 
       it 'returns the top customers by number of transactions' do
@@ -68,7 +68,7 @@ describe Merchant do
     end
 
     describe '#top_items_by_revenue' do
-      # See /spec/factories.rb for more info on factories created
+      # See /spec/object_creation_helper.rb for more info on factories created
       create_factories_merchant_with_many_customers_and_items
 
       it 'returns the top items by revenue' do
@@ -83,7 +83,7 @@ describe Merchant do
     end
 
     describe '#items_ready_to_ship' do
-      # See /spec/factories.rb for more info on factories created
+      # See /spec/object_creation_helper.rb for more info on factories created
       create_factories_merchant_with_many_customers_and_items
 
       before do

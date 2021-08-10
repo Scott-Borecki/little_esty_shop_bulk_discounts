@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
-  # See /spec/factories.rb for more info on factories created
+  # See /spec/object_creation_helper.rb for more info on factories created
   create_factories_merchant_dashboard
 
   let(:top_five_customers) { merchant1.top_customers_by_transactions }

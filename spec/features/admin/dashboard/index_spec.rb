@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'admin dashboard index (/admin/dashboard)' do
-  # See /spec/factories.rb for more info on factories created
+  # See /spec/object_creation_helper.rb for more info on factories created
   create_factories
 
   let(:top_customers) { Customer.top_customers }
