@@ -30,7 +30,8 @@ RSpec.describe Invoice, type: :model do
         expect(invoice1.discounted_invoice_items.ids).to eq([invoice_item1b.id])
 
         expect(invoice3.discounted_invoice_items.length).to eq(2)
-        expect(invoice3.discounted_invoice_items.ids).to eq([invoice_item3.id, invoice_item3a.id])
+        expect(invoice3.discounted_invoice_items.ids).to include(invoice_item3.id)
+        expect(invoice3.discounted_invoice_items.ids).to include(invoice_item3a.id)
       end
     end
 
