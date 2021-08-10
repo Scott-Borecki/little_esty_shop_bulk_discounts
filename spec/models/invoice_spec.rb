@@ -48,5 +48,12 @@ RSpec.describe Invoice, type: :model do
         expect(invoice3.total_discounted_revenue).to eq(530)
       end
     end
+
+    describe '#customer_full_name' do
+      it 'returns the full name of the customer' do
+        expected = "#{customer1.first_name} #{customer1.last_name}"
+        expect(invoice1.customer_full_name).to eq(expected)
+      end
+    end
   end
 end

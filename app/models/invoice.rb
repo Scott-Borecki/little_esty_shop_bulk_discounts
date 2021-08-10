@@ -30,4 +30,8 @@ class Invoice < ApplicationRecord
   def total_discounted_revenue
     total_revenue - revenue_discount
   end
+
+  def customer_full_name
+    customer.full_name
+  end
 end
