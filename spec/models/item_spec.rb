@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  describe "validations" do
+  describe 'validations' do
     it { should define_enum_for(:status).with_values(disabled: 0, enabled: 1) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:description) }
@@ -9,12 +9,12 @@ RSpec.describe Item, type: :model do
     it { should validate_numericality_of(:unit_price) }
   end
 
-  describe "relationships" do
+  describe 'relationships' do
     it { should have_many(:invoices).through(:invoice_items) }
     it { should belong_to(:merchant) }
   end
 
-  describe "instance methods" do
+  describe 'instance methods' do
     it "best day" do
       @merchant1 = Merchant.create!(name: 'Hair Care')
       @merchant2 = Merchant.create!(name: 'Jewelry')
