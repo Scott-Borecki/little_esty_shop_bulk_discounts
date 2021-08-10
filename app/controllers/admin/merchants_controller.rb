@@ -12,6 +12,7 @@ class Admin::MerchantsController < ApplicationController
     @merchant = Merchant.new
   end
 
+  # TODO: Add dynamic flash messages
   def create
     Merchant.create!(merchant_params)
     flash.notice = 'Success! A new merchant was created.'
@@ -21,6 +22,7 @@ class Admin::MerchantsController < ApplicationController
   def edit
   end
 
+  # TODO: Add dynamic flash messages
   def update
     merchant = Merchant.find(params[:id])
 

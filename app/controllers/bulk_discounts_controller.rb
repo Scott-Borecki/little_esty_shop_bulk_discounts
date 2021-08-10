@@ -10,6 +10,7 @@ class BulkDiscountsController < ApplicationController
     @new_bulk_discount = BulkDiscount.new
   end
 
+  # TODO: Add dynamic flash messages
   def create
     @merchant.bulk_discounts.create!(bulk_discount_params)
 
@@ -22,6 +23,7 @@ class BulkDiscountsController < ApplicationController
   def edit
   end
 
+  # TODO: Add dynamic flash messages
   def update
     bulk_discount = BulkDiscount.find(params[:id])
     bulk_discount.update!(bulk_discount_params)

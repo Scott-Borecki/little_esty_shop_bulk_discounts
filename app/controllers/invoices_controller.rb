@@ -10,6 +10,7 @@ class InvoicesController < ApplicationController
     @customer = @invoice.customer
   end
 
+  # TODO: Add dynamic flash messages
   def update
     @invoice.update(invoice_params)
 
