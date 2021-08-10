@@ -17,4 +17,14 @@ RSpec.describe Customer, type: :model do
     it { should have_many(:merchants).through(:invoices) }
     it { should have_many(:transactions).through(:invoices) }
   end
+
+  describe 'instance methods' do
+    describe '#full_name' do
+      it 'returns the full name of the customer' do
+        customer = create(:customer)
+        expected = "#{customer.first_name} #{customer.last_name}"
+        expect(customer.full_name).to eq(expected)
+      end
+    end
+  end
 end
