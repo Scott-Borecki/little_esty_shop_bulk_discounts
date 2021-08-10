@@ -15,7 +15,7 @@ class Item < ApplicationRecord
       .joins([:invoice_items, :transactions])
       .where(transactions: { result: :success })
       .select('invoices.*,
-               sum(invoice_items.unit_price * invoice_items.quantity) as money')
+               SUM(invoice_items.unit_price * invoice_items.quantity) as money')
       .group(:id)
       .order('money desc', 'invoices.created_at desc')
       .first
