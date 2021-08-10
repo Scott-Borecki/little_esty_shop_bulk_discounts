@@ -39,7 +39,7 @@
     </div>
 
     <div class='col'>
-      <%= number_to_currency(@invoice.total_revenue) %>
+      <%= number_to_currency(@invoice.total_revenue / 100.00) %>
     </div>
   </div>
 
@@ -49,7 +49,7 @@
     </div>
 
     <div class='col'>
-      <%= number_to_currency(@invoice.total_discounted_revenue) %>
+      <%= number_to_currency(@invoice.total_discounted_revenue / 100.00) %>
     </div>
   </div>
 </p>
@@ -86,7 +86,7 @@
       <tr>
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
-        <td><%= number_to_currency(invoice_item.unit_price) %></td>
+        <td><%= number_to_currency(invoice_item.unit_price / 100.00) %></td>
         <td><%= invoice_item.status%></td>
       </tr>
     <% end %>

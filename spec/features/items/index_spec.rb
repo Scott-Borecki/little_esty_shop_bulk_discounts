@@ -117,9 +117,9 @@ describe "merchant items index" do
 
     expect(current_path).to eq(new_merchant_item_path(@merchant1))
 
-    fill_in 'Name', with: 'Bar Shampoo'
-    fill_in 'Description', with: 'Eco friendly shampoo'
-    fill_in 'Unit price', with: '15'
+    fill_in :item_name, with: 'Bar Shampoo'
+    fill_in :item_description, with: 'Eco friendly shampoo'
+    fill_in :item_unit_price, with: '15'
     click_button 'Submit'
 
     expect(current_path).to eq(merchant_items_path(@merchant1))

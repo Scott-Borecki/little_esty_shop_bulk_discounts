@@ -8,10 +8,6 @@
     </p>
   </div>
 
-  <%= render partial: 'form', locals: { method: :post,
-                                        url: merchant_items_path(@merchant, @item),
-                                        class: 'merchant_item_form',
-                                        local: true,
-                                        model: nil } %>
+  <%= render partial: 'form', locals: { model: [@merchant, @item] } %>
 
 </div>

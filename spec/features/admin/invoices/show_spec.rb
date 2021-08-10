@@ -47,7 +47,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
           invoice1.invoice_items.each do |invoice_item|
             expect(page).to have_content(invoice_item.item.name)
             expect(page).to have_content(invoice_item.quantity)
-            expect(page).to have_content(number_to_currency(invoice_item.unit_price))
+            expect(page).to have_content(number_to_currency(invoice_item.unit_price / 100.00))
             expect(page).to have_content(invoice_item.status)
           end
 
@@ -58,15 +58,15 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
       end
 
       it 'displays the total revenue' do
-        expect(page).to have_content("Total Revenue:\n#{number_to_currency(invoice1.total_revenue)}")
+        expect(page).to have_content("Total Revenue:\n#{number_to_currency(invoice1.total_revenue / 100.00)}")
 
-        expect(page).to have_no_content(number_to_currency(invoice2.total_revenue))
+        expect(page).to have_no_content(number_to_currency(invoice2.total_revenue / 100.00))
       end
 
       it 'displays the total discounted revenue' do
-        expect(page).to have_content("Total Discounted Revenue:\n#{number_to_currency(invoice1.total_discounted_revenue)}")
+        expect(page).to have_content("Total Discounted Revenue:\n#{number_to_currency(invoice1.total_discounted_revenue / 100.00)}")
 
-        expect(page).to have_no_content(number_to_currency(invoice2.total_discounted_revenue))
+        expect(page).to have_no_content(number_to_currency(invoice2.total_discounted_revenue / 100.00))
       end
 
       it 'has a status select field that updates the invoices status' do
