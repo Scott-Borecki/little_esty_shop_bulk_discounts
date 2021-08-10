@@ -4,6 +4,14 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
   # See /spec/factories.rb for more info on factories created
   create_factories
 
+  let(:top_customers) { Customer.top_customers }
+  let(:shipped_items) { [invoice2a, invoice2b, invoice2c, invoice2d,
+                         invoice2e, invoice4a, invoice4b, invoice4c,
+                         invoice4d, invoice6a, invoice6b, invoice6c] }
+  let(:not_shipped_items_ids) { [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id] }
+  let(:not_shipped_items_dates) { [invoice5a.formatted_date, invoice5b.formatted_date,
+                                   invoice3.formatted_date, invoice1.formatted_date] }
+
   describe 'as an admin' do
     describe 'when I visit the admin dashboard' do
       before { visit admin_dashboard_index_path }
@@ -32,8 +40,6 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
       describe 'when I look in the top 5 customers section' do
         it 'displays the names and number of puchases of the top 5 customers' do
-          top_customers = Customer.top_customers
-
           within '#top-customers' do
             expect(page).to have_content('Top Customers')
             top_customers.each do |customer|
@@ -45,13 +51,8 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
       describe 'when I look in the incomplete invoices section' do
         it 'displays a list of the ids of all invoices that have items that have not yet been shipped' do
-          not_shipped_items = [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
-          shipped_items = [invoice2a, invoice2b, invoice2c, invoice2d,
-                           invoice2e, invoice4a, invoice4b, invoice4c,
-                           invoice4d, invoice6a, invoice6b, invoice6c]
-
           within '#incomplete-invoices' do
-            not_shipped_items.each do |not_shipped_item_id|
+            not_shipped_items_ids.each do |not_shipped_item_id|
               expect(page).to have_content("Invoice # #{not_shipped_item_id}")
             end
 
@@ -62,13 +63,8 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
         end
 
         it 'links the invoice ids to that invoices admin show page' do
-          not_shipped_items = [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
-          shipped_items = [invoice2a, invoice2b, invoice2c, invoice2d,
-                           invoice2e, invoice4a, invoice4b, invoice4c,
-                           invoice4d, invoice6a, invoice6b, invoice6c]
-
           within '#incomplete-invoices' do
-            not_shipped_items.each do |not_shipped_item_id|
+            not_shipped_items_ids.each do |not_shipped_item_id|
               expect(page).to have_link(not_shipped_item_id.to_s)
             end
 
@@ -79,17 +75,14 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
         end
 
         it 'displays the invoice date and sorts by oldest to newest' do
-          not_shipped_items = [invoice5a.formatted_date, invoice5b.formatted_date,
-                               invoice3.formatted_date, invoice1.formatted_date]
-
           within '#incomplete-invoices' do
-            not_shipped_items.each do |not_shipped_item_created_date|
+            not_shipped_items_dates.each do |not_shipped_item_created_date|
               expect(page).to have_content(not_shipped_item_created_date)
             end
 
-            expect(not_shipped_items[0]).to appear_before(not_shipped_items[1])
-            expect(not_shipped_items[1]).to appear_before(not_shipped_items[2])
-            expect(not_shipped_items[2]).to appear_before(not_shipped_items[3])
+            expect(not_shipped_items_dates[0]).to appear_before(not_shipped_items_dates[1])
+            expect(not_shipped_items_dates[1]).to appear_before(not_shipped_items_dates[2])
+            expect(not_shipped_items_dates[2]).to appear_before(not_shipped_items_dates[3])
           end
         end
       end

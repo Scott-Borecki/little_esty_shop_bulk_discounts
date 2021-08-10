@@ -6,6 +6,11 @@ describe 'admin merchant index (/admin/merchants)' do
   # See /spec/factories.rb for more info on factories created
   create_factories
 
+  let(:all_merchants) {      Merchant.all }
+  let(:enabled_merchants) {  Merchant.all.where(status: :enabled) }
+  let(:disabled_merchants) { Merchant.all.where(status: :disabled) }
+  let(:top_five_merchants) { Merchant.top_merchants_by_revenue }
+
   describe 'as an admin' do
     describe 'when I visit the admin merchants index' do
       before { visit admin_merchants_path }
@@ -15,7 +20,7 @@ describe 'admin merchant index (/admin/merchants)' do
       it { expect(page).to have_no_content('Error! All fields must be completed.') }
 
       it 'displays the name of each merchant with a link' do
-        Merchant.all.each do |merchant|
+        all_merchants.all.each do |merchant|
           expect(page).to have_content(merchant.name)
           expect(page).to have_link(merchant.name)
         end
@@ -26,9 +31,6 @@ describe 'admin merchant index (/admin/merchants)' do
       end
 
       it 'displays an Enabled Merchants section with all the enabled merchants' do
-        enabled_merchants  = Merchant.all.where(status: :enabled)
-        disabled_merchants = Merchant.all.where(status: :disabled)
-
         within('#enabled-merchants') do
           expect(page).to have_content('Enabled Merchants')
           expect(page).to have_no_content('Disabled Merchants')
@@ -44,9 +46,6 @@ describe 'admin merchant index (/admin/merchants)' do
       end
 
       it 'displays an Disabled Merchants section with all the disabled merchants' do
-        enabled_merchants = Merchant.all.where(status: :enabled)
-        disabled_merchants = Merchant.all.where(status: :disabled)
-
         within('#disabled-merchants') do
           expect(page).to have_content('Disabled Merchants')
           expect(page).to have_no_content('Enabled Merchants')
@@ -62,9 +61,6 @@ describe 'admin merchant index (/admin/merchants)' do
       end
 
       it 'displays a button next to each merchant name to disable or enable that merchant' do
-        enabled_merchants  = Merchant.all.where(status: :enabled)
-        disabled_merchants = Merchant.all.where(status: :disabled)
-
         enabled_merchants.each do |merchant|
           within("#merchant-#{merchant.id}") do
             expect(page).to have_button('Disable')
@@ -81,8 +77,6 @@ describe 'admin merchant index (/admin/merchants)' do
       end
 
       context 'within the top 5 merchants section' do
-        let!(:top_five_merchants) { Merchant.top_merchants_by_revenue}
-
         it 'displays the names of the top 5 merchants by total revenue generated' do
           within('#top-five-merchants') do
             top_five_merchants.each do |merchant|
@@ -126,7 +120,7 @@ describe 'admin merchant index (/admin/merchants)' do
       describe 'when I click on the name of a merchant' do
         context 'within the enabled/disabled section' do
           it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
-            Merchant.all.each do |merchant|
+            all_merchants.each do |merchant|
               visit admin_merchants_path
 
               within("#merchant-#{merchant.id}") do
@@ -140,8 +134,6 @@ describe 'admin merchant index (/admin/merchants)' do
 
         context 'within the top 5 merchants section' do
           it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
-            top_five_merchants = [merchant6, merchant5, merchant2, merchant4, merchant3]
-
             top_five_merchants.each do |merchant|
               visit admin_merchants_path
 
