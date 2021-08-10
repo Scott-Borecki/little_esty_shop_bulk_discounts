@@ -1,7 +1,6 @@
 class Admin::MerchantStatusController < ApplicationController
   before_action :fetch_current_merchant, only: [:update]
 
-  # TODO: Add dynamic flash messages
   def update
     @merchant.update(merchant_status_params)
 

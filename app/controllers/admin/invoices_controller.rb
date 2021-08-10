@@ -11,7 +11,6 @@ class Admin::InvoicesController < ApplicationController
   def edit
   end
 
-  # TODO: Add dynamic flash messages
   def update
     @invoice.update(invoice_params)
 

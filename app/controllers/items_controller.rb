@@ -13,7 +13,6 @@ class ItemsController < ApplicationController
   def edit
   end
 
-  # TODO: Add dynamic flash messages
   def update
     if @item.update(item_params)
       flash.notice = 'Success! The item was updated.'
