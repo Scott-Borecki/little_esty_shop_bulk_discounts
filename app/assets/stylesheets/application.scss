@@ -7,8 +7,8 @@ $color2: #333A56; /* link text, VERMILLION - DARK BLUE */
 $color3: #52658F; /* header bg; SUNSHINE - LIGHT BLUE */
 $color4: #E8E8E8; /* nav bg; CLEAN - LIGHT GRAY */
 
-$text_color_light: white;
-$text_color_dark: black;
+$text-color-light: white;
+$text-color-dark: black;
 
 /* UNIVERSAL */
 
@@ -21,55 +21,55 @@ a:hover {
 }
 
 body {
-  padding-top:   20px;
+  background: $color1;
   padding-left:  20px;
   padding-right: 20px;
-  background: $color1;
+  padding-top:   20px;
 }
 
 h1.title {
-  text-align: center;
   background-color: $color3;
-  color: $text_color_light;
-  padding-top: 20px;
+  color: $text-color-light;
   padding-bottom: 20px;
+  padding-top: 20px;
+  text-align: center;
 }
 
 /* NAVIGATION BAR */
 
 .nav {
-  color: $color2!important;
+  color: $color2 !important;
 }
 
 .navbar {
+  background-color: $color4;
   margin-bottom: 10px;
   padding-left:  20px;
   padding-right: 20px;
-  background-color: $color4;
 }
 
 .navbar-text {
-  margin-top: 1px;
-  margin-bottom: 1px;
-  font-weight: bold;
   color: $color3;
+  font-weight: bold;
+  margin-bottom: 1px;
+  margin-top: 1px;
 }
 
 /* COLUMNS */
 
 .col-head {
   background-color: $color3;
-  color: $text_color_light;
+  color: $text-color-light;
   font-weight: bold;
-  text-align: center;
   padding-top: 5px;
   padding-bottom: 5px;
+  text-align: center;
 }
 
 .col-sm-4 {
-  text-align: left;
   margin-left: 40px;
   margin-right: 40px;
+  text-align: left;
 }
 
 .col-sm-5 {
@@ -94,28 +94,28 @@ h1.title {
 .table {
   border: $color3;
   border-collapse: collapse;
-  width: 100%;
+  table-layout: fixed;
   text-align: center;
   vertical-align: middle;
-  table-layout: fixed;
+  width: 100%;
 }
 
 .td {
   border: 1px solid $color3;
-  text-align: left;
   padding: 8px;
+  text-align: left;
 }
 
 .th1 {
-  color: $text_color_dark;
-  text-align: center;
+  color: $text-color-dark;
   padding: 4px;
+  text-align: center;
 }
 
 .th2 {
   border: 1px solid $color3;
-  text-align: left;
   padding: 8px;
+  text-align: left;
 }
 
 .th-top {
@@ -128,31 +128,31 @@ h1.title {
 }
 
 .table-invoice {
+  margin-bottom: 20px;
   text-align: left;
   vertical-align: top;
-  margin-bottom: 20px;
 }
 
-.blank_row {
-  height: 10px!important;
+.blank-row {
+  height: 10px !important;
 }
 
 /* FORMS AND BUTTONS */
 
 .select {
+  margin: 2px 6px 2px 0px;
   padding: 5px 40px 5px 5px;
-  margin: 2px 6px 2px 0;
   vertical-align: middle;
 }
 
 .btn-primary {
-    color: $text_color_light;
-    background-color: $color2;
-    border-color: $color2;
+  background-color: $color2;
+  border-color: $color2;
+  color: $text-color-light;
 }
 
 .btn-primary:hover {
-    color: $text_color_light;
-    background-color: $color3;
-    border-color: $color3;
+  background-color: $color3;
+  border-color: $color3;
+  color: $text-color-light;
 }
