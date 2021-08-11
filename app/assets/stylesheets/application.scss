@@ -188,12 +188,6 @@ li.top-item:before {
 
 /* FORMS AND BUTTONS */
 
-.select {
-  margin: 2px 6px 2px 0px;
-  padding: 5px 40px 5px 5px;
-  vertical-align: middle;
-}
-
 .btn-primary {
   background-color: $color2;
   border-color: $color2;
@@ -204,6 +198,16 @@ li.top-item:before {
   background-color: $color3;
   border-color: $color3;
   color: $text-color-light;
+}
+
+.control-label {
+  padding-top: 0.33em;
+}
+
+.select {
+  margin: 2px 6px 2px 0px;
+  padding: 5px 40px 5px 5px;
+  vertical-align: middle;
 }
 
 /* MISC */

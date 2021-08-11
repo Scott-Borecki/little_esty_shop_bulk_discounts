@@ -1,12 +1,28 @@
 <%= form_with model: model, local: true do |f| %>
-  <%= f.label :name, 'Name:' %>
-  <%= f.text_field :name %><br/><br/>
+  <div class='form-group row'>
+    <%= f.label :name, 'Name:', class: 'col-2 control-label' %>
+    <div class="col-auto">
+      <%= f.text_field :name, size: '70', class: 'form-control' %><br>
+    </div>
+  </div>
 
-  <%= f.label :description, 'Description:' %>
-  <%= f.text_field :description %><br/><br/>
+  <div class='form-group row'>
+    <%= f.label :description, 'Description:', class: 'col-2 control-label' %>
+    <div class="col-auto">
+      <%= f.text_area :description, size: '70x5', class: 'form-control' %><br>
+    </div>
+  </div>
 
-  <%= f.label :unit_price, 'Unit Price:' %>
-  <%= f.text_field :unit_price %><br/><br/>
-
-  <%= f.submit 'Submit', class: 'btn btn-primary' %>
+  <div class='form-group row'>
+    <%= f.label :unit_price, 'Unit Price (in cents!):', class: 'col-2 control-label' %>
+    <div class="col-auto">
+      <%= f.text_field :unit_price, size: '70', class: 'form-control' %><br>
+    </div>
+  </div>
+  <div class='form-group row'>
+    <div class="col-2"></div>
+    <div class="col-auto">
+      <%= f.submit 'Submit', class: 'btn btn-primary' %>
+    </div>
+  </div>
 <% end %>
