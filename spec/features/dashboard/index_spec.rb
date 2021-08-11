@@ -35,11 +35,11 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
       end
 
       it 'displays a link to view all my discounts' do
-        expect(page).to have_link('View All My Discounts')
+        expect(page).to have_link('Bulk Discounts')
       end
 
       describe 'when I click the View All My Discounts link' do
-        before { click_link 'View All My Discounts' }
+        before { click_link 'Bulk Discounts' }
 
         it 'takes me to my bulk discounts index page' do
           allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)

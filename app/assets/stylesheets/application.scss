@@ -2,13 +2,15 @@
 
 /* MIXINS, VARIABLES, ETC. */
 
-$color1: #E8E8E8; /* background; CLEAN       LIGHT GRAY */
-$color2: #333A56; /* link text,  VERMILLION  DARK BLUE  */
-$color3: #52658F; /* header bg;  SUNSHINE    LIGHT BLUE */
-$color4: #E8E8E8; /* nav bg;     CLEAN       LIGHT GRAY */
+$color1: #E8E8E8; /* background; CLEAN       LIGHT GRAY    */
+$color2: #333A56; /* link text,  VERMILLION  DARK BLUE     */
+$color3: #52658F; /* header bg;  SUNSHINE    MEDIUM BLUE   */
+$color4: #E8E8E8; /* nav bg;     CLEAN       LIGHT GRAY    */
+$color5: #99D3DF; /*             ICE         LIGHT BLUE    */
+$color6: #F7F5E6; /*             FRESH       LIGHT YELLOW  */
 
 $text-color-light: white;
-$text-color-dark: black;
+$text-color-dark: $color2;
 
 /* UNIVERSAL */
 
@@ -35,6 +37,32 @@ h1.title {
   text-align: center;
 }
 
+ol.top-list {
+  counter-reset: elementcounter;
+  list-style-position: inside;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li.top-customer:before {
+  content: "Top Customer " counter(elementcounter);
+  counter-increment: elementcounter;
+  font-weight: bold;
+}
+
+li.top-merchant:before {
+  content: "Top Merchant " counter(elementcounter);
+  counter-increment: elementcounter;
+  font-weight: bold;
+}
+
+li.top-item:before {
+  content: "Top Item " counter(elementcounter);
+  counter-increment: elementcounter;
+  font-weight: bold;
+}
+
+
 /* NAVIGATION BAR */
 
 .nav {
@@ -53,6 +81,19 @@ h1.title {
   font-weight: bold;
   margin-bottom: 1px;
   margin-top: 1px;
+}
+
+.nav-link {
+  background-color: $color2 !important;
+  color: $text-color-light;
+  border-radius: 0px;
+  margin-left: 0.5em;
+}
+
+.nav-link:hover {
+  background-color: $color3 !important;
+  color: $text-color-light;
+  margin-left: 0.5em;
 }
 
 /* COLUMNS */
@@ -155,4 +196,46 @@ h1.title {
   background-color: $color3;
   border-color: $color3;
   color: $text-color-light;
+}
+
+/* MISC */
+
+.card {
+  background-color: $color6;
+  color: $color2;
+  margin-bottom: 1em;
+  padding: 0.5em 1em;
+}
+
+.card-white {
+  background-color: $text-color-light;
+  color: $color2;
+  margin-bottom: 1em;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.pt {
+  padding-top: 0.67em;
+}
+
+.mt {
+  margin-top: 0.33em;
+}
+
+.mb0 {
+  margin-bottom: 0;
+}
+
+.mb1 {
+  margin-bottom: 0.5em;
+}
+
+.mr {
+  margin-right: 1em;
+}
+
+.ml {
+  margin-right: 1em;
 }

@@ -45,7 +45,6 @@ describe 'merchant items index (merchants/merchant_id/items)' do
   let(:merchant1_disabled_items) { merchant1.items.where(status: :disabled) }
   let(:merchant1_top_items) { merchant1.top_items_by_revenue }
 
-
   describe 'as a merchant' do
     describe 'when I visit my merchant items index page' do
       before { visit merchant_items_path(merchant1) }
