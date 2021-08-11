@@ -57,6 +57,29 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
           end
         end
       end
+
+      describe 'when I fill in the form with ininvalid input' do
+        before do
+          fill_in :bulk_discount_percentage_discount, with: 'hello'
+          fill_in :bulk_discount_quantity_threshold, with: 'whats up'
+          click_button 'Create'
+        end
+
+        it 'returns me to the bulk discounts new page' do
+          expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
+        end
+
+        it 'displays a flash error message' do
+          expect(page).to have_content('Error! Percentage discount is not a number, Quantity threshold is not a number.')
+        end
+
+        it 'displays a form to create a new discount' do
+          expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
+          expect(page).to have_field(:bulk_discount_percentage_discount)
+          expect(page).to have_field(:bulk_discount_quantity_threshold)
+          expect(page).to have_button('Create')
+        end
+      end
     end
   end
 end

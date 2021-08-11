@@ -87,6 +87,28 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
           end
         end
       end
+
+      describe 'when I fill in the form with invalid input' do
+        before do
+          fill_in 'bulk_discount_percentage_discount', with: 'hello'
+          click_button 'Update'
+        end
+
+        it 'returns me to the bulk discounts edit page' do
+          expect(current_path).to eq(edit_merchant_bulk_discount_path(merchant1, bulk_discount1_1))
+        end
+
+        it 'displays a flash error message' do
+          expect(page).to have_content('Error! Percentage discount is not a number.')
+        end
+
+        it 'displays a prepopulated form' do
+          expect(current_path).to eq(edit_merchant_bulk_discount_path(merchant1, bulk_discount1_1))
+          expect(page).to have_field(:bulk_discount_percentage_discount, with: bulk_discount1_1.percentage_discount)
+          expect(page).to have_field(:bulk_discount_quantity_threshold, with: bulk_discount1_1.quantity_threshold)
+          expect(page).to have_button('Update')
+        end
+      end
     end
   end
 end
