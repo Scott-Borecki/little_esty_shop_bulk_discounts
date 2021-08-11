@@ -40,11 +40,11 @@ h1.title {
 }
 
 h1.welcome {
-  font-size:4em;
+  font-size: 4em;
+  padding-bottom: 1em;
+  padding-top: 2em;
   text-align: center;
   text-shadow: 1px 3px $border-color;
-  padding-top: 2em;
-  padding-bottom: 1em;
 }
 
 ol.top-list {
