@@ -9,7 +9,5 @@
 </div>
 
 <% @invoices.each do |invoice| %>
-  <li>
-    <%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice) %>
-  </li>
+    <%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice), class: 'btn btn-primary mb1' %>
 <% end %>

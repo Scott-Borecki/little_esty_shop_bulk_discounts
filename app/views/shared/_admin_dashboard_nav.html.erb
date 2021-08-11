@@ -1,11 +1,16 @@
 <div class='nav-container'>
   <nav class='navbar'>
-    <h5 class='navbar-text'>Admin Dashboard</h5>
-    <ul class='nav'>
-      <li>
-        <%= link_to 'Dashboard', admin_dashboard_index_path, style: 'pull-right' %> |
-        <%= link_to 'Merchants', admin_merchants_path,       style: 'pull-right' %> |
-        <%= link_to 'Invoices',  admin_invoices_path,        style: 'pull-right' %>
+    <h4 class='navbar-text'>Admin Dashboard</h4>
+    
+    <ul class='nav nav-pills'>
+      <li class='nav-item'>
+        <%= link_to 'Dashboard', admin_dashboard_index_path, style: 'pull-right', class: 'nav-link' %>
+      </li>
+      <li class='nav-item'>
+        <%= link_to 'Merchants', admin_merchants_path,       style: 'pull-right', class: 'nav-link' %>
+      </li>
+      <li class='nav-item'>
+        <%= link_to 'Invoices',  admin_invoices_path,        style: 'pull-right', class: 'nav-link' %>
       </li>
     </ul>
   </nav>

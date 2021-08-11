@@ -7,12 +7,15 @@
       Top Customers
     </p>
 
-    <ol>
+    <ol class='top-list'>
       <% @top_customers.each do |customer| %>
-        <li>
-          <%= "#{customer.first_name} #{customer.last_name}" %> -
-          <%= customer.number_of_transactions %> purchases
-        </li>
+        <div class='card'>
+          <li class='top-customer'>
+            <br>
+            <%= "#{customer.first_name} #{customer.last_name}" %> -
+            <%= customer.number_of_transactions %> purchases
+          </li>
+        </div>
       <% end %>
     </ol>
   </div>
@@ -23,12 +26,11 @@
       Incomplete Invoices
     </p>
 
-    <ul>
-      <% @incomplete_invoices.each do |invoice| %>
-        <li>
-          <%= link_to "Invoice # #{invoice.id}", admin_invoice_path(invoice.id) %> - <%= invoice.formatted_date %>
-        </li>
-      <% end %>
-    </ul>
+    <% @incomplete_invoices.each do |invoice| %>
+      <p class='card-white'>
+        <%= link_to "Invoice # #{invoice.id}", admin_invoice_path(invoice.id) %><br>
+        Invoice Date: <%= invoice.formatted_date %>
+      </p>
+    <% end %>
   </div>
 </div>

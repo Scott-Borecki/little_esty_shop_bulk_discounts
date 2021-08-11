@@ -30,7 +30,7 @@
     </tr>
 
     <tr>
-      <th class='pad-right'>Total Discounts: </th>
+      <th class='pad-right'>Discounts: </th>
       <td><em><%= number_to_currency(@invoice.revenue_discount / 100.00) %></em></td>
     </tr>
 
@@ -57,32 +57,34 @@
     <p class='col-head'>Items on this Invoice</p>
 
     <table class='table'>
-        <tr>
-          <th>Item Name</th>
-          <th>Quantity</th>
-          <th>Unit Price</th>
-          <th>Bulk Discount</th>
-          <th>Status</th>
-        </tr>
+      <tr>
+        <th>Item Name</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Bulk Discount</th>
+        <th>Status</th>
+      </tr>
 
-        <% @invoice.invoice_items.each do |invoice_item| %>
-          <tr id='ii-<%= invoice_item.id %>'>
-            <td><%= invoice_item.item.name %></td>
-            <td><%= invoice_item.quantity %></td>
-            <td><%= number_to_currency(invoice_item.unit_price / 100.00) %></td>
-            <td>
-              <% if invoice_item.max_discount %>
-                <%= link_to number_to_percentage(invoice_item.max_discount_percentage, precision: 0), merchant_bulk_discount_path(@merchant, invoice_item.max_discount) %>
-              <% end %>
-            </td>
-            <td>
-              <%= form_with model: [@merchant, invoice_item], local: true do |f| %>
-                <%= f.select :status, InvoiceItem.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice_item.status }, { class: 'select' } %>
-                <%= f.submit 'Update', class: 'btn btn-primary' %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
+      <% @invoice.invoice_items.each do |invoice_item| %>
+        <tr id='ii-<%= invoice_item.id %>'>
+          <td><%= invoice_item.item.name %></td>
+          <td><%= invoice_item.quantity %></td>
+          <td><%= number_to_currency(invoice_item.unit_price / 100.00) %></td>
+
+          <td>
+            <% if invoice_item.max_discount %>
+              <%= link_to number_to_percentage(invoice_item.max_discount_percentage, precision: 0), merchant_bulk_discount_path(@merchant, invoice_item.max_discount) %>
+            <% end %>
+          </td>
+
+          <td>
+            <%= form_with model: [@merchant, invoice_item], local: true do |f| %>
+              <%= f.select :status, InvoiceItem.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice_item.status }, { class: 'select' } %>
+              <%= f.submit 'Update', class: 'btn btn-primary' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     </table>
   </div>
 </div>

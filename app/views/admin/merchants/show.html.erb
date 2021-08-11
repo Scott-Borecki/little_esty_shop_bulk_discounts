@@ -5,7 +5,14 @@
     <p class='col-head'>
       <%= @merchant.name %>
     </p>
+
+    <table class='table-invoice'>
+      <tr>
+        <th class='th-top pad-right'>Merchant Name:</th>
+        <td class='top'><%= @merchant.name %></td>
+      </tr>
+    </table>
   </div>
 </div>
 
-<%= link_to 'Update Merchant', edit_admin_merchant_path(@merchant) %>
+<%= link_to 'Update Merchant', edit_admin_merchant_path(@merchant), class: 'btn btn-primary' %>

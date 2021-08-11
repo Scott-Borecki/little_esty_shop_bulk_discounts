@@ -1,12 +1,19 @@
 <div class='nav-container'>
   <nav class='navbar'>
-    <h5 class='navbar-text'>Merchant Dashboard - <%= merchant.name %></h5>
-    <ul class='nav navbar-nav'>
-      <li>
-        <%= link_to 'Dashboard',       merchant_dashboard_index_path, style: 'pull-right' %> |
-        <%= link_to 'Items',           merchant_items_path,           style: 'pull-right' %> |
-        <%= link_to 'Invoices',        merchant_invoices_path,        style: 'pull-right' %> |
-        <%= link_to 'Bulk Discounts',  merchant_bulk_discounts_path,  style: 'pull-right' %>
+    <h4 class='navbar-text'>Merchant Dashboard - <%= merchant.name %></h4>
+
+    <ul class='nav nav-pills'>
+      <li class='nav-item'>
+        <%= link_to 'Dashboard',      merchant_dashboard_index_path, style: 'pull-right', class: 'nav-link' %>
+      </li>
+      <li class='nav-item'>
+        <%= link_to 'Items',          merchant_items_path,           style: 'pull-right', class: 'nav-link' %>
+      </li>
+      <li class='nav-item'>
+        <%= link_to 'Invoices',       merchant_invoices_path,        style: 'pull-right', class: 'nav-link' %>
+      </li>
+      <li class='nav-item'>
+        <%= link_to 'Bulk Discounts', merchant_bulk_discounts_path,  style: 'pull-right', class: 'nav-link' %>
       </li>
     </ul>
   </nav>

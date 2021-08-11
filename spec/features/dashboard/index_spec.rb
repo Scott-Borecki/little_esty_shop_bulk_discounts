@@ -35,11 +35,11 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
       end
 
       it 'displays a link to view all my discounts' do
-        expect(page).to have_link('View All My Discounts')
+        expect(page).to have_link('Bulk Discounts')
       end
 
       describe 'when I click the View All My Discounts link' do
-        before { click_link 'View All My Discounts' }
+        before { click_link 'Bulk Discounts' }
 
         it 'takes me to my bulk discounts index page' do
           allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)
@@ -93,6 +93,20 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
               expect(page).to have_content(item.item_name)
               expect(page).to have_content(item.invoice_id)
               expect(page).to have_content(item.invoice_created_at.strftime('%A, %B %-d, %Y'))
+            end
+          end
+        end
+
+        it 'displays a link to the item show page' do
+          items_ready_to_ship.each do |item|
+            visit merchant_dashboard_index_path(merchant1)
+
+            within "#ship-item-#{item.id}" do
+              expect(page).to have_link(item.item_name)
+
+              click_link item.item_name
+
+              expect(current_path).to eq(merchant_item_path(merchant1, item.item_id))
             end
           end
         end
