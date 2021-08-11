@@ -37,6 +37,14 @@ h1.title {
   text-align: center;
 }
 
+h1.welcome {
+  font-size:4em;
+  text-align: center;
+  text-shadow: 1px 3px lightgray;
+  padding-top: 2em;
+  padding-bottom: 1em;
+}
+
 ol.top-list {
   counter-reset: elementcounter;
   list-style-position: inside;
