@@ -17,6 +17,14 @@
               </div>
             </td>
 
+            <td class='pr'>
+              <%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %>
+            </td>
+
+            <td class='pr'>
+              <%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %>
+            </td>
+
             <td>
               <%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %>
             </td>

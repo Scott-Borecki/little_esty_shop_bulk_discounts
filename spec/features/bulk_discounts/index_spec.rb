@@ -65,6 +65,40 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
         expect(page).to have_button('Create')
       end
 
+      it 'has a link to view each bulk discount' do
+        button_text = 'View'
+
+        merchant1.bulk_discounts.each do |bulk_discount|
+          visit merchant_bulk_discounts_path(merchant1)
+
+          within "#bd-#{bulk_discount.id}" do
+            expect(page).to have_button(button_text)
+
+            click_button button_text
+          end
+
+          expect(current_path).to eq(merchant_bulk_discount_path(merchant1, bulk_discount))
+          expect(page).to have_no_css("#bd-#{bulk_discount.id}")
+        end
+      end
+
+      it 'has a link to edit each bulk discount' do
+        button_text = 'Edit'
+
+        merchant1.bulk_discounts.each do |bulk_discount|
+          visit merchant_bulk_discounts_path(merchant1)
+
+          within "#bd-#{bulk_discount.id}" do
+            expect(page).to have_button(button_text)
+
+            click_button button_text
+          end
+
+          expect(current_path).to eq(edit_merchant_bulk_discount_path(merchant1, bulk_discount))
+          expect(page).to have_no_css("#bd-#{bulk_discount.id}")
+        end
+      end
+
       it 'has a link to delete each bulk discount' do
         button_text = 'Delete'
 
