@@ -5,14 +5,19 @@
     <p class='col-head'>
       <%= @item.name %>
     </p>
+
+    <table class='table-invoice'>
+      <tr>
+        <th class='th-top pad-right'>Price:</th>
+        <td class='top'><%= number_to_currency(@item.unit_price / 100.00) %></td>
+      </tr>
+
+      <tr>
+        <th class='th-top pad-right'>Description:</th>
+        <td class='top'><%= @item.description %></td>
+      </tr>
+    </table>
+
+    <%= link_to 'Update Item', edit_merchant_item_path(@merchant, @item), class: 'btn btn-primary' %>
   </div>
-
-  <p>
-    <strong>Price: </strong>
-      <%= number_to_currency(@item.unit_price / 100.00) %><br>
-    <strong>Description: </strong>
-      <%= @item.description %><br><br>
-
-    <%= link_to 'Update Item', edit_merchant_item_path(@merchant, @item) %>
-  </p>
 </div>

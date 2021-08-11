@@ -1,6 +1,6 @@
 <%= form_with model: [:admin, @merchant], local: true do |form| %>
   <%= form.label :name, 'Name:' %>
-  <%= form.text_field :name %>
+  <%= form.text_field :name %><br><br>
 
   <%= form.submit button_text, class: 'btn btn-primary' %>
 <% end %>
