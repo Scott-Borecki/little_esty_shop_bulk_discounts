@@ -97,6 +97,20 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
           end
         end
 
+        it 'displays a link to the item show page' do
+          items_ready_to_ship.each do |item|
+            visit merchant_dashboard_index_path(merchant1)
+
+            within "#ship-item-#{item.id}" do
+              expect(page).to have_link(item.item_name)
+
+              click_link item.item_name
+
+              expect(current_path).to eq(merchant_item_path(merchant1, item.item_id))
+            end
+          end
+        end
+
         it 'displays a link to the invoice show page' do
           items_ready_to_ship.each do |item|
             visit merchant_dashboard_index_path(merchant1)

@@ -29,7 +29,7 @@
         <p>
           <% @merchant.items_ready_to_ship.each do |invoice_item| %>
             <div id='ship-item-<%= invoice_item.id %>' class='card-white'>
-              <strong><%= invoice_item.item_name %></strong><br>
+              <strong><%= link_to invoice_item.item_name, merchant_item_path(@merchant, invoice_item.item_id) %></strong><br>
               <table>
                 <tr>
                   <th class='pad-right'>Invoice #</th>
