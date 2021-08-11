@@ -9,6 +9,11 @@
 
     <table class='table-invoice'>
       <tr>
+        <th class='th-top pad-right'>Bulk Discount #:</th>
+        <td class='top'><%= @bulk_discount.id %></td>
+      </tr>
+
+      <tr>
         <th class='th-top pad-right'>Percentage Discount:</th>
         <td class='top'><%= number_to_percentage(@bulk_discount.percentage_discount, precision: 0) %></td>
       </tr>
