@@ -11,6 +11,14 @@ RSpec.describe 'welcome index (/)' do
         expect(current_path).to eq(root_path)
       end
 
+      it 'links to the home page' do
+        expect(page).to have_link('Little Esty Shop')
+
+        click_link('Little Esty Shop')
+
+        expect(current_path).to eq(root_path)
+      end
+
       it 'links to the admin dashboard' do
         expect(page).to have_link('Admin Dashboard')
 

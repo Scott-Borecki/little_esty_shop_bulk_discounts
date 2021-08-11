@@ -31,12 +31,13 @@ body {
   padding-top:   20px;
 }
 
-h1.title {
+.title, .title:hover {
   background-color: $color3;
   color: $text-color-light;
   padding-bottom: 20px;
   padding-top: 20px;
   text-align: center;
+  text-decoration: none;
 }
 
 h1.welcome {
