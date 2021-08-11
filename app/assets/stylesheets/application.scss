@@ -9,6 +9,8 @@ $color4: #E8E8E8; /* nav bg;     CLEAN       LIGHT GRAY    */
 $color5: #99D3DF; /*             ICE         LIGHT BLUE    */
 $color6: #F7F5E6; /*             FRESH       LIGHT YELLOW  */
 
+$border-color: rgba(0, 0, 0, 0.125); /* light gray */
+
 $text-color-light: white;
 $text-color-dark: $color2;
 
@@ -40,7 +42,7 @@ h1.title {
 h1.welcome {
   font-size:4em;
   text-align: center;
-  text-shadow: 1px 3px lightgray;
+  text-shadow: 1px 3px $border-color;
   padding-top: 2em;
   padding-bottom: 1em;
 }
@@ -52,24 +54,23 @@ ol.top-list {
   padding-left: 0;
 }
 
-li.top-customer:before {
+li.top-customer::before {
   content: "Top Customer " counter(elementcounter);
   counter-increment: elementcounter;
   font-weight: bold;
 }
 
-li.top-merchant:before {
+li.top-merchant::before {
   content: "Top Merchant " counter(elementcounter);
   counter-increment: elementcounter;
   font-weight: bold;
 }
 
-li.top-item:before {
+li.top-item::before {
   content: "Top Item " counter(elementcounter);
   counter-increment: elementcounter;
   font-weight: bold;
 }
-
 
 /* NAVIGATION BAR */
 
@@ -93,8 +94,8 @@ li.top-item:before {
 
 .nav-link {
   background-color: $color2 !important;
+  border-radius: 0;
   color: $text-color-light;
-  border-radius: 0px;
   margin-left: 0.5em;
 }
 
@@ -205,7 +206,7 @@ li.top-item:before {
 }
 
 .select {
-  margin: 2px 6px 2px 0px;
+  margin: 2px 6px 2px 0;
   padding: 5px 40px 5px 5px;
   vertical-align: middle;
 }
@@ -221,11 +222,11 @@ li.top-item:before {
 
 .card-white {
   background-color: $text-color-light;
+  border: 1px solid $border-color;
+  border-radius: 0.25em;
   color: $color2;
   margin-bottom: 1em;
   padding: 0.5em 1em;
-  border-radius: 0.25em;
-  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .pt {
