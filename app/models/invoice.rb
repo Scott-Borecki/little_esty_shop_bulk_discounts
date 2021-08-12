@@ -8,6 +8,8 @@ class Invoice < ApplicationRecord
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
 
+  delegate :full_name, :address, :city_state_zip, to: :customer, prefix: true
+
   validates :status, presence: true
 
   def self.incomplete_invoices
@@ -36,17 +38,5 @@ class Invoice < ApplicationRecord
 
   def total_discounted_revenue
     total_revenue - revenue_discount
-  end
-
-  def customer_full_name
-    customer.full_name
-  end
-
-  def customer_address
-    customer.address
-  end
-
-  def customer_city_state_zip
-    customer.city_state_zip
   end
 end
