@@ -22,6 +22,10 @@ class InvoiceItem < ApplicationRecord
     end
   end
 
+  def self.total_discounted_revenue
+    total_revenue - revenue_discount
+  end
+
   def revenue
     unit_price * quantity
   end

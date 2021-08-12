@@ -9,7 +9,7 @@ class Invoice < ApplicationRecord
   has_many :merchants, through: :items
 
   delegate :full_name, :address, :city_state_zip, to: :customer, prefix: true
-  delegate :revenue_discount, :total_revenue, to: :invoice_items
+  delegate :revenue_discount, :total_discounted_revenue, :total_revenue, to: :invoice_items
   delegate :discounted, to: :invoice_items, prefix: true
 
   validates :status, presence: true
@@ -19,9 +19,5 @@ class Invoice < ApplicationRecord
       .where.not(invoice_items: { status: :shipped })
       .order(created_at: :asc)
       .distinct
-  end
-
-  def total_discounted_revenue
-    total_revenue - revenue_discount
   end
 end
