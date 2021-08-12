@@ -13,6 +13,17 @@ RSpec.describe InvoiceItem, type: :model do
     it { should belong_to(:item) }
   end
 
+  describe 'scopes' do
+    describe '.total_revenue' do
+      it 'returns the total revenue of all the invoice items' do
+        create(:invoice_item, quantity: 5, unit_price: 10)
+        create(:invoice_item, quantity: 10, unit_price: 5)
+        create(:invoice_item, quantity: 4, unit_price: 30)
+        expect(InvoiceItem.total_revenue).to eq(220)
+      end
+    end
+  end
+
   describe 'instance methods' do
     describe '#revenue' do
       it 'returns the revenue' do

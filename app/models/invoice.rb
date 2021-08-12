@@ -9,6 +9,7 @@ class Invoice < ApplicationRecord
   has_many :merchants, through: :items
 
   delegate :full_name, :address, :city_state_zip, to: :customer, prefix: true
+  delegate :total_revenue, to: :invoice_items
 
   validates :status, presence: true
 
@@ -17,10 +18,6 @@ class Invoice < ApplicationRecord
       .where.not(invoice_items: { status: :shipped })
       .order(created_at: :asc)
       .distinct
-  end
-
-  def total_revenue
-    invoice_items.sum('unit_price * quantity')
   end
 
   def discounted_invoice_items

@@ -1,4 +1,6 @@
 class InvoiceItem < ApplicationRecord
+  scope :total_revenue, -> { sum('quantity * unit_price') }
+
   enum status: [:pending, :packaged, :shipped]
 
   belongs_to :invoice
