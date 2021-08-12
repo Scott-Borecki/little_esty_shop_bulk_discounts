@@ -10,6 +10,12 @@ class InvoiceItem < ApplicationRecord
   validates :unit_price, presence: true
   validates :status, presence: true
 
+  def self.discounted
+    joins(item: { merchant: :bulk_discounts })
+      .where('invoice_items.quantity >= bulk_discounts.quantity_threshold')
+      .group(:id)
+  end
+
   def revenue
     unit_price * quantity
   end

@@ -22,6 +22,31 @@ RSpec.describe InvoiceItem, type: :model do
         expect(InvoiceItem.total_revenue).to eq(220)
       end
     end
+
+    describe '.discounted' do
+      it 'returns the invoice items that qualify for discounts' do
+        merchant1     = create(:merchant)
+        merchant2     = create(:merchant)
+        item1         = create(:item, merchant: merchant1)
+        item2         = create(:item, merchant: merchant2)
+        invoice_item1 = create(:invoice_item, item: item1, quantity: 2)
+        invoice_item2 = create(:invoice_item, item: item1, quantity: 4)
+        invoice_item3 = create(:invoice_item, item: item1, quantity: 7)
+        invoice_item4 = create(:invoice_item, item: item2, quantity: 10)
+        invoice_item5 = create(:invoice_item, item: item2, quantity: 0)
+        invoice_item6 = create(:invoice_item, item: item2, quantity: 7)
+        bulk_discount = create(:bulk_discount, merchant: merchant1, quantity_threshold: 3)
+        bulk_discount = create(:bulk_discount, merchant: merchant2, quantity_threshold: 8)
+
+        discounted_invoice_items = [invoice_item2, invoice_item3, invoice_item4]
+
+        expect(InvoiceItem.discounted.length).to eq(discounted_invoice_items.length)
+
+        discounted_invoice_items.each do |invoice_item|
+          expect(InvoiceItem.discounted).to include(invoice_item)
+        end
+      end
+    end
   end
 
   describe 'instance methods' do

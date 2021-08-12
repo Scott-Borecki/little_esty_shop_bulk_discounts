@@ -45,14 +45,14 @@ RSpec.describe Invoice, type: :model do
       end
     end
 
-    describe '#discounted_invoice_items' do
+    describe '#invoice_items_discounted' do
       it 'returns the items qualifying for a bulk discount' do
-        expect(invoice1.discounted_invoice_items.length).to eq(1)
-        expect(invoice1.discounted_invoice_items.ids).to eq([invoice_item1b.id])
+        expect(invoice1.invoice_items_discounted.length).to eq(1)
+        expect(invoice1.invoice_items_discounted.ids).to eq([invoice_item1b.id])
 
-        expect(invoice3.discounted_invoice_items.length).to eq(2)
-        expect(invoice3.discounted_invoice_items.ids).to include(invoice_item3.id)
-        expect(invoice3.discounted_invoice_items.ids).to include(invoice_item3a.id)
+        expect(invoice3.invoice_items_discounted.length).to eq(2)
+        expect(invoice3.invoice_items_discounted.ids).to include(invoice_item3.id)
+        expect(invoice3.invoice_items_discounted.ids).to include(invoice_item3a.id)
       end
     end
 

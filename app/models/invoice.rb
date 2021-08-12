@@ -10,6 +10,7 @@ class Invoice < ApplicationRecord
 
   delegate :full_name, :address, :city_state_zip, to: :customer, prefix: true
   delegate :total_revenue, to: :invoice_items
+  delegate :discounted, to: :invoice_items, prefix: true
 
   validates :status, presence: true
 
@@ -20,15 +21,8 @@ class Invoice < ApplicationRecord
       .distinct
   end
 
-  def discounted_invoice_items
-    invoice_items
-      .joins(item: { merchant: :bulk_discounts })
-      .where('invoice_items.quantity >= bulk_discounts.quantity_threshold')
-      .group(:id)
-  end
-
   def revenue_discount
-    discounted_invoice_items.sum do |invoice_item|
+    invoice_items_discounted.sum do |invoice_item|
       invoice_item.revenue * invoice_item.max_discount_percentage / 100
     end
   end
