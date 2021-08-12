@@ -1,4 +1,4 @@
-def create_factories
+def create_objects
   #############
   # CUSTOMERS #
   #############
@@ -178,31 +178,47 @@ def create_factories
   let!(:bulk_discount3c) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 21,  percentage_discount: 30) }
 end
 
-def create_objects_top_revenue_day
-  let!(:merchant) { create(:enabled_merchant) }
+def create_objects_best_day
+  let!(:merchant1) { create(:merchant) }
+  let!(:merchant2) { create(:merchant) }
 
-  let!(:customer) { create(:customer) }
+  let!(:item1) { create(:item, merchant: merchant1, status: 1) }
+  let!(:item2) { create(:item, merchant: merchant1) }
+  let!(:item3) { create(:item, merchant: merchant1) }
+  let!(:item4) { create(:item, merchant: merchant1) }
+  let!(:item7) { create(:item, merchant: merchant1) }
+  let!(:item8) { create(:item, merchant: merchant1) }
 
-  let!(:item6) { create(:item, merchant: merchant) }
-  let!(:item6a) { create(:item, merchant: merchant) }
+  let!(:item5) { create(:item, merchant: merchant2) }
+  let!(:item6) { create(:item, merchant: merchant2) }
 
-  let!(:invoice6a) { create(:invoice, :completed, customer: customer, created_at: "2021-07-29T17:30:05+0700") }
-  let!(:invoice6b) { create(:invoice, :completed, customer: customer, created_at: "2021-07-27T17:30:05+0700") }
-  let!(:invoice6c) { create(:invoice, :completed, customer: customer, created_at: "2021-07-25T17:30:05+0700") }
+  let!(:invoice1) { create(:invoice, status: 2, created_at: "2012-03-27 14:54:09") }
+  let!(:invoice2) { create(:invoice, status: 2, created_at: "2012-03-28 14:54:09") }
+  let!(:invoice3) { create(:invoice, status: 2) }
+  let!(:invoice4) { create(:invoice, status: 2) }
+  let!(:invoice5) { create(:invoice, status: 2) }
+  let!(:invoice6) { create(:invoice, status: 2) }
+  let!(:invoice7) { create(:invoice, status: 1) }
 
-  let!(:transaction6a) { create(:transaction, :success, invoice: invoice6a) }
-  let!(:transaction6b) { create(:transaction, :success, invoice: invoice6b) }
-  let!(:transaction6c) { create(:transaction, :success, invoice: invoice6c) }
+  let!(:ii1) { create(:invoice_item, invoice: invoice1, item: item1, quantity: 9, unit_price: 10099, status: 2, created_at: "2012-03-27 14:54:09") }
+  let!(:ii2) { create(:invoice_item, invoice: invoice2, item: item1, quantity: 9, unit_price: 10099, status: 2, created_at: "2012-03-28 14:54:09") }
+  let!(:ii3) { create(:invoice_item, invoice: invoice3, item: item2, quantity: 2, unit_price: 8099,  status: 2) }
+  let!(:ii4) { create(:invoice_item, invoice: invoice4, item: item3, quantity: 3, unit_price: 5099,  status: 1) }
+  let!(:ii6) { create(:invoice_item, invoice: invoice5, item: item4, quantity: 1, unit_price: 1099,  status: 1) }
+  let!(:ii7) { create(:invoice_item, invoice: invoice6, item: item7, quantity: 1, unit_price: 3099,  status: 1) }
+  let!(:ii8) { create(:invoice_item, invoice: invoice7, item: item8, quantity: 1, unit_price: 5099,  status: 1) }
+  let!(:ii9) { create(:invoice_item, invoice: invoice7, item: item4, quantity: 1, unit_price: 1099,  status: 1) }
 
-  let!(:invoice_item6a_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6a, quantity: 6,  unit_price: 10) }
-  let!(:invoice_item6a_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6a, quantity: 5,  unit_price: 20) }
-  let!(:invoice_item6b_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6b, quantity: 6,  unit_price: 10) }
-  let!(:invoice_item6b_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6b, quantity: 10, unit_price: 20) }
-  let!(:invoice_item6c_1) { create(:invoice_item, :shipped,  item: item6,  invoice: invoice6c, quantity: 6,  unit_price: 10) }
-  let!(:invoice_item6c_2) { create(:invoice_item, :shipped,  item: item6a, invoice: invoice6c, quantity: 10, unit_price: 20) }
+  let!(:transaction1) { create(:transaction, result: 1, invoice: invoice1) }
+  let!(:transaction2) { create(:transaction, result: 1, invoice: invoice2) }
+  let!(:transaction3) { create(:transaction, result: 1, invoice: invoice3) }
+  let!(:transaction4) { create(:transaction, result: 1, invoice: invoice4) }
+  let!(:transaction5) { create(:transaction, result: 1, invoice: invoice5) }
+  let!(:transaction6) { create(:transaction, result: 0, invoice: invoice6) }
+  let!(:transaction7) { create(:transaction, result: 1, invoice: invoice7) }
 end
 
-def create_factories_merchant_with_many_customers_and_items
+def create_objects_merchant_with_many_customers_and_items
   let!(:customer1) {  create(:customer) } # Transaction_count = 1
   let!(:customer2) {  create(:customer) } # Transaction_count = 3
   let!(:customer3) {  create(:customer) } # Transaction_count = 5
@@ -325,7 +341,7 @@ def create_factories_merchant_with_many_customers_and_items
   let!(:invoice_item10a_2) { create(:invoice_item, :shipped,  item: item20, invoice: invoice10a, quantity: 5,  unit_price: 20) } # total_revenue = 100
 end
 
-def create_factories_merchant_dashboard
+def create_objects_merchant_dashboard
   let!(:merchant1) { create(:merchant) }
   let!(:merchant2) { create(:merchant) }
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'welcome index (/)' do
-  create_factories
+  create_objects
 
   describe 'as a user' do
     describe 'when I visit my welcome index (/m)' do

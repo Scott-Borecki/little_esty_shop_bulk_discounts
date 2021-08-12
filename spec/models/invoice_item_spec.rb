@@ -16,14 +16,17 @@ RSpec.describe InvoiceItem, type: :model do
   describe 'scopes' do
     let!(:merchant1) { create(:merchant) }
     let!(:merchant2) { create(:merchant) }
+
     let!(:item1) { create(:item, merchant: merchant1) }
     let!(:item2) { create(:item, merchant: merchant2) }
+
     let!(:invoice_item1) { create(:invoice_item, item: item1, quantity: 2,  unit_price: 10) }
     let!(:invoice_item2) { create(:invoice_item, item: item1, quantity: 4,  unit_price: 10) }
     let!(:invoice_item3) { create(:invoice_item, item: item1, quantity: 7,  unit_price: 10) }
     let!(:invoice_item4) { create(:invoice_item, item: item2, quantity: 10, unit_price: 10) }
     let!(:invoice_item5) { create(:invoice_item, item: item2, quantity: 0,  unit_price: 10) }
     let!(:invoice_item6) { create(:invoice_item, item: item2, quantity: 7,  unit_price: 10) }
+
     let!(:bulk_discount1) { create(:bulk_discount, merchant: merchant1, quantity_threshold: 3, percentage_discount: 10) }
     let!(:bulk_discount2) { create(:bulk_discount, merchant: merchant2, quantity_threshold: 8, percentage_discount: 20) }
 
@@ -69,11 +72,14 @@ RSpec.describe InvoiceItem, type: :model do
 
     describe '#max_discount instance methods' do
       let!(:merchant) { create(:merchant) }
+
       let!(:item) { create(:item, merchant: merchant) }
+
       let!(:bulk_discount1) { create(:bulk_discount, quantity_threshold: 10, percentage_discount: 10, merchant: merchant) }
       let!(:bulk_discount2) { create(:bulk_discount, quantity_threshold: 3,  percentage_discount: 5,  merchant: merchant) }
       let!(:bulk_discount3) { create(:bulk_discount, quantity_threshold: 1,  percentage_discount: 25, merchant: merchant) }
       let!(:bulk_discount4) { create(:bulk_discount, quantity_threshold: 2,  percentage_discount: 15, merchant: merchant) }
+      
       let!(:invoice_item) { create(:invoice_item, :shipped, quantity: 4, unit_price: 10, item: item) }
 
       describe '#max_discount' do

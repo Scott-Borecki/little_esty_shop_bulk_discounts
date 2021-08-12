@@ -21,7 +21,7 @@ RSpec.describe Customer, type: :model do
   describe 'class methods' do
     describe '.top_customers' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
+      create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top customers' do
         top_five_customers = [customer3, customer4, customer2, customer7, customer8]
@@ -37,7 +37,7 @@ RSpec.describe Customer, type: :model do
   describe 'instance methods' do
     describe '#transactions_successful_count' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
+      create_objects_merchant_with_many_customers_and_items
 
       it 'returns the number of transactions by the customer' do
         expect(customer1.transactions_successful_count).to eq(1)

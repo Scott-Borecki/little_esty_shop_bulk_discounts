@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'admin dashboard index (/admin/dashboard)' do
   # See /spec/object_creation_helper.rb for more info on factories created
-  create_factories
+  create_objects
 
   let(:top_customers) { Customer.top_customers }
   let(:shipped_items) { [invoice2a, invoice2b, invoice2c, invoice2d,

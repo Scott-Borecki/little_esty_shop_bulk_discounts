@@ -4,7 +4,7 @@ describe 'admin merchant index (/admin/merchants)' do
   include ActionView::Helpers::NumberHelper
 
   # See /spec/object_creation_helper.rb for more info on factories created
-  create_factories
+  create_objects
 
   let(:all_merchants) {      Merchant.all }
   let(:enabled_merchants) {  Merchant.all.where(status: :enabled) }

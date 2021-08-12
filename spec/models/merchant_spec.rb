@@ -18,7 +18,7 @@ describe Merchant do
 
   describe 'class methods' do
     # See /spec/object_creation_helper.rb for more info on factories created
-    create_factories
+    create_objects
 
     describe '.top_merchants_by_revenue' do
       it 'returns the top merchants by revenue' do
@@ -41,21 +41,22 @@ describe Merchant do
   describe 'instance methods' do
     describe '#top_revenue_day' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_top_revenue_day
+      create_objects_best_day
 
       it 'returns the best day by revenue' do
-        expect(merchant.top_revenue_day).to eq("Tuesday, July 27, 2021")
+        expect(merchant1.top_revenue_day).to eq(invoice2.formatted_date)
       end
     end
 
     describe '#top_customers_by_transactions' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
+      create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top customers by number of transactions' do
-        top_customer_ids = [customer3.id, customer4.id, customer2.id, customer7.id, customer8.id]
-        top_customer_first_names = [customer3.first_name, customer4.first_name, customer2.first_name, customer7.first_name, customer8.first_name]
-        top_customer_last_names = [customer3.last_name, customer4.last_name, customer2.last_name, customer7.last_name, customer8.last_name]
+        top_customers             = [customer3, customer4, customer2, customer7, customer8]
+        top_customer_ids          = top_customers.map(&:id)
+        top_customer_first_names  = top_customers.map(&:first_name)
+        top_customer_last_names   = top_customers.map(&:last_name)
         top_customer_transactions = [5, 4, 3, 2, 2]
 
         expect(merchant.top_customers_by_transactions.to_a.size).to eq(5)
@@ -69,7 +70,7 @@ describe Merchant do
 
     describe '#top_items_by_revenue' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
+      create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top items by revenue' do
         top_five_items = [item5, item18, item8, item12, item15]
@@ -84,7 +85,7 @@ describe Merchant do
 
     describe '#items_ready_to_ship' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
+      create_objects_merchant_with_many_customers_and_items
 
       before do
         @invoice_items_to_ship = [invoice_item3d_1, invoice_item6a_2, invoice_item4c_1,
