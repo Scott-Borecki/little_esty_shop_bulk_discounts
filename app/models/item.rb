@@ -6,19 +6,9 @@ class Item < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items
 
+  delegate :best_day, to: :invoices
+
   validates :name, presence: true
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
-
-  def best_day
-    invoices
-      .joins([:invoice_items, :transactions])
-      .merge(Transaction.successful)
-      .select('invoices.*,
-               SUM(invoice_items.unit_price * invoice_items.quantity) as money')
-      .group(:id)
-      .order('money desc', 'invoices.created_at desc')
-      .first
-      .formatted_date
-  end
 end

@@ -14,6 +14,17 @@ class Invoice < ApplicationRecord
 
   validates :status, presence: true
 
+  def self.best_day
+    joins([:invoice_items, :transactions])
+      .merge(Transaction.successful)
+      .select('invoices.*,
+               SUM(invoice_items.unit_price * invoice_items.quantity) as money')
+      .group(:id)
+      .order('money desc', 'invoices.created_at desc')
+      .first
+      .formatted_date
+  end
+
   def self.incomplete_invoices
     joins(:invoice_items)
       .where.not(invoice_items: { status: :shipped })
