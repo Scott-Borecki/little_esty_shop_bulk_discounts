@@ -45,7 +45,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
           within '#top-customers' do
             expect(page).to have_content('Top Customers')
             top_customers.each do |customer|
-              expect(page).to have_content("#{customer.first_name} #{customer.last_name} - #{customer.number_of_transactions} purchases")
+              expect(page).to have_content("#{customer.first_name} #{customer.last_name} - #{customer.transactions_successful_count} purchases")
             end
           end
         end

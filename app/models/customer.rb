@@ -3,6 +3,8 @@ class Customer < ApplicationRecord
   has_many :merchants, through: :invoices
   has_many :transactions, through: :invoices
 
+  delegate :successful_count, to: :transactions, prefix: true
+
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :address, presence: true
@@ -17,10 +19,6 @@ class Customer < ApplicationRecord
       .group(:id)
       .order(top_result: :desc)
       .limit(number)
-  end
-
-  def number_of_transactions
-    transactions.successful.count
   end
 
   def full_name

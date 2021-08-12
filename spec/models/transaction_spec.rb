@@ -16,7 +16,7 @@ RSpec.describe Transaction, type: :model do
     it { should belong_to(:invoice) }
   end
 
-  describe 'class methods and scopes' do
+  describe 'scopes' do
     describe '.successful' do
       it 'includes transactions that are successful' do
         transaction = create(:transaction, result: 1)
@@ -26,6 +26,20 @@ RSpec.describe Transaction, type: :model do
       it 'excludes transactions that are not successful' do
         transaction = create(:transaction, result: 0)
         expect(Transaction.successful).to_not include(transaction)
+      end
+    end
+  end
+
+  describe 'class methods' do
+    describe '.successful_count' do
+      it 'returns the number of successful transactions' do
+        create(:transaction, result: 0)
+        create(:transaction, result: 0)
+        create(:transaction, result: 1)
+        create(:transaction, result: 1)
+        create(:transaction, result: 1)
+
+        expect(Transaction.successful_count).to eq(3)
       end
     end
   end
