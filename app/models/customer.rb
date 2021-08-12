@@ -20,8 +20,7 @@ class Customer < ApplicationRecord
   end
 
   def number_of_transactions
-    transactions.where('result = ?', 1)
-                .count
+    transactions.successful.count
   end
 
   def full_name

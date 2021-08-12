@@ -15,4 +15,18 @@ RSpec.describe Transaction, type: :model do
   describe "relationships" do
     it { should belong_to(:invoice) }
   end
+
+  describe 'class methods and scopes' do
+    describe '.successful' do
+      it 'includes transactions that are successful' do
+        transaction = create(:transaction, result: 1)
+        expect(Transaction.successful).to include(transaction)
+      end
+
+      it 'excludes transactions that are not successful' do
+        transaction = create(:transaction, result: 0)
+        expect(Transaction.successful).to_not include(transaction)
+      end
+    end
+  end
 end

@@ -1,4 +1,6 @@
 class Transaction < ApplicationRecord
+  scope :successful, -> { where(result: :success) }
+
   enum result: [:failed, :success]
 
   belongs_to :invoice
