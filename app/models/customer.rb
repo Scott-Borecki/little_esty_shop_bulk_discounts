@@ -12,8 +12,8 @@ class Customer < ApplicationRecord
 
   def self.top_customers(number = 5)
     joins(:transactions)
+      .merge(Transaction.successful)
       .select('customers.*, COUNT(transactions.result) as top_result')
-      .where(transactions: { result: :success })
       .group(:id)
       .order(top_result: :desc)
       .limit(number)

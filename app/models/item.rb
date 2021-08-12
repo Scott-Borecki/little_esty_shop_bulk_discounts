@@ -13,7 +13,7 @@ class Item < ApplicationRecord
   def best_day
     invoices
       .joins([:invoice_items, :transactions])
-      .where(transactions: { result: :success })
+      .merge(Transaction.successful)
       .select('invoices.*,
                SUM(invoice_items.unit_price * invoice_items.quantity) as money')
       .group(:id)
