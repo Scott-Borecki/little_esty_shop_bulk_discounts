@@ -14,15 +14,6 @@ RSpec.describe InvoiceItem, type: :model do
   end
 
   describe 'scopes' do
-    describe '.total_revenue' do
-      it 'returns the total revenue of all the invoice items' do
-        create(:invoice_item, quantity: 5, unit_price: 10)
-        create(:invoice_item, quantity: 10, unit_price: 5)
-        create(:invoice_item, quantity: 4, unit_price: 30)
-        expect(InvoiceItem.total_revenue).to eq(220)
-      end
-    end
-
     describe '.discounted' do
       it 'returns the invoice items that qualify for discounts' do
         merchant1     = create(:merchant)
@@ -45,6 +36,34 @@ RSpec.describe InvoiceItem, type: :model do
         discounted_invoice_items.each do |invoice_item|
           expect(InvoiceItem.discounted).to include(invoice_item)
         end
+      end
+    end
+
+    describe '.revenue_discount' do
+      it 'returns the revenue discount of the invoice items' do
+        merchant1     = create(:merchant)
+        merchant2     = create(:merchant)
+        item1         = create(:item, merchant: merchant1)
+        item2         = create(:item, merchant: merchant2)
+        invoice_item1 = create(:invoice_item, item: item1, quantity: 2,  unit_price: 10)
+        invoice_item2 = create(:invoice_item, item: item1, quantity: 4,  unit_price: 10) #=> revenue_discount = 4
+        invoice_item3 = create(:invoice_item, item: item1, quantity: 7,  unit_price: 10) #=> revenue_discount = 7
+        invoice_item4 = create(:invoice_item, item: item2, quantity: 10, unit_price: 10) #=> revenue_discount = 20
+        invoice_item5 = create(:invoice_item, item: item2, quantity: 0,  unit_price: 10)
+        invoice_item6 = create(:invoice_item, item: item2, quantity: 7,  unit_price: 10)
+        bulk_discount = create(:bulk_discount, merchant: merchant1, quantity_threshold: 3, percentage_discount: 10)
+        bulk_discount = create(:bulk_discount, merchant: merchant2, quantity_threshold: 8, percentage_discount: 20)
+
+        expect(InvoiceItem.revenue_discount).to eq(31)
+      end
+    end
+
+    describe '.total_revenue' do
+      it 'returns the total revenue of the invoice items' do
+        create(:invoice_item, quantity: 5, unit_price: 10)
+        create(:invoice_item, quantity: 10, unit_price: 5)
+        create(:invoice_item, quantity: 4, unit_price: 30)
+        expect(InvoiceItem.total_revenue).to eq(220)
       end
     end
   end

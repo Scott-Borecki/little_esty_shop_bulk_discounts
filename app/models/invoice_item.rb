@@ -16,6 +16,12 @@ class InvoiceItem < ApplicationRecord
       .group(:id)
   end
 
+  def self.revenue_discount
+    discounted.sum do |invoice_item|
+      invoice_item.revenue * invoice_item.max_discount_percentage / 100
+    end
+  end
+
   def revenue
     unit_price * quantity
   end
