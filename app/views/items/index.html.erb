@@ -13,7 +13,7 @@
               <br>
               <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> -
               <%= number_to_currency(item.total_revenue / 100.00) %> in sales<br>
-              Top selling date for <%= item.name %> was <%= item.best_day %>
+              Top selling date for <%= item.name %> was <%= item.top_revenue_day %>
             </li>
           </div>
         <% end %>

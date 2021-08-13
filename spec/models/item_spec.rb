@@ -52,12 +52,12 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'instance methods' do
-    describe '#best_day' do
+    describe '#top_revenue_day' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_best_day
+      create_objects_top_revenue_day
 
       it 'returns the best day by revenue and most recent' do
-        expect(item1.best_day).to eq(invoice2.formatted_date)
+        expect(item1.top_revenue_day).to eq(invoice2.formatted_date)
       end
     end
   end

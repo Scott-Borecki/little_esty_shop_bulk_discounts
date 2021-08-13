@@ -178,7 +178,7 @@ def create_objects
   let!(:bulk_discount3c) { create(:bulk_discount, merchant: merchant3, quantity_threshold: 21,  percentage_discount: 30) }
 end
 
-def create_objects_best_day
+def create_objects_top_revenue_day
   let!(:merchant1) { create(:merchant) }
   let!(:merchant2) { create(:merchant) }
 

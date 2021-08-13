@@ -38,7 +38,7 @@ describe Merchant do
     end
   end
 
-  describe 'instance methods' do
+  describe 'delegated methods' do
     describe '#items_ready_to_ship' do
       # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
@@ -111,7 +111,7 @@ describe Merchant do
 
     describe '#top_revenue_day' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_best_day
+      create_objects_top_revenue_day
 
       it 'returns the best day by revenue' do
         expect(merchant1.top_revenue_day).to eq(invoice2.formatted_date)

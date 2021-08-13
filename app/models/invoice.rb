@@ -14,7 +14,7 @@ class Invoice < ApplicationRecord
 
   validates :status, presence: true
 
-  def self.best_day
+  def self.top_revenue_day
     joins([:invoice_items, :transactions])
       .merge(Transaction.successful)
       .select('invoices.*,

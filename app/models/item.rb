@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :invoices, through: :invoice_items
 
-  delegate :best_day, to: :invoices
+  delegate :top_revenue_day, to: :invoices
 
   validates :name, presence: true
   validates :description, presence: true

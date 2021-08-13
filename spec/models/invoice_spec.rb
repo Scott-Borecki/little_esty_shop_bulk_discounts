@@ -14,12 +14,12 @@ RSpec.describe Invoice, type: :model do
   end
 
   describe 'class methods' do
-    describe '.best_day' do
+    describe '.top_revenue_day' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_best_day
+      create_objects_top_revenue_day
 
       it 'returns the date of the invoice with the most revenue' do
-        expect(Invoice.best_day).to eq(invoice2.formatted_date)
+        expect(Invoice.top_revenue_day).to eq(invoice2.formatted_date)
       end
     end
 
