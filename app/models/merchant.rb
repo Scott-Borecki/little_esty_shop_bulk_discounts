@@ -9,6 +9,7 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
 
   delegate :top_customers_by_transactions, :top_items_by_revenue, to: :items
+  delegate :items_ready_to_ship, to: :invoice_items
 
   validates :name, presence: true
   validates :status, presence: true
@@ -23,15 +24,6 @@ class Merchant < ApplicationRecord
       .group(:id)
       .order(revenue: :desc)
       .limit(number)
-  end
-
-  def items_ready_to_ship
-    invoice_items.joins(:invoice)
-                 .select('invoice_items.*,
-                          items.name AS item_name,
-                          invoices.created_at AS invoice_created_at')
-                 .where.not(status: :shipped)
-                 .order('invoices.created_at asc')
   end
 
   def top_revenue_day

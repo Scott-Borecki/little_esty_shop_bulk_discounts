@@ -10,6 +10,15 @@ class InvoiceItem < ApplicationRecord
   validates :unit_price, presence: true
   validates :status, presence: true
 
+  def self.items_ready_to_ship
+    joins(:invoice, :item)
+      .select('invoice_items.*,
+               items.name AS item_name,
+               invoices.created_at AS invoice_created_at')
+      .where.not(status: :shipped)
+      .order('invoices.created_at asc')
+  end
+
   def self.discounted
     joins(item: { merchant: :bulk_discounts })
       .where('invoice_items.quantity >= bulk_discounts.quantity_threshold')
