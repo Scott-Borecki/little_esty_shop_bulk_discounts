@@ -17,7 +17,6 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
     describe 'when I visit my merchant dashboard bulk discounts index (/merchant/:merchant_id/bulk_discounts)' do
       before do
         visit merchant_bulk_discounts_path(merchant1)
-        allow(HolidayService).to receive(:holidays).and_return(holidays_parsed)
       end
 
       it { expect(page).to have_no_content('Success!') }

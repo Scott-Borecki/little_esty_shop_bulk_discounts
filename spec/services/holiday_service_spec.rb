@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HolidayService do
+RSpec.describe HolidayService, type: :service do
   describe 'class methods' do
     describe '.holidays' do
       it 'returns holiday data' do

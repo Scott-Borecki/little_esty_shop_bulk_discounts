@@ -1,11 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe GithubFacade do
+RSpec.describe GithubFacade, type: :facade do
   describe 'class methods' do
     describe '.repository_name' do
       it 'returns the repository name' do
-        allow(GithubService).to receive(:repository).and_return(repo_parsed)
-
         repository_name = GithubFacade.repository_name
 
         expect(repository_name).to be_an(String)

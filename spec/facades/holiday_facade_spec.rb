@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HolidayFacade do
+RSpec.describe HolidayFacade, type: :facade do
   describe 'class methods' do
     describe '.upcoming_holidays' do
       it 'returns the upcoming holidays' do

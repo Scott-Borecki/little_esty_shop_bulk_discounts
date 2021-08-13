@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GithubService do
+RSpec.describe GithubService, type: :service do
   describe 'class methods' do
     describe '.repository' do
       it 'returns holiday data' do
