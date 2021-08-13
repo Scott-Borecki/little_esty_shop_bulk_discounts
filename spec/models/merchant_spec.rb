@@ -39,12 +39,38 @@ describe Merchant do
   end
 
   describe 'instance methods' do
-    describe '#top_revenue_day' do
+    describe '#items_ready_to_ship' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_best_day
+      create_objects_merchant_with_many_customers_and_items
 
-      it 'returns the best day by revenue' do
-        expect(merchant1.top_revenue_day).to eq(invoice2.formatted_date)
+      let(:invoice_items_to_ship) do
+        [invoice_item3d_1, invoice_item6a_2, invoice_item4c_1, invoice_item10a_1,
+         invoice_item3e_1, invoice_item4b_2, invoice_item3b_1, invoice_item3b_2,
+         invoice_item7b_1, invoice_item7a_2, invoice_item1a_1, invoice_item1a_2,
+         invoice_item8a_1, invoice_item8a_2]
+      end
+
+      it 'returns the invoice and item ids for each item ready to ship' do
+        expect(merchant.items_ready_to_ship.map(&:invoice_id)).to eq(invoice_items_to_ship.map(&:invoice_id))
+        expect(merchant.items_ready_to_ship.map(&:item_id)).to eq(invoice_items_to_ship.map(&:item_id))
+      end
+
+      it 'returns the item name for each item ready to ship' do
+        item_names =
+          invoice_items_to_ship.map do |invoice_item|
+            Item.find(invoice_item.item_id).name
+          end
+
+        expect(merchant.items_ready_to_ship.map(&:item_name)).to eq(item_names)
+      end
+
+      it 'returns the invoice creation date for each item ready to ship ordered by creation date' do
+        invoice_created_at =
+          invoice_items_to_ship.map do |invoice_item|
+            Invoice.find(invoice_item.invoice_id).created_at
+          end
+
+        expect(merchant.items_ready_to_ship.map(&:invoice_created_at)).to eq(invoice_created_at)
       end
     end
 
@@ -83,39 +109,12 @@ describe Merchant do
       end
     end
 
-    describe '#items_ready_to_ship' do
+    describe '#top_revenue_day' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_merchant_with_many_customers_and_items
+      create_objects_best_day
 
-      before do
-        @invoice_items_to_ship = [invoice_item3d_1, invoice_item6a_2, invoice_item4c_1,
-                                  invoice_item10a_1, invoice_item3e_1, invoice_item4b_2,
-                                  invoice_item3b_1, invoice_item3b_2, invoice_item7b_1,
-                                  invoice_item7a_2, invoice_item1a_1, invoice_item1a_2,
-                                  invoice_item8a_1, invoice_item8a_2]
-      end
-
-      it 'returns the invoice and item ids for each item ready to ship' do
-        expect(merchant.items_ready_to_ship.map(&:invoice_id)).to eq(@invoice_items_to_ship.map(&:invoice_id))
-        expect(merchant.items_ready_to_ship.map(&:item_id)).to eq(@invoice_items_to_ship.map(&:item_id))
-      end
-
-      it 'returns the item name for each item ready to ship' do
-        item_names =
-          @invoice_items_to_ship.map do |invoice_item|
-            Item.find(invoice_item.item_id).name
-          end
-
-        expect(merchant.items_ready_to_ship.map(&:item_name)).to eq(item_names)
-      end
-
-      it 'returns the invoice creation date for each item ready to ship ordered by creation date' do
-        invoice_created_at =
-          @invoice_items_to_ship.map do |invoice_item|
-            Invoice.find(invoice_item.invoice_id).created_at
-          end
-
-        expect(merchant.items_ready_to_ship.map(&:invoice_created_at)).to eq(invoice_created_at)
+      it 'returns the best day by revenue' do
+        expect(merchant1.top_revenue_day).to eq(invoice2.formatted_date)
       end
     end
   end

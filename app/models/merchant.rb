@@ -8,6 +8,8 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
+  delegate :top_customers_by_transactions, :top_items_by_revenue, to: :items
+
   validates :name, presence: true
   validates :status, presence: true
 
@@ -23,16 +25,6 @@ class Merchant < ApplicationRecord
       .limit(number)
   end
 
-  def top_customers_by_transactions(number = 5)
-    items.joins(invoices: [:transactions, :customer])
-         .merge(Transaction.successful)
-         .select('customers.*,
-                 COUNT(distinct transactions.id) as number_transactions')
-         .group('customers.id')
-         .order('number_transactions desc')
-         .limit(number)
-  end
-
   def items_ready_to_ship
     invoice_items.joins(:invoice)
                  .select('invoice_items.*,
@@ -40,18 +32,6 @@ class Merchant < ApplicationRecord
                           invoices.created_at AS invoice_created_at')
                  .where.not(status: :shipped)
                  .order('invoices.created_at asc')
-  end
-
-  def top_items_by_revenue(number = 5)
-     items.joins(invoices: :transactions)
-          .merge(Transaction.successful)
-          .select(
-            "items.*,
-            SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue"
-          )
-          .group(:id)
-          .order(total_revenue: :desc)
-          .limit(number)
   end
 
   def top_revenue_day
