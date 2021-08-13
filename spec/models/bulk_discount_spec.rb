@@ -6,6 +6,11 @@ RSpec.describe BulkDiscount, type: :model do
     it { should validate_numericality_of(:percentage_discount) }
     it { should validate_presence_of(:quantity_threshold) }
     it { should validate_numericality_of(:quantity_threshold) }
+
+    it 'is valid with valid attributes' do
+      bulk_discount = create(:bulk_discount)
+      expect(bulk_discount).to be_valid
+    end
   end
 
   describe 'relationships' do

@@ -10,6 +10,11 @@ RSpec.describe Customer, type: :model do
     it { should validate_presence_of(:zip) }
     it { should validate_numericality_of(:zip) }
     it { should validate_length_of(:zip).is_equal_to(5) }
+
+    it 'is valid with valid attributes' do
+      customer = create(:customer)
+      expect(customer).to be_valid
+    end
   end
 
   describe 'relationships' do

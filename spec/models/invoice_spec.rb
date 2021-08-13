@@ -4,6 +4,11 @@ RSpec.describe Invoice, type: :model do
   describe 'validations' do
     it { should define_enum_for(:status).with_values(cancelled: 0, 'in progress': 1, completed: 2) }
     it { should validate_presence_of(:status) }
+
+    it 'is valid with valid attributes' do
+      invoice = create(:invoice)
+      expect(invoice).to be_valid
+    end
   end
 
   describe 'relationships' do

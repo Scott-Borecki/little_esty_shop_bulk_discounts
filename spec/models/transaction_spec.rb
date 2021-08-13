@@ -10,6 +10,11 @@ RSpec.describe Transaction, type: :model do
     it { should validate_numericality_of(:credit_card_expiration_date) }
     it { should validate_length_of(:credit_card_expiration_date).is_equal_to(4) }
     it { should validate_presence_of(:result) }
+
+    it 'is valid with valid attributes' do
+      transaction = create(:transaction)
+      expect(transaction).to be_valid
+    end
   end
 
   describe "relationships" do

@@ -7,6 +7,17 @@ RSpec.describe Item, type: :model do
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:unit_price) }
     it { should validate_numericality_of(:unit_price) }
+
+    it 'is valid with valid attributes' do
+      item = create(:item)
+      expect(item).to be_valid
+
+      enabled_item = create(:enabled_item)
+      expect(enabled_item).to be_valid
+
+      disabled_item = create(:disabled_item)
+      expect(disabled_item).to be_valid
+    end
   end
 
   describe 'relationships' do

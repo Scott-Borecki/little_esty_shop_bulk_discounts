@@ -6,6 +6,11 @@ RSpec.describe InvoiceItem, type: :model do
     it { should validate_presence_of(:quantity) }
     it { should validate_presence_of(:unit_price) }
     it { should validate_presence_of(:status) }
+
+    it 'is valid with valid attributes' do
+      invoice_item = create(:invoice_item)
+      expect(invoice_item).to be_valid
+    end
   end
 
   describe 'relationships' do

@@ -5,6 +5,17 @@ describe Merchant do
     it { should define_enum_for(:status).with_values(enabled: 0, disabled: 1) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:status) }
+
+    it 'is valid with valid attributes' do
+      merchant = create(:merchant)
+      expect(merchant).to be_valid
+
+      enabled_merchant = create(:enabled_merchant)
+      expect(enabled_merchant).to be_valid
+
+      disabled_merchant = create(:disabled_merchant)
+      expect(disabled_merchant).to be_valid
+    end
   end
 
   describe "relationships" do
