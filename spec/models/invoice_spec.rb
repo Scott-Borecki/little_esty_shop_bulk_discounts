@@ -43,29 +43,41 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
-  describe 'instance methods' do
-    # See spec/object_creation_helper.rb for objection creation details
-    create_objects
+  describe 'delegated methods' do
+    describe '#customer_full_name' do
+      it 'returns the full name of the customer' do
+        customer = create(:customer)
+        invoice = create(:invoice, customer: customer)
 
-    describe '#total_revenue' do
-      it 'returns the total revenue' do
-        expect(invoice1.total_revenue).to eq(500)
-        expect(invoice3.total_revenue).to eq(710)
+        expected = "#{customer.first_name} #{customer.last_name}"
+        expect(invoice.customer_full_name).to eq(expected)
       end
     end
 
-    describe '#invoice_items_discounted' do
-      it 'returns the items qualifying for a bulk discount' do
-        expect(invoice1.invoice_items_discounted.length).to eq(1)
-        expect(invoice1.invoice_items_discounted.ids).to eq([invoice_item1b.id])
+    describe '#customer_address' do
+      it 'returns the address of the customer' do
+        customer = create(:customer)
+        invoice = create(:invoice, customer: customer)
 
-        expect(invoice3.invoice_items_discounted.length).to eq(2)
-        expect(invoice3.invoice_items_discounted.ids).to include(invoice_item3.id)
-        expect(invoice3.invoice_items_discounted.ids).to include(invoice_item3a.id)
+        expected = customer.address
+        expect(invoice.customer_address).to eq(expected)
+      end
+    end
+
+    describe '#city_state_zip' do
+      it 'returns the city, state, and zip code of the customer' do
+        customer = create(:customer)
+        invoice = create(:invoice, customer: customer)
+
+        expected = "#{customer.city}, #{customer.state} #{customer.zip}"
+        expect(invoice.customer_city_state_zip).to eq(expected)
       end
     end
 
     describe '#revenue_discount' do
+      # See spec/object_creation_helper.rb for objection creation details
+      create_objects
+
       it 'returns the revenue for the discounted items' do
         expect(invoice1.revenue_discount).to eq(80)
         expect(invoice3.revenue_discount).to eq(180)
@@ -73,30 +85,36 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '#total_discounted_revenue' do
+      # See spec/object_creation_helper.rb for objection creation details
+      create_objects
+
       it 'returns the total discounted_revenue' do
         expect(invoice1.total_discounted_revenue).to eq(420)
         expect(invoice3.total_discounted_revenue).to eq(530)
       end
     end
 
-    describe '#customer_full_name' do
-      it 'returns the full name of the customer' do
-        expected = "#{customer1.first_name} #{customer1.last_name}"
-        expect(invoice1.customer_full_name).to eq(expected)
+    describe '#total_revenue' do
+      # See spec/object_creation_helper.rb for objection creation details
+      create_objects
+
+      it 'returns the total revenue' do
+        expect(invoice1.total_revenue).to eq(500)
+        expect(invoice3.total_revenue).to eq(710)
       end
     end
 
-    describe '#customer_address' do
-      it 'returns the address of the customer' do
-        expected = customer1.address
-        expect(invoice1.customer_address).to eq(expected)
-      end
-    end
+    describe '#invoice_items_discounted' do
+      # See spec/object_creation_helper.rb for objection creation details
+      create_objects
 
-    describe '#city_state_zip' do
-      it 'returns the city, state, and zip code of the customer' do
-        expected = "#{customer1.city}, #{customer1.state} #{customer1.zip}"
-        expect(invoice1.customer_city_state_zip).to eq(expected)
+      it 'returns the items qualifying for a bulk discount' do
+        expect(invoice1.invoice_items_discounted.length).to eq(1)
+        expect(invoice1.invoice_items_discounted.ids).to eq([invoice_item1b.id])
+
+        expect(invoice3.invoice_items_discounted.length).to eq(2)
+        expect(invoice3.invoice_items_discounted.ids).to include(invoice_item3.id)
+        expect(invoice3.invoice_items_discounted.ids).to include(invoice_item3a.id)
       end
     end
   end

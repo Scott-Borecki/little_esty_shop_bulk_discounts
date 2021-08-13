@@ -51,7 +51,7 @@ RSpec.describe Item, type: :model do
     end
   end
 
-  describe 'instance methods' do
+  describe 'delegated methods' do
     describe '#top_revenue_day' do
       # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_top_revenue_day
