@@ -1,6 +1,11 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require './spec/support/factory_bot'
-require_relative 'object_creation_helper'
+require_relative 'sample_data/create_objects_merchant_dashboard'
+require_relative 'sample_data/create_objects_merchant_with_many_customers_and_items'
+require_relative 'sample_data/create_objects_top_revenue_day'
+require_relative 'sample_data/create_objects'
+require_relative 'sample_data/holiday_api'
+require_relative 'sample_data/github_api'
 
 require 'simplecov'
 SimpleCov.start
