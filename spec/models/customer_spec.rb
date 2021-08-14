@@ -10,43 +10,38 @@ RSpec.describe Customer, type: :model do
     it { should validate_presence_of(:zip) }
     it { should validate_numericality_of(:zip) }
     it { should validate_length_of(:zip).is_equal_to(5) }
+
+    it 'is valid with valid attributes' do
+      customer = create(:customer)
+      expect(customer).to be_valid
+    end
   end
 
   describe 'relationships' do
     it { should have_many(:invoices) }
-    it { should have_many(:merchants).through(:invoices) }
     it { should have_many(:transactions).through(:invoices) }
+    it { should have_many(:invoice_items).through(:invoices) }
+    it { should have_many(:items).through(:invoice_items) }
+    it { should have_many(:merchants).through(:items) }
   end
 
   describe 'class methods' do
-    describe '.top_customers' do
+    describe '.top_customers_by_transactions' do
       # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
+      create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top customers' do
         top_five_customers = [customer3, customer4, customer2, customer7, customer8]
 
-        expect(Customer.top_customers.to_a.size).to eq(5)
-        expect(Customer.top_customers).to eq(top_five_customers)
+        expect(Customer.top_customers_by_transactions.to_a.size).to eq(5)
+        expect(Customer.top_customers_by_transactions).to eq(top_five_customers)
 
-        expect(Customer.top_customers(2).to_a.size).to eq(2)
+        expect(Customer.top_customers_by_transactions(2).to_a.size).to eq(2)
       end
     end
   end
 
   describe 'instance methods' do
-    describe '#number_of_transactions' do
-      # See /spec/object_creation_helper.rb for more info on factories created
-      create_factories_merchant_with_many_customers_and_items
-
-      it 'returns the number of transactions by the customer' do
-        expect(customer1.number_of_transactions).to eq(1)
-        expect(customer2.number_of_transactions).to eq(3)
-        expect(customer3.number_of_transactions).to eq(5)
-        expect(customer4.number_of_transactions).to eq(4)
-      end
-    end
-
     describe '#full_name' do
       it 'returns the full name of the customer' do
         customer = create(:customer)

@@ -4,15 +4,15 @@ require 'faker'
 task :import, [:customers] => :environment do
   ActiveRecord::Base.connection.reset_pk_sequence!('customers')
   CSV.foreach('db/data/customers.csv', headers: true) do |row|
-    Customer.create!(id:          row[0],
-                     first_name:  row[1],
-                     last_name:   row[2],
-                     created_at:  row[3],
-                     updated_at:  row[4],
-                     address:     Faker::Address.street_address,
-                     city:        Faker::Address.city,
-                     state:       Faker::Address.state,
-                     zip:         Faker::Address.zip_code.first(5))
+    Customer.create!(id:         row[0],
+                     first_name: row[1],
+                     last_name:  row[2],
+                     created_at: row[3],
+                     updated_at: row[4],
+                     address:    Faker::Address.street_address,
+                     city:       Faker::Address.city,
+                     state:      Faker::Address.state,
+                     zip:        Faker::Address.zip_code.first(5))
   end
 end
 
@@ -76,14 +76,14 @@ task :import, [:invoice_items] => :environment do
     elsif row.to_hash['status'] == 'shipped'
       status = 2
     end
-    InvoiceItem.create!(id:          row[0],
-                        item_id:     row[1],
-                        invoice_id:  row[2],
-                        quantity:    row[3],
-                        unit_price:  row[4],
-                        status:      status,
-                        created_at:  row[6],
-                        updated_at:  row[7])
+    InvoiceItem.create!(id:         row[0],
+                        item_id:    row[1],
+                        invoice_id: row[2],
+                        quantity:   row[3],
+                        unit_price: row[4],
+                        status:     status,
+                        created_at: row[6],
+                        updated_at: row[7])
   end
 end
 

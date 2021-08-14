@@ -12,7 +12,7 @@
         <section id='top-customer-<%= customer.id %>' class='card'>
           <li class='top-customer'>
             <br>
-            <%= customer.first_name %> <%= customer.last_name %> - <%= customer.number_transactions %> Purchases
+            <%= customer.first_name %> <%= customer.last_name %> - <%= customer.transaction_count %> Purchases
           </li>
         </section>
       <% end %>
@@ -20,14 +20,14 @@
   </div>
 
   <% # RIGHT COLUMN %>
-  <div class='col-sm-6' id='items_ready_to_ship'>
+  <div class='col-sm-6' id='ready_to_ship'>
     <p class='col-head'>
       Items Ready to Ship
     </p>
 
       <section>
         <p>
-          <% @merchant.items_ready_to_ship.each do |invoice_item| %>
+          <% @merchant.invoice_items_ready_to_ship.each do |invoice_item| %>
             <div id='ship-item-<%= invoice_item.id %>' class='card-white'>
               <strong><%= link_to invoice_item.item_name, merchant_item_path(@merchant, invoice_item.item_id) %></strong><br>
               <table>

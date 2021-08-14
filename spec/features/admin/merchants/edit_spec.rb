@@ -51,7 +51,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
           expect(current_path).to eq(edit_admin_merchant_path(merchant1))
         end
 
-        it "shows a flash message if not all sections are filled in" do
+        it 'shows a flash message if not all sections are filled in' do
           expect(page).to have_content('Error! All fields must be completed.')
         end
       end

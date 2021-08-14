@@ -2,15 +2,23 @@ require 'rails_helper'
 
 RSpec.describe 'admin dashboard index (/admin/dashboard)' do
   # See /spec/object_creation_helper.rb for more info on factories created
-  create_factories
+  create_objects
 
-  let(:top_customers) { Customer.top_customers }
-  let(:shipped_items) { [invoice2a, invoice2b, invoice2c, invoice2d,
-                         invoice2e, invoice4a, invoice4b, invoice4c,
-                         invoice4d, invoice6a, invoice6b, invoice6c] }
-  let(:not_shipped_items_ids) { [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id] }
-  let(:not_shipped_items_dates) { [invoice5a.formatted_date, invoice5b.formatted_date,
-                                   invoice3.formatted_date, invoice1.formatted_date] }
+  let(:top_customers) { Customer.top_customers_by_transactions }
+
+  let(:shipped_items) do
+    [invoice2a, invoice2b, invoice2c, invoice2d, invoice2e, invoice4a,
+     invoice4b, invoice4c, invoice4d, invoice6a, invoice6b, invoice6c]
+  end
+
+  let(:not_shipped_items_ids) do
+    [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
+  end
+
+  let(:not_shipped_items_dates) do
+    [invoice5a.formatted_date, invoice5b.formatted_date,
+     invoice3.formatted_date, invoice1.formatted_date]
+  end
 
   describe 'as an admin' do
     describe 'when I visit the admin dashboard' do
@@ -45,7 +53,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
           within '#top-customers' do
             expect(page).to have_content('Top Customers')
             top_customers.each do |customer|
-              expect(page).to have_content("#{customer.first_name} #{customer.last_name} - #{customer.number_of_transactions} purchases")
+              expect(page).to have_content("#{customer.first_name} #{customer.last_name} - #{customer.transaction_count} purchases")
             end
           end
         end

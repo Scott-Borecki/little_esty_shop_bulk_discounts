@@ -1,7 +1,9 @@
 class Customer < ApplicationRecord
   has_many :invoices, dependent: :destroy
-  has_many :merchants, through: :invoices
   has_many :transactions, through: :invoices
+  has_many :invoice_items, through: :invoices
+  has_many :items, through: :invoice_items
+  has_many :merchants, through: :items
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -10,18 +12,14 @@ class Customer < ApplicationRecord
   validates :state, presence: true
   validates :zip, presence: true, numericality: true, length: { is: 5 }
 
-  def self.top_customers(number = 5)
+  def self.top_customers_by_transactions(number = 5)
     joins(:transactions)
-      .select('customers.*, COUNT(transactions.result) as top_result')
-      .where(transactions: { result: :success })
+      .merge(Transaction.successful)
+      .select('customers.*,
+               COUNT(DISTINCT transactions.id) as transaction_count')
       .group(:id)
-      .order(top_result: :desc)
+      .order(transaction_count: :desc)
       .limit(number)
-  end
-
-  def number_of_transactions
-    transactions.where('result = ?', 1)
-                .count
   end
 
   def full_name

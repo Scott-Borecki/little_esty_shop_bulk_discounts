@@ -4,7 +4,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
   include ActionView::Helpers::NumberHelper
 
   # See spec/object_creation_helper.rb for objection creation details
-  create_factories
+  create_objects
 
   describe 'as a merchant' do
     describe 'when I visit my merchant invoices show page' do

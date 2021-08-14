@@ -1,5 +1,5 @@
 class Merchant < ApplicationRecord
-  enum status: [:enabled, :disabled]
+  enum status: { enabled: 0, disabled: 1 }
 
   has_many :bulk_discounts, dependent: :destroy
   has_many :items, dependent: :destroy
@@ -8,63 +8,21 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   has_many :transactions, through: :invoices
 
+  delegate :top_customers_by_transactions, to: :customers
+  delegate :ready_to_ship, to: :invoice_items, prefix: true
+  delegate :top_revenue_day, to: :invoices
+  delegate :top_items_by_revenue, to: :items
+
   validates :name, presence: true
   validates :status, presence: true
 
   def self.top_merchants_by_revenue(number = 5)
     joins(:transactions)
-      .select(
-        'merchants.*,
-        SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue'
-      )
-      .where(transactions: { result: :success })
+      .merge(Transaction.successful)
+      .select('merchants.*,
+               SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue')
       .group(:id)
-      .order(revenue: :desc)
+      .order(total_revenue: :desc)
       .limit(number)
-  end
-
-  def top_customers_by_transactions(number = 5)
-    items.joins(invoices: [:transactions, :customer])
-         .select('customers.*,
-                 COUNT(distinct transactions.id) as number_transactions')
-         .group('customers.id')
-         .where(transactions: { result: 1 })
-         .order('number_transactions desc')
-         .limit(number)
-  end
-
-  def items_ready_to_ship
-    invoice_items.joins(:invoice)
-                 .select('invoice_items.*,
-                          items.name AS item_name,
-                          invoices.created_at AS invoice_created_at')
-                 .where.not(status: :shipped)
-                 .order('invoices.created_at asc')
-  end
-
-  def top_items_by_revenue(number = 5)
-     items.joins(invoices: :transactions)
-          .where(transactions: { result: 1 })
-          .select(
-            "items.*,
-            SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue"
-          )
-          .group(:id)
-          .order(total_revenue: :desc)
-          .limit(number)
-  end
-
-  def top_revenue_day
-    invoices
-      .select(
-        'invoices.created_at',
-        'SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue'
-      )
-      .joins(:transactions)
-      .where(transactions: { result: :success })
-      .group(:id)
-      .order('revenue desc', 'created_at desc')
-      .first
-      .formatted_date
   end
 end

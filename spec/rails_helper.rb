@@ -1,10 +1,4 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require './spec/support/factory_bot'
-require_relative 'object_creation_helper'
-
-require 'simplecov'
-SimpleCov.start
-
 require 'spec_helper'
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -13,6 +7,71 @@ require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+
+require './spec/support/factory_bot'
+
+# Require all files in the 'spec/sample_data/' path
+Dir['spec/sample_data/*.rb'].each { |file| require file[5..] }
+
+require 'simplecov'
+SimpleCov.start
+
+require 'webmock/rspec'
+require 'vcr'
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/vcr'
+  c.hook_into :webmock
+end
+
+def stub_get_json_github_repo
+  url      = 'https://api.github.com/repos/Scott-Borecki/little_esty_shop_bulk_discounts'
+  response = VCR.use_cassette('github/repository') { Faraday.get(url) }
+
+  stub_request(:get, url)
+    .to_return(body: response.body)
+end
+
+def stub_get_json_github_commits
+  url      = 'https://api.github.com/repos/Scott-Borecki/little_esty_shop_bulk_discounts/stats/contributors'
+  response = VCR.use_cassette('github/commits') { Faraday.get(url) }
+
+  stub_request(:get, url)
+    .to_return(body: response.body)
+end
+
+def stub_get_json_github_pull_requests
+  url      = 'https://api.github.com/repos/Scott-Borecki/little_esty_shop_bulk_discounts/pulls?state=all'
+  response = VCR.use_cassette('github/pull_requests') { Faraday.get(url) }
+
+  stub_request(:get, url)
+    .to_return(body: response.body)
+end
+
+def stub_get_json_holiday(country_code = 'US')
+  url      = "https://date.nager.at/api/v3/NextPublicHolidays/#{country_code}"
+  response = VCR.use_cassette('holiday/holiday') { Faraday.get(url) }
+
+  stub_request(:get, url)
+    .to_return(body: response.body)
+end
+
+# # For possible reuse with different API requests:
+# def stub_get_json(args)
+#   response = VCR.use_cassette(args[cassette]) { Faraday.get(args[url]) }
+#
+#   stub_request(:get, args[url])
+#     to_return(body: response.body)
+# end
+# 
+# # Example use in tests:
+# # before do
+# #   args = {
+# #     cassette: 'github/repository',
+# #     url: 'https://api.github.com/repos/Scott-Borecki/little_esty_shop_bulk_discounts'
+# #   }
+# #   stub_get_json(args)
+# # end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

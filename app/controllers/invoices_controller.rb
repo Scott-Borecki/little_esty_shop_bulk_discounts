@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   before_action :fetch_current_invoice, only: :show
-  before_action :fetch_current_merchant, only: [:index, :show, :update]
+  before_action :fetch_current_merchant, only: [:index, :show]
 
   def index
     @invoices = @merchant.invoices.uniq
