@@ -39,11 +39,11 @@ RSpec.describe Invoice, type: :model do
       end
 
       it 'returns all the ids of the incomplete invoices (i.e. not shipped)' do
-        expect(Invoice.incomplete_invoices.first.id).to eq(invoices_not_shipped.first.id)
+        expect(Invoice.incomplete_invoices.map(&:id)).to eq(invoices_not_shipped.map(&:id))
       end
 
       it 'returns all the invoice dates of the incomplete invoices (i.e. not shipped)' do
-        expect(Invoice.incomplete_invoices.first.formatted_date).to eq(invoices_not_shipped.first.formatted_date)
+        expect(Invoice.incomplete_invoices.map(&:formatted_date)).to eq(invoices_not_shipped.map(&:formatted_date))
       end
     end
   end
