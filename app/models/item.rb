@@ -18,10 +18,8 @@ class Item < ApplicationRecord
   def self.top_items_by_revenue(number = 5)
     joins(invoices: :transactions)
       .merge(Transaction.successful)
-      .select(
-        "items.*,
-        SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue"
-      )
+      .select('items.*,
+               SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue')
       .group(:id)
       .order(total_revenue: :desc)
       .limit(number)
