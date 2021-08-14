@@ -5,7 +5,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
   create_objects_merchant_dashboard
 
   let(:top_five_customers) { merchant1.top_customers_by_transactions }
-  let(:items_ready_to_ship) { merchant1.items_ready_to_ship }
+  let(:invoice_items_ready_to_ship) { merchant1.invoice_items_ready_to_ship }
 
   describe 'as a merchant' do
     describe 'when I visit my merchant dashboard' do
@@ -87,39 +87,39 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
       describe 'within the Items Ready to Ship section' do
         it 'displays list of the unshipped item names, the associated invoice id, and invoice creation date' do
-          within '#items_ready_to_ship' do
-            items_ready_to_ship.each do |item|
-              expect(page).to have_content(item.item_name)
-              expect(page).to have_content(item.invoice_id)
-              expect(page).to have_content(item.invoice_created_at.strftime('%A, %B %-d, %Y'))
+          within '#ready_to_ship' do
+            invoice_items_ready_to_ship.each do |invoice_item|
+              expect(page).to have_content(invoice_item.item_name)
+              expect(page).to have_content(invoice_item.invoice_id)
+              expect(page).to have_content(invoice_item.invoice_created_at.strftime('%A, %B %-d, %Y'))
             end
           end
         end
 
         it 'displays a link to the item show page' do
-          items_ready_to_ship.each do |item|
+          invoice_items_ready_to_ship.each do |invoice_item|
             visit merchant_dashboard_index_path(merchant1)
 
-            within "#ship-item-#{item.id}" do
-              expect(page).to have_link(item.item_name)
+            within "#ship-item-#{invoice_item.id}" do
+              expect(page).to have_link(invoice_item.item_name)
 
-              click_link item.item_name
+              click_link invoice_item.item_name
 
-              expect(current_path).to eq(merchant_item_path(merchant1, item.item_id))
+              expect(current_path).to eq(merchant_item_path(merchant1, invoice_item.item_id))
             end
           end
         end
 
         it 'displays a link to the invoice show page' do
-          items_ready_to_ship.each do |item|
+          invoice_items_ready_to_ship.each do |invoice_item|
             visit merchant_dashboard_index_path(merchant1)
 
-            within "#ship-item-#{item.id}" do
-              expect(page).to have_link(item.invoice_id.to_s)
+            within "#ship-item-#{invoice_item.id}" do
+              expect(page).to have_link(invoice_item.invoice_id.to_s)
 
-              click_link item.invoice_id.to_s
+              click_link invoice_item.invoice_id.to_s
 
-              expect(current_path).to eq(merchant_invoice_path(merchant1, item.invoice_id))
+              expect(current_path).to eq(merchant_invoice_path(merchant1, invoice_item.invoice_id))
             end
           end
         end

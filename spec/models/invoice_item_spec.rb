@@ -67,7 +67,7 @@ RSpec.describe InvoiceItem, type: :model do
   end
 
   describe 'class methods' do
-    describe '.items_ready_to_ship' do
+    describe '.ready_to_ship' do
       # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
@@ -79,8 +79,8 @@ RSpec.describe InvoiceItem, type: :model do
       end
 
       it 'returns the invoice and item ids for each item ready to ship' do
-        expect(InvoiceItem.items_ready_to_ship.map(&:invoice_id)).to eq(invoice_items_to_ship.map(&:invoice_id))
-        expect(InvoiceItem.items_ready_to_ship.map(&:item_id)).to eq(invoice_items_to_ship.map(&:item_id))
+        expect(InvoiceItem.ready_to_ship.map(&:invoice_id)).to eq(invoice_items_to_ship.map(&:invoice_id))
+        expect(InvoiceItem.ready_to_ship.map(&:item_id)).to eq(invoice_items_to_ship.map(&:item_id))
       end
 
       it 'returns the item name for each item ready to ship' do
@@ -89,7 +89,7 @@ RSpec.describe InvoiceItem, type: :model do
             Item.find(invoice_item.item_id).name
           end
 
-        expect(InvoiceItem.items_ready_to_ship.map(&:item_name)).to eq(item_names)
+        expect(InvoiceItem.ready_to_ship.map(&:item_name)).to eq(item_names)
       end
 
       it 'returns the invoice creation date for each item ready to ship ordered by creation date' do
@@ -98,7 +98,7 @@ RSpec.describe InvoiceItem, type: :model do
             Invoice.find(invoice_item.invoice_id).created_at
           end
 
-        expect(InvoiceItem.items_ready_to_ship.map(&:invoice_created_at)).to eq(invoice_created_at)
+        expect(InvoiceItem.ready_to_ship.map(&:invoice_created_at)).to eq(invoice_created_at)
       end
     end
   end

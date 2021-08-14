@@ -11,7 +11,7 @@ class InvoiceItem < ApplicationRecord
   validates :unit_price, presence: true
   validates :status, presence: true
 
-  def self.items_ready_to_ship
+  def self.ready_to_ship
     not_shipped
       .joins(:invoice, :item)
       .select('invoice_items.*,
