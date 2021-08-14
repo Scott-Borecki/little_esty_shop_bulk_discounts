@@ -9,6 +9,9 @@ RSpec.describe GithubService, type: :service do
 
         expect(repository).to have_key(:name)
         expect(repository[:name]).to be_a(String) if repository[:name].present?
+
+        expect(repository).to have_key(:html_url)
+        expect(repository[:html_url]).to be_a(String) if repository[:html_url].present?
       end
     end
   end
