@@ -3,8 +3,6 @@ class Customer < ApplicationRecord
   has_many :merchants, through: :invoices
   has_many :transactions, through: :invoices
 
-  delegate :successful_count, to: :transactions, prefix: true
-
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :address, presence: true
@@ -15,9 +13,9 @@ class Customer < ApplicationRecord
   def self.top_customers(number = 5)
     joins(:transactions)
       .merge(Transaction.successful)
-      .select('customers.*, COUNT(transactions.result) as top_result')
+      .select('customers.*, COUNT(transactions.result) as transaction_count')
       .group(:id)
-      .order(top_result: :desc)
+      .order(transaction_count: :desc)
       .limit(number)
   end
 

@@ -56,18 +56,4 @@ RSpec.describe Customer, type: :model do
       end
     end
   end
-
-  describe 'delegated methods' do
-    describe '#transactions_successful_count' do
-      # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_merchant_with_many_customers_and_items
-
-      it 'returns the number of transactions by the customer' do
-        expect(customer1.transactions_successful_count).to eq(1)
-        expect(customer2.transactions_successful_count).to eq(3)
-        expect(customer3.transactions_successful_count).to eq(5)
-        expect(customer4.transactions_successful_count).to eq(4)
-      end
-    end
-  end
 end

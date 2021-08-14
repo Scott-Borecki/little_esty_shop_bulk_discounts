@@ -12,8 +12,4 @@ class Transaction < ApplicationRecord
                                           numericality: true,
                                           length: { is: 4 }
   validates :result, presence: true
-
-  def self.successful_count
-    successful.count
-  end
 end

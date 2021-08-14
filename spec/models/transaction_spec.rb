@@ -34,18 +34,4 @@ RSpec.describe Transaction, type: :model do
       end
     end
   end
-
-  describe 'class methods' do
-    describe '.successful_count' do
-      it 'returns the number of successful transactions' do
-        create(:transaction, result: 0)
-        create(:transaction, result: 0)
-        create(:transaction, result: 1)
-        create(:transaction, result: 1)
-        create(:transaction, result: 1)
-
-        expect(Transaction.successful_count).to eq(3)
-      end
-    end
-  end
 end
