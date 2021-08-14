@@ -35,6 +35,12 @@ RSpec.describe 'welcome index (/)' do
         expect(current_path).to include('/merchant/')
         expect(current_path).to include('/dashboard')
       end
+
+      it 'displays the GitHub repository name' do
+        repository = GithubFacade.repository
+        expect(page).to have_content("GitHub Repository: #{repository.repo_name}")
+        expect(page).to have_link(repository.repo_name)
+      end
     end
   end
 end

@@ -2,12 +2,13 @@ require 'rails_helper'
 
 RSpec.describe GithubFacade, type: :facade do
   describe 'class methods' do
-    describe '.repository_name' do
-      it 'returns the repository name' do
-        repository_name = GithubFacade.repository_name
+    describe '.repository' do
+      it 'returns the repository as a Github object' do
+        repository = GithubFacade.repository
 
-        expect(repository_name).to be_an(String)
-        expect(repository_name).to eq('little_esty_shop_bulk_discounts')
+        expect(repository).to be_a(Github)
+        expect(repository.repo_name).to eq('little_esty_shop_bulk_discounts')
+        expect(repository.url).to eq('https://github.com/Scott-Borecki/little_esty_shop_bulk_discounts')
       end
     end
   end

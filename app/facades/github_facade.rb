@@ -1,6 +1,6 @@
 class GithubFacade
-  def self.repository_name
+  def self.repository
     repository_data = GithubService.repository
-    repository_data[:name]
+    Github.new(repository_data)
   end
 end

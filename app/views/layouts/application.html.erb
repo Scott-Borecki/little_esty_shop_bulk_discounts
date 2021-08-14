@@ -33,5 +33,17 @@
 
       <%= yield %>
     </div>
+    <footer>
+      <hr>
+      <div class='row'>
+        <div class='col-auto'>
+          <%= image_tag 'GitHub-Mark-64px.png', alt: 'GitHub Logo' %>
+        </div>
+
+        <div class='col'>
+          GitHub Repository: <%= link_to @repository.repo_name, @repository.url %>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
