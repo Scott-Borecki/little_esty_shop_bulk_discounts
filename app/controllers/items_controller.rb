@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :fetch_current_item, only: [:show, :edit, :update]
-  before_action :fetch_current_merchant, except: :destroy
+  before_action :fetch_current_merchant
 
   def index
     @enabled_items = @merchant.items.where(status: 1)
