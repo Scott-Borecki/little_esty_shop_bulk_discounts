@@ -29,26 +29,6 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'class methods' do
-    describe '.top_customers_by_transactions' do
-      # See /spec/object_creation_helper.rb for more info on factories created
-      create_objects_merchant_with_many_customers_and_items
-
-      it 'returns the top customers by number of transactions' do
-        top_customers             = [customer3, customer4, customer2, customer7, customer8]
-        top_customer_ids          = top_customers.map(&:id)
-        top_customer_first_names  = top_customers.map(&:first_name)
-        top_customer_last_names   = top_customers.map(&:last_name)
-        top_customer_transactions = [5, 4, 3, 2, 2]
-
-        expect(Item.top_customers_by_transactions.to_a.size).to eq(5)
-        expect(Item.top_customers_by_transactions(2).to_a.size).to eq(2)
-        expect(Item.top_customers_by_transactions.map(&:id)).to eq(top_customer_ids)
-        expect(Item.top_customers_by_transactions.map(&:first_name)).to eq(top_customer_first_names)
-        expect(Item.top_customers_by_transactions.map(&:last_name)).to eq(top_customer_last_names)
-        expect(Item.top_customers_by_transactions.map(&:number_transactions)).to eq(top_customer_transactions)
-      end
-    end
-
     describe '.top_items_by_revenue' do
       # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
@@ -72,6 +52,26 @@ RSpec.describe Item, type: :model do
 
       it 'returns the best day by revenue and most recent' do
         expect(item1.top_revenue_day).to eq(invoice2.formatted_date)
+      end
+    end
+
+    describe '#top_customers_by_transactions' do
+      # See /spec/object_creation_helper.rb for more info on factories created
+      create_objects_item_with_many_customers
+
+      it 'returns the top customers by number of transactions' do
+        top_customers             = [customer3, customer4, customer2, customer7, customer8]
+        top_customer_ids          = top_customers.map(&:id)
+        top_customer_first_names  = top_customers.map(&:first_name)
+        top_customer_last_names   = top_customers.map(&:last_name)
+        top_customer_transactions = [5, 4, 3, 2, 2]
+
+        expect(item1.top_customers_by_transactions.to_a.size).to eq(5)
+        expect(item1.top_customers_by_transactions(2).to_a.size).to eq(2)
+        expect(item1.top_customers_by_transactions.map(&:id)).to eq(top_customer_ids)
+        expect(item1.top_customers_by_transactions.map(&:first_name)).to eq(top_customer_first_names)
+        expect(item1.top_customers_by_transactions.map(&:last_name)).to eq(top_customer_last_names)
+        expect(item1.top_customers_by_transactions.map(&:transaction_count)).to eq(top_customer_transactions)
       end
     end
   end

@@ -74,12 +74,12 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         it 'displays the number of transactions next to each customer' do
           top_five_customers_transactions =
             top_five_customers.map do |customer|
-              [customer.id, customer.number_transactions]
+              [customer.id, customer.transaction_count]
             end
 
-          top_five_customers_transactions.each do |customer_id, number_transactions|
+          top_five_customers_transactions.each do |customer_id, transaction_count|
             within "#top-customer-#{customer_id}" do
-              expect(page).to have_content(number_transactions)
+              expect(page).to have_content(transaction_count)
             end
           end
         end

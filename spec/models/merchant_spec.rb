@@ -101,7 +101,7 @@ describe Merchant do
         expect(merchant.top_customers_by_transactions.map(&:id)).to eq(top_customer_ids)
         expect(merchant.top_customers_by_transactions.map(&:first_name)).to eq(top_customer_first_names)
         expect(merchant.top_customers_by_transactions.map(&:last_name)).to eq(top_customer_last_names)
-        expect(merchant.top_customers_by_transactions.map(&:number_transactions)).to eq(top_customer_transactions)
+        expect(merchant.top_customers_by_transactions.map(&:transaction_count)).to eq(top_customer_transactions)
       end
     end
 
