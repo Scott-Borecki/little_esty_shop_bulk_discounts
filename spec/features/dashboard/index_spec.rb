@@ -19,17 +19,17 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
       end
 
       it 'displays a link to my merchant items index (/merchants/merchant_id/items)' do
-        expect(page).to have_link("Items")
+        expect(page).to have_link('Items')
 
-        click_link "Items"
+        click_link 'Items'
 
         expect(current_path).to eq("/merchant/#{merchant1.id}/items")
       end
 
       it 'displays a link to my merchant invoices index (/merchants/merchant_id/invoices)' do
-        expect(page).to have_link("Invoices")
+        expect(page).to have_link('Invoices')
 
-        click_link "Invoices"
+        click_link 'Invoices'
 
         expect(current_path).to eq("/merchant/#{merchant1.id}/invoices")
       end
