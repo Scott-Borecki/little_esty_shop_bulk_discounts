@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Merchant do
-  describe "validations" do
+  describe 'validations' do
     it { should define_enum_for(:status).with_values(enabled: 0, disabled: 1) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:status) }
@@ -18,7 +18,7 @@ describe Merchant do
     end
   end
 
-  describe "relationships" do
+  describe 'relationships' do
     it { should have_many(:bulk_discounts) }
     it { should have_many(:items) }
     it { should have_many(:invoice_items).through(:items) }

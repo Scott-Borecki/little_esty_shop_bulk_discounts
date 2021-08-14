@@ -6,7 +6,7 @@ RSpec.describe Github, type: :poro do
       name: 'little_esty_shop_bulk_discounts',
       html_url: 'https://github.com/Scott-Borecki/little_esty_shop_bulk_discounts',
       owner: {
-        id: 79381792,
+        id: 79_381_792,
         login: 'Scott-Borecki',
         html_url: 'https://github.com/Scott-Borecki'
       }
@@ -18,7 +18,7 @@ RSpec.describe Github, type: :poro do
     expect(github.repo_name).to eq('little_esty_shop_bulk_discounts')
     expect(github.url).to eq('https://github.com/Scott-Borecki/little_esty_shop_bulk_discounts')
     expect(github.owner).to eq('Scott-Borecki')
-    expect(github.owner_id).to eq(79381792)
+    expect(github.owner_id).to eq(79_381_792)
     expect(github.owner_url).to eq('https://github.com/Scott-Borecki')
   end
 

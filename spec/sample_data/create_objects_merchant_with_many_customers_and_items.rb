@@ -35,28 +35,28 @@ def create_objects_merchant_with_many_customers_and_items
   let!(:item19) { create(:item, merchant: merchant) } # total_revenue = 160
   let!(:item20) { create(:item, merchant: merchant) } # total_revenue = 160
 
-  let!(:invoice1a) {  create(:invoice, :completed, customer: customer1,  created_at: "2021-07-24T17:30:05+0700") }
-  let!(:invoice1b) {  create(:invoice, :completed, customer: customer1,  created_at: "2021-07-27T17:30:05+0700") }
-  let!(:invoice2a) {  create(:invoice, :completed, customer: customer2,  created_at: "2021-07-26T17:30:05+0700") }
-  let!(:invoice2b) {  create(:invoice, :completed, customer: customer2,  created_at: "2021-07-17T17:30:05+0700") }
-  let!(:invoice2c) {  create(:invoice, :completed, customer: customer2,  created_at: "2021-07-18T17:30:05+0700") }
-  let!(:invoice3a) {  create(:invoice, :completed, customer: customer3,  created_at: "2021-07-29T17:30:05+0700") }
-  let!(:invoice3b) {  create(:invoice, :completed, customer: customer3,  created_at: "2021-07-22T17:30:05+0700") }
-  let!(:invoice3c) {  create(:invoice, :completed, customer: customer3,  created_at: "2021-07-28T17:30:05+0700") }
-  let!(:invoice3d) {  create(:invoice, :completed, customer: customer3,  created_at: "2021-07-02T17:30:05+0700") }
-  let!(:invoice3e) {  create(:invoice, :completed, customer: customer3,  created_at: "2021-07-14T17:30:05+0700") }
-  let!(:invoice4a) {  create(:invoice, :completed, customer: customer4,  created_at: "2021-07-29T17:30:05+0700") }
-  let!(:invoice4b) {  create(:invoice, :completed, customer: customer4,  created_at: "2021-07-17T17:30:05+0700") }
-  let!(:invoice4c) {  create(:invoice, :completed, customer: customer4,  created_at: "2021-07-08T17:30:05+0700") }
-  let!(:invoice4d) {  create(:invoice, :completed, customer: customer4,  created_at: "2021-07-01T17:30:05+0700") }
-  let!(:invoice5a) {  create(:invoice, :completed, customer: customer5,  created_at: "2021-07-04T17:30:05+0700") }
-  let!(:invoice6a) {  create(:invoice, :completed, customer: customer6,  created_at: "2021-07-06T17:30:05+0700") }
-  let!(:invoice7a) {  create(:invoice, :completed, customer: customer7,  created_at: "2021-07-23T17:30:05+0700") }
-  let!(:invoice7b) {  create(:invoice, :completed, customer: customer7,  created_at: "2021-07-22T17:30:05+0700") }
-  let!(:invoice8a) {  create(:invoice, :completed, customer: customer8,  created_at: "2021-07-25T17:30:05+0700") }
-  let!(:invoice8b) {  create(:invoice, :completed, customer: customer8,  created_at: "2021-07-30T17:30:05+0700") }
-  let!(:invoice9a) {  create(:invoice, :completed, customer: customer9,  created_at: "2021-07-14T17:30:05+0700") }
-  let!(:invoice10a) { create(:invoice, :completed, customer: customer10, created_at: "2021-07-13T17:30:05+0700") }
+  let!(:invoice1a) {  create(:invoice, :completed, customer: customer1,  created_at: '2021-07-24T17:30:05+0700') }
+  let!(:invoice1b) {  create(:invoice, :completed, customer: customer1,  created_at: '2021-07-27T17:30:05+0700') }
+  let!(:invoice2a) {  create(:invoice, :completed, customer: customer2,  created_at: '2021-07-26T17:30:05+0700') }
+  let!(:invoice2b) {  create(:invoice, :completed, customer: customer2,  created_at: '2021-07-17T17:30:05+0700') }
+  let!(:invoice2c) {  create(:invoice, :completed, customer: customer2,  created_at: '2021-07-18T17:30:05+0700') }
+  let!(:invoice3a) {  create(:invoice, :completed, customer: customer3,  created_at: '2021-07-29T17:30:05+0700') }
+  let!(:invoice3b) {  create(:invoice, :completed, customer: customer3,  created_at: '2021-07-22T17:30:05+0700') }
+  let!(:invoice3c) {  create(:invoice, :completed, customer: customer3,  created_at: '2021-07-28T17:30:05+0700') }
+  let!(:invoice3d) {  create(:invoice, :completed, customer: customer3,  created_at: '2021-07-02T17:30:05+0700') }
+  let!(:invoice3e) {  create(:invoice, :completed, customer: customer3,  created_at: '2021-07-14T17:30:05+0700') }
+  let!(:invoice4a) {  create(:invoice, :completed, customer: customer4,  created_at: '2021-07-29T17:30:05+0700') }
+  let!(:invoice4b) {  create(:invoice, :completed, customer: customer4,  created_at: '2021-07-17T17:30:05+0700') }
+  let!(:invoice4c) {  create(:invoice, :completed, customer: customer4,  created_at: '2021-07-08T17:30:05+0700') }
+  let!(:invoice4d) {  create(:invoice, :completed, customer: customer4,  created_at: '2021-07-01T17:30:05+0700') }
+  let!(:invoice5a) {  create(:invoice, :completed, customer: customer5,  created_at: '2021-07-04T17:30:05+0700') }
+  let!(:invoice6a) {  create(:invoice, :completed, customer: customer6,  created_at: '2021-07-06T17:30:05+0700') }
+  let!(:invoice7a) {  create(:invoice, :completed, customer: customer7,  created_at: '2021-07-23T17:30:05+0700') }
+  let!(:invoice7b) {  create(:invoice, :completed, customer: customer7,  created_at: '2021-07-22T17:30:05+0700') }
+  let!(:invoice8a) {  create(:invoice, :completed, customer: customer8,  created_at: '2021-07-25T17:30:05+0700') }
+  let!(:invoice8b) {  create(:invoice, :completed, customer: customer8,  created_at: '2021-07-30T17:30:05+0700') }
+  let!(:invoice9a) {  create(:invoice, :completed, customer: customer9,  created_at: '2021-07-14T17:30:05+0700') }
+  let!(:invoice10a) { create(:invoice, :completed, customer: customer10, created_at: '2021-07-13T17:30:05+0700') }
 
   let!(:transaction1a) {  create(:transaction, :failed,  invoice: invoice1a) }
   let!(:transaction1b) {  create(:transaction, :success, invoice: invoice1b) }

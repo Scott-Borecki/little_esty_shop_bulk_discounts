@@ -38,7 +38,7 @@ def create_objects
   let!(:item6a) { create(:item, merchant: merchant6) }
 
   ### INVOICES ###
-  let!(:invoice1) {  create(:invoice, :completed, customer: customer1, created_at: "2021-07-28T17:30:05+0700") } # ii_status = pending
+  let!(:invoice1) {  create(:invoice, :completed, customer: customer1, created_at: '2021-07-28T17:30:05+0700') } # ii_status = pending
 
   let!(:invoice2a) { create(:invoice, :completed, customer: customer2) } # ii_status = shipped
   let!(:invoice2b) { create(:invoice, :completed, customer: customer2) } # ii_status = shipped
@@ -46,15 +46,15 @@ def create_objects
   let!(:invoice2d) { create(:invoice, :completed, customer: customer2) } # ii_status = shipped
   let!(:invoice2e) { create(:invoice, :completed, customer: customer2) } # ii_status = shipped
 
-  let!(:invoice3) {  create(:invoice, :completed, customer: customer3, created_at: "2021-07-27T17:30:05+0700") } # ii_status = packaged
+  let!(:invoice3) {  create(:invoice, :completed, customer: customer3, created_at: '2021-07-27T17:30:05+0700') } # ii_status = packaged
 
   let!(:invoice4a) { create(:invoice, :completed, customer: customer4) } # ii_status = shipped
   let!(:invoice4b) { create(:invoice, :completed, customer: customer4) } # ii_status = shipped
   let!(:invoice4c) { create(:invoice, :completed, customer: customer4) } # ii_status = shipped
   let!(:invoice4d) { create(:invoice, :completed, customer: customer4) } # ii_status = shipped
 
-  let!(:invoice5a) { create(:invoice, :completed, customer: customer5, created_at: "2021-07-23T17:30:05+0700") } # ii_status = packaged
-  let!(:invoice5b) { create(:invoice, :completed, customer: customer5, created_at: "2021-07-25T17:30:05+0700") } # ii_status = packaged
+  let!(:invoice5a) { create(:invoice, :completed, customer: customer5, created_at: '2021-07-23T17:30:05+0700') } # ii_status = packaged
+  let!(:invoice5b) { create(:invoice, :completed, customer: customer5, created_at: '2021-07-25T17:30:05+0700') } # ii_status = packaged
 
   let!(:invoice6a) { create(:invoice, :completed, customer: customer6) } # ii_status = shipped
   let!(:invoice6b) { create(:invoice, :completed, customer: customer6) } # ii_status = shipped
