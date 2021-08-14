@@ -5,11 +5,17 @@ class GithubFacade
     Github.new(repository_data)
   end
 
-  def self.commits
-    GithubService.commits
+  def self.number_of_commits(user_id)
+    user_commit_stats =
+      GithubService.commits.find do |contributor_stats|
+        user_id == contributor_stats[:author][:id]
+      end
+    user_commit_stats[:total]
   end
 
-  def self.pull_requests
-    GithubService.pull_requests
+  def self.number_of_pull_requests(user_id)
+    GithubService.pull_requests.count do |pull_request|
+      user_id == pull_request[:user][:id]
+    end
   end
 end

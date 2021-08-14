@@ -14,17 +14,10 @@ class Github
   end
 
   def number_of_commits
-    owner_stats =
-      GithubFacade.commits.find do |contributor_stats|
-        @owner_id == contributor_stats[:author][:id]
-      end
-
-    owner_stats[:total]
+    GithubFacade.number_of_commits(@owner_id)
   end
 
   def number_of_pull_requests
-    GithubFacade.pull_requests.count do |pull_request|
-      @owner_id == pull_request[:user][:id]
-    end
+    GithubFacade.number_of_pull_requests(@owner_id)
   end
 end
