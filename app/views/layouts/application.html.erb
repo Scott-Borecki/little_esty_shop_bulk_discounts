@@ -33,22 +33,5 @@
 
       <%= yield %>
     </div>
-    <footer>
-      <hr>
-      <div class='row'>
-        <div class='col-auto'>
-          <%= image_tag 'GitHub-Mark-64px.png', alt: 'GitHub Logo' %>
-        </div>
-
-        <div class='col'>
-          GitHub Repository: <%= link_to @repository.repo_name, url_for(@repository.url) %><br>
-          Repository Owner: <%= link_to @repository.owner, url_for(@repository.owner_url) %><br>
-          <ul>
-            <li>Number of Commits: <%= @repository.number_of_commits %></li>
-            <li>Number of Pull Requests: <%= @repository.number_of_pull_requests %></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
   </body>
 </html>

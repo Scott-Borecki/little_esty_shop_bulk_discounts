@@ -4,3 +4,21 @@
   <%= link_to 'Admin Dashboard', admin_dashboard_index_path, class: 'btn btn-primary' %>
   <%= link_to 'Merchant Dashboard', merchant_dashboard_index_path(@random_merchant), class: 'btn btn-primary' %>
 </div>
+
+<footer>
+  <hr>
+  <div class='row'>
+    <div class='col-auto'>
+      <%= image_tag 'GitHub-Mark-64px.png', alt: 'GitHub Logo', class: 'vam' %>
+    </div>
+
+    <div class='col'>
+      <strong>GitHub Repository:</strong> <%= link_to @repository.repo_name, url_for(@repository.url) %><br>
+      <strong>Repository Owner:</strong> <%= link_to @repository.owner, url_for(@repository.owner_url) %><br>
+      <ul>
+        <li><strong>Number of Commits:</strong> <%= @repository.number_of_commits %></li>
+        <li><strong>Number of Pull Requests:</strong> <%= @repository.number_of_pull_requests %></li>
+      </ul>
+    </div>
+  </div>
+</footer>
