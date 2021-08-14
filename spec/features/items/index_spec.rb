@@ -219,7 +219,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
 
         it 'displays the best day next to each top item' do
           merchant1_top_items.each do |top_item|
-            expect(page).to have_content("Top selling date for #{item1.name} was #{item1.top_revenue_day}")
+            expect(page).to have_content("Top selling date for #{top_item.name} was #{top_item.top_revenue_day}")
           end
         end
       end
