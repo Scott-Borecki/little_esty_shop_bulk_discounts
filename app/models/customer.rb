@@ -10,7 +10,7 @@ class Customer < ApplicationRecord
   validates :state, presence: true
   validates :zip, presence: true, numericality: true, length: { is: 5 }
 
-  def self.top_customers(number = 5)
+  def self.top_customers_by_transactions(number = 5)
     joins(:transactions)
       .merge(Transaction.successful)
       .select('customers.*, COUNT(transactions.result) as transaction_count')

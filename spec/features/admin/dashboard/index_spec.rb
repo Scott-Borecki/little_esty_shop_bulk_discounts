@@ -4,7 +4,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
   # See /spec/object_creation_helper.rb for more info on factories created
   create_objects
 
-  let(:top_customers) { Customer.top_customers }
+  let(:top_customers) { Customer.top_customers_by_transactions }
   let(:shipped_items) { [invoice2a, invoice2b, invoice2c, invoice2d,
                          invoice2e, invoice4a, invoice4b, invoice4c,
                          invoice4d, invoice6a, invoice6b, invoice6c] }
