@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe GithubService, type: :service do
   describe 'class methods' do
     describe '.repository' do
-      it 'returns holiday data' do
+      it 'returns the repository data' do
         repository = GithubService.repository
         expect(repository).to be_an(Hash)
 
@@ -23,7 +23,7 @@ RSpec.describe GithubService, type: :service do
     end
 
     describe '.commits' do
-      it 'returns holiday data' do
+      it 'returns the commits data' do
         commits = GithubService.commits
         expect(commits).to be_an(Array)
         expect(commits.first).to be_an(Hash)
