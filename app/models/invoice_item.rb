@@ -2,7 +2,7 @@ class InvoiceItem < ApplicationRecord
   scope :total_revenue, -> { sum('quantity * unit_price') }
   scope :not_shipped, -> { where.not(status: :shipped) }
 
-  enum status: [:pending, :packaged, :shipped]
+  enum status: { pending: 0, packaged: 1, shipped: 2 }
 
   belongs_to :invoice
   belongs_to :item

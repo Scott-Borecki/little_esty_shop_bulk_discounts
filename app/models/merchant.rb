@@ -1,5 +1,5 @@
 class Merchant < ApplicationRecord
-  enum status: [:enabled, :disabled]
+  enum status: { enabled: 0, disabled: 1 }
 
   has_many :bulk_discounts, dependent: :destroy
   has_many :items, dependent: :destroy
