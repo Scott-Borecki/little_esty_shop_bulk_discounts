@@ -24,14 +24,14 @@ describe 'merchant items index (merchants/merchant_id/items)' do
   let!(:invoice6) { create(:invoice, status: 2) }
   let!(:invoice7) { create(:invoice, status: 2) }
 
-  let!(:ii1) { create(:invoice_item, invoice: invoice1, item: item1, quantity: 9, unit_price: 10099, status: 0) }
-  let!(:ii2) { create(:invoice_item, invoice: invoice2, item: item1, quantity: 1, unit_price: 10099, status: 0) }
-  let!(:ii3) { create(:invoice_item, invoice: invoice3, item: item2, quantity: 2, unit_price: 8099,  status: 2) }
-  let!(:ii4) { create(:invoice_item, invoice: invoice4, item: item3, quantity: 3, unit_price: 5099,  status: 1) }
-  let!(:ii6) { create(:invoice_item, invoice: invoice5, item: item4, quantity: 1, unit_price: 1099,  status: 1) }
-  let!(:ii7) { create(:invoice_item, invoice: invoice6, item: item7, quantity: 1, unit_price: 3099,  status: 1) }
-  let!(:ii8) { create(:invoice_item, invoice: invoice7, item: item8, quantity: 1, unit_price: 5099,  status: 1) }
-  let!(:ii9) { create(:invoice_item, invoice: invoice7, item: item4, quantity: 1, unit_price: 1099,  status: 1) }
+  let!(:ii1) { create(:invoice_item, invoice: invoice1, item: item1, quantity: 9, unit_price: 10_099, status: 0) }
+  let!(:ii2) { create(:invoice_item, invoice: invoice2, item: item1, quantity: 1, unit_price: 10_099, status: 0) }
+  let!(:ii3) { create(:invoice_item, invoice: invoice3, item: item2, quantity: 2, unit_price: 8_099,  status: 2) }
+  let!(:ii4) { create(:invoice_item, invoice: invoice4, item: item3, quantity: 3, unit_price: 5_099,  status: 1) }
+  let!(:ii6) { create(:invoice_item, invoice: invoice5, item: item4, quantity: 1, unit_price: 1_099,  status: 1) }
+  let!(:ii7) { create(:invoice_item, invoice: invoice6, item: item7, quantity: 1, unit_price: 3_099,  status: 1) }
+  let!(:ii8) { create(:invoice_item, invoice: invoice7, item: item8, quantity: 1, unit_price: 5_099,  status: 1) }
+  let!(:ii9) { create(:invoice_item, invoice: invoice7, item: item4, quantity: 1, unit_price: 1_099,  status: 1) }
 
   let!(:transaction1) { create(:transaction, result: 1, invoice: invoice1) }
   let!(:transaction2) { create(:transaction, result: 1, invoice: invoice2) }
