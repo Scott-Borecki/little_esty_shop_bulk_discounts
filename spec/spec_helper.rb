@@ -45,10 +45,11 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   # This stubs the API request for the github repo for each facade test
-  %i(facade feature service).each do |type|
+  %i(facade feature poro service).each do |type|
     config.before(type: type) do
       # See /spec/rails_helper.rb for stub method
       stub_get_json_github_repo
+      stub_get_json_github_commits
       stub_get_json_holiday
     end
   end

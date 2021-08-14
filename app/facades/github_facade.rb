@@ -4,4 +4,8 @@ class GithubFacade
 
     Github.new(repository_data)
   end
+
+  def self.commits
+    GithubService.commits
+  end
 end

@@ -57,6 +57,11 @@ RSpec.describe 'welcome index (/)' do
         #
         # expect(current_url).to eq('https://github.com/Scott-Borecki')
       end
+
+      it 'displays the number of commits by the owner' do
+        repository = GithubFacade.repository
+        expect(page).to have_content("Number of Commits by Owner: #{repository.number_of_commits}")
+      end
     end
   end
 end

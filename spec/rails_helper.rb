@@ -32,6 +32,14 @@ def stub_get_json_github_repo
     to_return(body: response.body)
 end
 
+def stub_get_json_github_commits
+  url      = 'https://api.github.com/repos/Scott-Borecki/little_esty_shop_bulk_discounts/stats/contributors'
+  response = VCR.use_cassette('github/commits') { Faraday.get(url) }
+
+  stub_request(:get, url).
+    to_return(body: response.body)
+end
+
 def stub_get_json_holiday(country_code = 'US')
   url      = "https://date.nager.at/api/v3/NextPublicHolidays/#{country_code}"
   response = VCR.use_cassette('holiday/holiday') { Faraday.get(url) }
