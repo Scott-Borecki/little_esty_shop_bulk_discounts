@@ -14,7 +14,7 @@
         <li class='top-merchant'>
           <div id='top-merchant-<%= merchant.id %>'>
             <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %><br>
-            <%= number_to_currency(merchant.revenue / 100.00) %> in sales
+            <%= number_to_currency(merchant.total_revenue / 100.00) %> in sales
           </div>
 
           <div id='top-day-<%= merchant.id %>'>

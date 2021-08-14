@@ -20,10 +20,10 @@ class Merchant < ApplicationRecord
       .merge(Transaction.successful)
       .select(
         'merchants.*,
-        SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue'
+        SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue'
       )
       .group(:id)
-      .order(revenue: :desc)
+      .order(total_revenue: :desc)
       .limit(number)
   end
 end

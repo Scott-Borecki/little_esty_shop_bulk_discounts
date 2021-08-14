@@ -103,7 +103,7 @@ describe 'admin merchant index (/admin/merchants)' do
         it 'displays the total revenue generated next to each top 5 merchants' do
           top_five_merchants.each do |merchant|
             within("#top-merchant-#{merchant.id}") do
-              expect(page).to have_content(number_to_currency(merchant.revenue / 100.00))
+              expect(page).to have_content(number_to_currency(merchant.total_revenue / 100.00))
             end
           end
         end

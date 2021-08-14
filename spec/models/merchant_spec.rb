@@ -44,7 +44,7 @@ describe Merchant do
       it 'returns the revenue of each top merchant' do
         top_five_merchants_revenue = [710, 680, 150, 140, 130]
 
-        expect(Merchant.top_merchants_by_revenue.map(&:revenue)).to eq(top_five_merchants_revenue)
+        expect(Merchant.top_merchants_by_revenue.map(&:total_revenue)).to eq(top_five_merchants_revenue)
       end
     end
   end
