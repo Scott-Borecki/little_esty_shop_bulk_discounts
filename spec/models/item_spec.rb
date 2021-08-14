@@ -21,8 +21,11 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'relationships' do
-    it { should have_many(:invoices).through(:invoice_items) }
     it { should belong_to(:merchant) }
+    it { should have_many(:invoice_items) }
+    it { should have_many(:invoices).through(:invoice_items) }
+    it { should have_many(:customers).through(:invoices) }
+    it { should have_many(:transactions).through(:invoices) }
   end
 
   describe 'class methods' do
