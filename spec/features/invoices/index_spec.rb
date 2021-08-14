@@ -9,10 +9,10 @@ describe "merchant invoices index (/merchant/:merchant_id/invoices)" do
   let!(:item3) { create(:item, merchant: merchant1) }
   let!(:item4) { create(:item, merchant: merchant1) }
 
-  let!(:item5) {create(:item, merchant: merchant2)}
-  let!(:item6) {create(:item, merchant: merchant2)}
-  let!(:item7) {create(:item, merchant: merchant2)}
-  let!(:item8) {create(:item, merchant: merchant2)}
+  let!(:item5) { create(:item, merchant: merchant2) }
+  let!(:item6) { create(:item, merchant: merchant2) }
+  let!(:item7) { create(:item, merchant: merchant2) }
+  let!(:item8) { create(:item, merchant: merchant2) }
 
   let!(:invoice_item1) {  create(:invoice_item, item: item1) }
   let!(:invoice_item2) {  create(:invoice_item, item: item1) }

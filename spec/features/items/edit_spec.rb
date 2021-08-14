@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe "merchant items edit (/merchant/:merchant_id/items/:id/edit)" do
   let!(:merchant1) { create(:merchant) }
-  let!(:item1) {create(:item, merchant: merchant1, description: 'This washes your hair') }
-  let!(:item2) {create(:item, merchant: merchant1) }
+  let!(:item1) { create(:item, merchant: merchant1, description: 'This washes your hair') }
+  let!(:item2) { create(:item, merchant: merchant1) }
 
   let(:original_description) { 'This washes your hair' }
 

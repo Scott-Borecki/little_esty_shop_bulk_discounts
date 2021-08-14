@@ -6,15 +6,15 @@ describe 'merchant items index (merchants/merchant_id/items)' do
   let!(:merchant1) { create(:merchant) }
   let!(:merchant2) { create(:merchant) }
 
-  let!(:item1) {create(:item, merchant: merchant1, status: 1) }
-  let!(:item2) {create(:item, merchant: merchant1) }
-  let!(:item3) {create(:item, merchant: merchant1) }
-  let!(:item4) {create(:item, merchant: merchant1) }
-  let!(:item7) {create(:item, merchant: merchant1) }
-  let!(:item8) {create(:item, merchant: merchant1) }
+  let!(:item1) { create(:item, merchant: merchant1, status: 1) }
+  let!(:item2) { create(:item, merchant: merchant1) }
+  let!(:item3) { create(:item, merchant: merchant1) }
+  let!(:item4) { create(:item, merchant: merchant1) }
+  let!(:item7) { create(:item, merchant: merchant1) }
+  let!(:item8) { create(:item, merchant: merchant1) }
 
-  let!(:item5) {create(:item, merchant: merchant2) }
-  let!(:item6) {create(:item, merchant: merchant2) }
+  let!(:item5) { create(:item, merchant: merchant2) }
+  let!(:item6) { create(:item, merchant: merchant2) }
 
   let!(:invoice1) { create(:invoice, status: 2, created_at: '2012-03-27 14:54:09') }
   let!(:invoice2) { create(:invoice, status: 2, created_at: '2012-03-28 14:54:09') }
