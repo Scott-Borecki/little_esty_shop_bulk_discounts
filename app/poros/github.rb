@@ -21,4 +21,10 @@ class Github
 
     owner_stats[:total]
   end
+
+  def number_of_pull_requests
+    GithubFacade.pull_requests.count do |pull_request|
+      @owner_id == pull_request[:user][:id]
+    end
+  end
 end

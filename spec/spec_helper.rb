@@ -50,6 +50,7 @@ RSpec.configure do |config|
       # See /spec/rails_helper.rb for stub method
       stub_get_json_github_repo
       stub_get_json_github_commits
+      stub_get_json_github_pull_requests
       stub_get_json_holiday
     end
   end

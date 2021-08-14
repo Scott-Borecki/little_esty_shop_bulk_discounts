@@ -6,6 +6,7 @@ RSpec.describe 'welcome index (/)' do
   describe 'as a user' do
     describe 'when I visit my welcome index (/)' do
       before { visit root_path }
+      let(:repository) { GithubFacade.repository }
 
       it 'displays the welcome page' do
         expect(current_path).to eq(root_path)
@@ -37,7 +38,6 @@ RSpec.describe 'welcome index (/)' do
       end
 
       it 'displays the GitHub repository name' do
-        repository = GithubFacade.repository
         expect(page).to have_content("GitHub Repository: #{repository.repo_name}")
         expect(page).to have_link(repository.repo_name)
         # FIX: Add a driver so external URLs can be visited in tests
@@ -48,7 +48,6 @@ RSpec.describe 'welcome index (/)' do
       end
 
       it 'displays the GitHub repository owner name' do
-        repository = GithubFacade.repository
         expect(page).to have_content("Repository Owner: #{repository.owner}")
         expect(page).to have_link(repository.owner)
         # FIX: Add a driver so external URLs can be visited in tests
@@ -59,8 +58,11 @@ RSpec.describe 'welcome index (/)' do
       end
 
       it 'displays the number of commits by the owner' do
-        repository = GithubFacade.repository
-        expect(page).to have_content("Number of Commits by Owner: #{repository.number_of_commits}")
+        expect(page).to have_content("Number of Commits: #{repository.number_of_commits}")
+      end
+
+      it 'displays the number of pull requests by the owner' do
+        expect(page).to have_content("Number of Pull Requests: #{repository.number_of_pull_requests}")
       end
     end
   end

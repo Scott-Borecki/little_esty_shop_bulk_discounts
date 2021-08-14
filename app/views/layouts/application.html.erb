@@ -43,7 +43,10 @@
         <div class='col'>
           GitHub Repository: <%= link_to @repository.repo_name, url_for(@repository.url) %><br>
           Repository Owner: <%= link_to @repository.owner, url_for(@repository.owner_url) %><br>
-          Number of Commits by Owner: <%= @repository.number_of_commits %>
+          <ul>
+            <li>Number of Commits: <%= @repository.number_of_commits %></li>
+            <li>Number of Pull Requests: <%= @repository.number_of_pull_requests %></li>
+          </ul>
         </div>
       </div>
     </footer>

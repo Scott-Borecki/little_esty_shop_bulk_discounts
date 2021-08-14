@@ -25,8 +25,13 @@ RSpec.describe Github, type: :poro do
   describe 'instance methods' do
     describe '#number_of_commits' do
       it 'returns the number of owner commits' do
-        require "pry"; binding.pry
         expect(github.number_of_commits).to be_an(Integer)
+      end
+    end
+
+    describe '#number_of_pull_requests' do
+      it 'returns the number of owner pull requests' do
+        expect(github.number_of_pull_requests).to be_an(Integer)
       end
     end
   end

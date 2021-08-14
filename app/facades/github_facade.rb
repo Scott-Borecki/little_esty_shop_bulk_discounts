@@ -8,4 +8,8 @@ class GithubFacade
   def self.commits
     GithubService.commits
   end
+
+  def self.pull_requests
+    GithubService.pull_requests
+  end
 end
