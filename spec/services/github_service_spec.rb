@@ -12,6 +12,13 @@ RSpec.describe GithubService, type: :service do
 
         expect(repository).to have_key(:html_url)
         expect(repository[:html_url]).to be_a(String) if repository[:html_url].present?
+
+        expect(repository).to have_key(:owner)
+        expect(repository[:owner][:login]).to be_a(String) if repository[:owner].present?
+        expect(repository[:owner][:id]).to be_an(Integer) if repository[:owner].present?
+        expect(repository[:owner][:html_url]).to be_an(String) if repository[:owner].present?
+      end
+    end
       end
     end
   end

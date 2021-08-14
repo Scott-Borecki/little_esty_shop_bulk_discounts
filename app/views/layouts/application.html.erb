@@ -41,7 +41,8 @@
         </div>
 
         <div class='col'>
-          GitHub Repository: <%= link_to @repository.repo_name, @repository.url %>
+          GitHub Repository: <%= link_to @repository.repo_name, url_for(@repository.url) %><br>
+          Repository Owner: <%= link_to @repository.owner, url_for(@repository.owner_url) %>
         </div>
       </div>
     </footer>
