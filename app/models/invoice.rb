@@ -18,9 +18,9 @@ class Invoice < ApplicationRecord
     joins([:invoice_items, :transactions])
       .merge(Transaction.successful)
       .select('invoices.*,
-               SUM(invoice_items.unit_price * invoice_items.quantity) as money')
+               SUM(invoice_items.unit_price * invoice_items.quantity) as total_revenue')
       .group(:id)
-      .order('money desc', 'invoices.created_at desc')
+      .order('total_revenue desc', 'invoices.created_at desc')
       .first
       .formatted_date
   end
