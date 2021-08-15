@@ -30,13 +30,37 @@ RSpec.describe Customer, type: :model do
       # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
-      it 'returns the top customers, defaulting to order by transactions' do
-        top_five_customers = [customer3, customer4, customer2, customer7, customer8]
+      it 'returns and orders the top customers by most transactions (default)' do
+        top_by_transactions   = [customer3, customer4, customer2, customer7, customer8]
+        top_transaction_count = [5, 4, 3, 2, 2]
 
-        expect(Customer.top_customers.to_a.size).to eq(5)
-        expect(Customer.top_customers).to eq(top_five_customers)
+        actual = Customer.top_customers
+        expect(actual.length).to eq(5)
+        expect(actual).to eq(top_by_transactions)
+        expect(actual.map(&:transaction_count)).to eq(top_transaction_count)
 
-        expect(Customer.top_customers(2).to_a.size).to eq(2)
+        actual = Customer.top_customers(2)
+        expect(actual.length).to eq(2)
+      end
+
+      it 'returns and orders the top customer by total revenue generated' do
+        top_by_total_revenue = [customer3, customer2, customer4, customer8, customer7]
+        top_total_revenue    = [600, 490, 480, 400, 340]
+
+        actual = Customer.top_customers(5, 'total_revenue', 'desc')
+        expect(actual.length).to eq(5)
+        expect(actual).to eq(top_by_total_revenue)
+        expect(actual.map(&:total_revenue)).to eq(top_total_revenue)
+      end
+
+      it 'returns and orders the top customer by total items bought' do
+        top_by_total_items = [customer3, customer4, customer2, customer8, customer7]
+        top_total_items    = [39, 33, 29, 27, 24]
+
+        actual = Customer.top_customers(5, 'total_items', 'desc')
+        expect(actual.length).to eq(5)
+        expect(actual).to eq(top_by_total_items)
+        expect(actual.map(&:total_items)).to eq(top_total_items)
       end
     end
   end

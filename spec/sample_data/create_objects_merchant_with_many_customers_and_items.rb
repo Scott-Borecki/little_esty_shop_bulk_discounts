@@ -1,5 +1,23 @@
 require './spec/support/factory_bot'
 
+# |------------|-------------|----------|----------|-----------|
+# |            | Transaction |   Item   |  Total   |   Total   |
+# |  Customer  |    Count    |   Nos.   |  Items   |  Revenue  |
+# |            |   (Rank)    |          |  (Rank)  |  (Rank))  |
+# |------------|-------------|----------|----------|-----------|
+# | customer1  |   1 (5*)    | 1,2      |  14 (6)  |  240 (6)  |
+# | customer2  |   3 (3)     | 3,4,5    |  29 (3)  |  490 (2)  |
+# | customer3  |   5 (1)     | 6,7,8,9  |  39 (1)  |  600 (1)  |
+# | customer4  |   4 (2)     | 10,11,12 |  33 (2)  |  480 (3)  |
+# | customer5  |   1 (5*)    | 13       |  11 (7*) |  160 (7*) |
+# | customer6  |   1 (5*)    | 14       |  11 (7*) |  160 (7*) |
+# | customer7  |   2 (4*)    | 15,16    |  24 (5)  |  340 (5)  |
+# | customer8  |   2 (4*)    | 17,18    |  27 (4)  |  400 (4)  |
+# | customer9  |   1 (5*)    | 19       |  11 (7*) |  160 (7*) |
+# | customer10 |   1 (5*)    | 20       |  11 (7*) |  160 (7*) |
+# |------------|-------------|----------|----------|-----------|
+# Note: * Indicates tie
+
 def create_objects_merchant_with_many_customers_and_items
   let!(:customer1) {  create(:customer) } # Transaction_count = 1
   let!(:customer2) {  create(:customer) } # Transaction_count = 3 #=> Top Customer 3
