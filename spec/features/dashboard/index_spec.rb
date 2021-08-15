@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
+  include ActionView::Helpers::NumberHelper
+
   # See /spec/object_creation_helper.rb for more info on factories created
   create_objects_merchant_dashboard
 
-  let(:top_five_customers) { merchant1.top_customers_by_transactions }
+  let(:top_five_customers) { merchant1.top_customers }
   let(:invoice_items_ready_to_ship) { merchant1.invoice_items_ready_to_ship }
 
   describe 'as a merchant' do
@@ -71,15 +73,13 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
           end
         end
 
-        it 'displays the number of transactions next to each customer' do
-          top_five_customers_transactions =
-            top_five_customers.map do |customer|
-              [customer.id, customer.transaction_count]
-            end
-
-          top_five_customers_transactions.each do |customer_id, transaction_count|
-            within "#top-customer-#{customer_id}" do
-              expect(page).to have_content(transaction_count)
+        it 'displays the customer details next to each customer' do
+          top_five_customers.each do |customer|
+            within "#top-customer-#{customer.id}" do
+              expect(page).to have_content(customer.full_name)
+              expect(page).to have_content(customer.transaction_count)
+              expect(page).to have_content(customer.total_items)
+              expect(page).to have_content(number_to_currency(customer.total_revenue / 100.00))
             end
           end
         end
@@ -87,7 +87,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
       describe 'within the Items Ready to Ship section' do
         it 'displays list of the unshipped item names, the associated invoice id, and invoice creation date' do
-          within '#ready_to_ship' do
+          within '#ready-to-ship' do
             invoice_items_ready_to_ship.each do |invoice_item|
               expect(page).to have_content(invoice_item.item_name)
               expect(page).to have_content(invoice_item.invoice_id)

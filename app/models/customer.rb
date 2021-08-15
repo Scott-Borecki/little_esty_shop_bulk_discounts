@@ -12,13 +12,15 @@ class Customer < ApplicationRecord
   validates :state, presence: true
   validates :zip, presence: true, numericality: true, length: { is: 5 }
 
-  def self.top_customers_by_transactions(number = 5)
-    joins(:transactions)
+  def self.top_customers(number = 5, order_attribute = 'transaction_count', order = 'desc')
+    joins(:transactions, :invoice_items)
       .merge(Transaction.successful)
       .select('customers.*,
-               COUNT(DISTINCT transactions.id) as transaction_count')
+               COUNT(DISTINCT transactions.id) AS transaction_count,
+               SUM(DISTINCT invoice_items.quantity * invoice_items.unit_price) AS total_revenue,
+               SUM(DISTINCT invoice_items.quantity) AS total_items')
       .group(:id)
-      .order(transaction_count: :desc)
+      .order("#{order_attribute} #{order}")
       .limit(number)
   end
 

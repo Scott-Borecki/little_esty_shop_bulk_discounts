@@ -7,20 +7,42 @@
       Top Customers
     </p>
 
-    <ol class='top-list'>
-      <% @merchant.top_customers_by_transactions.each do |customer| %>
-        <section id='top-customer-<%= customer.id %>' class='card'>
-          <li class='top-customer'>
-            <br>
-            <%= customer.first_name %> <%= customer.last_name %> - <%= customer.transaction_count %> Purchases
-          </li>
-        </section>
-      <% end %>
-    </ol>
+    <div class='card'>
+      <table class='table-invoice'>
+        <tr>
+          <th>No.</th>
+          <th>Customer Name</th>
+          <th>Transactions</th>
+          <th>Total Items</th>
+          <th>Total Revenue</th>
+        </tr>
+        <% @merchant.top_customers.each_with_index do |customer, i| %>
+          <tr id='top-customer-<%= customer.id %>'>
+            <td><%= i + 1 %></td>
+            <td><%= customer.full_name %></td>
+            <td><%= customer.transaction_count %></td>
+            <td><%= customer.total_items %></td>
+            <td><%= number_to_currency(customer.total_revenue / 100.00) %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 
   <% # RIGHT COLUMN %>
-  <div class='col-sm-6' id='ready_to_ship'>
+  <div class='col-sm-6' id='merchant-metrics'>
+    <p class='col-head'>
+      Merchant Metrics
+    </p>
+
+    <p class='card-white'>
+
+    </p>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-sm-12' id='ready-to-ship'>
     <p class='col-head'>
       Items Ready to Ship
     </p>

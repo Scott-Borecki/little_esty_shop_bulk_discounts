@@ -85,7 +85,7 @@ describe Merchant do
       end
     end
 
-    describe '#top_customers_by_transactions' do
+    describe '#top_customers' do
       # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
@@ -96,12 +96,12 @@ describe Merchant do
         top_customer_last_names   = top_customers.map(&:last_name)
         top_customer_transactions = [5, 4, 3, 2, 2]
 
-        expect(merchant.top_customers_by_transactions.to_a.size).to eq(5)
-        expect(merchant.top_customers_by_transactions(2).to_a.size).to eq(2)
-        expect(merchant.top_customers_by_transactions.map(&:id)).to eq(top_customer_ids)
-        expect(merchant.top_customers_by_transactions.map(&:first_name)).to eq(top_customer_first_names)
-        expect(merchant.top_customers_by_transactions.map(&:last_name)).to eq(top_customer_last_names)
-        expect(merchant.top_customers_by_transactions.map(&:transaction_count)).to eq(top_customer_transactions)
+        expect(merchant.top_customers.to_a.size).to eq(5)
+        expect(merchant.top_customers(2).to_a.size).to eq(2)
+        expect(merchant.top_customers.map(&:id)).to eq(top_customer_ids)
+        expect(merchant.top_customers.map(&:first_name)).to eq(top_customer_first_names)
+        expect(merchant.top_customers.map(&:last_name)).to eq(top_customer_last_names)
+        expect(merchant.top_customers.map(&:transaction_count)).to eq(top_customer_transactions)
       end
     end
 

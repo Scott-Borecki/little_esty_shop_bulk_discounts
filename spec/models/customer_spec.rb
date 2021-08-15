@@ -26,17 +26,17 @@ RSpec.describe Customer, type: :model do
   end
 
   describe 'class methods' do
-    describe '.top_customers_by_transactions' do
+    describe '.top_customers' do
       # See /spec/object_creation_helper.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
-      it 'returns the top customers' do
+      it 'returns the top customers, defaulting to order by transactions' do
         top_five_customers = [customer3, customer4, customer2, customer7, customer8]
 
-        expect(Customer.top_customers_by_transactions.to_a.size).to eq(5)
-        expect(Customer.top_customers_by_transactions).to eq(top_five_customers)
+        expect(Customer.top_customers.to_a.size).to eq(5)
+        expect(Customer.top_customers).to eq(top_five_customers)
 
-        expect(Customer.top_customers_by_transactions(2).to_a.size).to eq(2)
+        expect(Customer.top_customers(2).to_a.size).to eq(2)
       end
     end
   end

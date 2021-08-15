@@ -9,7 +9,7 @@ class Item < ApplicationRecord
   has_many :transactions, through: :invoices
 
   delegate :top_revenue_day, to: :invoices
-  delegate :top_customers_by_transactions, to: :customers
+  delegate :top_customers, to: :customers
 
   validates :name, presence: true
   validates :description, presence: true
