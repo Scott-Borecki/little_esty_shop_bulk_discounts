@@ -27,7 +27,7 @@ RSpec.describe Customer, type: :model do
 
   describe 'class methods' do
     describe '.top_customers' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top customers, defaulting to order by transactions' do

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'admin merchant index (/admin/merchants)' do
   include ActionView::Helpers::NumberHelper
 
-  # See /spec/object_creation_helper.rb for more info on factories created
+  # See /spec/sample_data/create_objects.rb for more info on factories created
   create_objects
 
   let(:all_merchants) {      Merchant.all }

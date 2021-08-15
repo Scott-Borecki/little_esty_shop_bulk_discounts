@@ -20,7 +20,7 @@ RSpec.describe Invoice, type: :model do
 
   describe 'class methods' do
     describe '.top_revenue_day' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_top_revenue_day.rb for more info on factories created
       create_objects_top_revenue_day
 
       it 'returns the date of the invoice with the most revenue' do
@@ -29,7 +29,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '.incomplete_invoices' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects.rb for more info on factories created
       create_objects
 
       let(:invoices_not_shipped) { [invoice5a, invoice5b, invoice3, invoice1] }
@@ -80,7 +80,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '#revenue_discount' do
-      # See spec/object_creation_helper.rb for objection creation details
+      # See spec/sample_data/create_objects.rb for objection creation details
       create_objects
 
       it 'returns the revenue for the discounted items' do
@@ -90,7 +90,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '#total_discounted_revenue' do
-      # See spec/object_creation_helper.rb for objection creation details
+      # See spec/sample_data/create_objects.rb for objection creation details
       create_objects
 
       it 'returns the total discounted_revenue' do
@@ -100,7 +100,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '#total_revenue' do
-      # See spec/object_creation_helper.rb for objection creation details
+      # See spec/sample_data/create_objects.rb for objection creation details
       create_objects
 
       it 'returns the total revenue' do
@@ -110,7 +110,7 @@ RSpec.describe Invoice, type: :model do
     end
 
     describe '#invoice_items_discounted' do
-      # See spec/object_creation_helper.rb for objection creation details
+      # See spec/sample_data/create_objects.rb for objection creation details
       create_objects
 
       it 'returns the items qualifying for a bulk discount' do

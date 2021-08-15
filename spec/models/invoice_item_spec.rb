@@ -68,7 +68,7 @@ RSpec.describe InvoiceItem, type: :model do
 
   describe 'class methods' do
     describe '.ready_to_ship' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
       let(:invoice_items_to_ship) do

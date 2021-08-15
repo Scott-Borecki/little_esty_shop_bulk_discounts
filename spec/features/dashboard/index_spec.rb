@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
   include ActionView::Helpers::NumberHelper
 
-  # See /spec/object_creation_helper.rb for more info on factories created
+  # See /spec/sample_data/create_objects_merchant_dashboard.rb for more info on factories created
   create_objects_merchant_dashboard
 
   let(:top_five_customers) { merchant1.top_customers }

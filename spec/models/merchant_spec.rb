@@ -28,7 +28,7 @@ describe Merchant do
   end
 
   describe 'class methods' do
-    # See /spec/object_creation_helper.rb for more info on factories created
+    # See /spec/sample_data/create_objects.rb for more info on factories created
     create_objects
 
     describe '.top_merchants_by_revenue' do
@@ -51,7 +51,7 @@ describe Merchant do
 
   describe 'delegated methods' do
     describe '#invoice_items_ready_to_ship' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
       let(:invoice_items_to_ship) do
@@ -86,7 +86,7 @@ describe Merchant do
     end
 
     describe '#top_customers' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top customers by number of transactions' do
@@ -106,7 +106,7 @@ describe Merchant do
     end
 
     describe '#top_items_by_revenue' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top items by revenue' do
@@ -121,7 +121,7 @@ describe Merchant do
     end
 
     describe '#top_revenue_day' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_top_revenue_day.rb for more info on factories created
       create_objects_top_revenue_day
 
       it 'returns the best day by revenue' do

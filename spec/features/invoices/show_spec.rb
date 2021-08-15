@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoice_id)' do
   include ActionView::Helpers::NumberHelper
 
-  # See spec/object_creation_helper.rb for objection creation details
+  # See spec/sample_data/create_objects.rb for objection creation details
   create_objects
 
   describe 'as a merchant' do

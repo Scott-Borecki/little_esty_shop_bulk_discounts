@@ -30,7 +30,7 @@ RSpec.describe Item, type: :model do
 
   describe 'class methods' do
     describe '.top_items_by_revenue' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
       it 'returns the top items by revenue' do
@@ -47,7 +47,7 @@ RSpec.describe Item, type: :model do
 
   describe 'delegated methods' do
     describe '#top_revenue_day' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_top_revenue_day.rb for more info on factories created
       create_objects_top_revenue_day
 
       it 'returns the best day by revenue and most recent' do
@@ -56,7 +56,7 @@ RSpec.describe Item, type: :model do
     end
 
     describe '#top_customers' do
-      # See /spec/object_creation_helper.rb for more info on factories created
+      # See /spec/sample_data/create_objects_item_with_many_customers.rb for more info on factories created
       create_objects_item_with_many_customers
 
       it 'returns the top customers by number of transactions' do
