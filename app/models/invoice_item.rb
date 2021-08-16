@@ -1,5 +1,5 @@
 class InvoiceItem < ApplicationRecord
-  scope :total_revenue, -> { sum('quantity * unit_price') }
+  scope :total_revenue, -> { sum('invoice_items.quantity * invoice_items.unit_price') }
   scope :not_shipped, -> { where.not(status: :shipped) }
 
   enum status: { pending: 0, packaged: 1, shipped: 2 }
