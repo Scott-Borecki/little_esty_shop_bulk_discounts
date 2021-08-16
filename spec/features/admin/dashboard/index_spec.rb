@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'admin dashboard index (/admin/dashboard)' do
+  include ActionView::Helpers::NumberHelper
+
   # See /spec/sample_data/create_objects.rb for more info on factories created
   create_objects
 
@@ -50,10 +52,14 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
       describe 'when I look in the top 5 customers section' do
         it 'displays the names and number of puchases of the top 5 customers' do
-          within '#top-customers' do
-            expect(page).to have_content('Top Customers')
-            top_customers.each do |customer|
-              expect(page).to have_content("#{customer.first_name} #{customer.last_name} - #{customer.transaction_count} purchases")
+          expect(page).to have_content('Top Customers')
+
+          top_customers.each do |customer|
+            within "#top-customer-#{customer.id}" do
+              expect(page).to have_content(customer.full_name)
+              expect(page).to have_content(customer.transaction_count)
+              expect(page).to have_content(customer.total_items)
+              expect(page).to have_content(number_to_currency(customer.total_revenue / 100.00))
             end
           end
         end

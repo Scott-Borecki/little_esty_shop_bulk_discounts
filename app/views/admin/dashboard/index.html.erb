@@ -2,23 +2,7 @@
 
 <div class='row'>
   <% # LEFT COLUMN %>
-  <div class='col-sm-6' id='top-customers'>
-    <p class='col-head'>
-      Top Customers
-    </p>
-
-    <ol class='top-list'>
-      <% @top_customers.each do |customer| %>
-        <div class='card'>
-          <li class='top-customer'>
-            <br>
-            <%= "#{customer.first_name} #{customer.last_name}" %> -
-            <%= customer.transaction_count %> purchases
-          </li>
-        </div>
-      <% end %>
-    </ol>
-  </div>
+  <%= render partial: 'shared/top_customers', locals: { subject: @top_customers } %>
 
   <% # RIGHT COLUMN %>
   <div class='col-sm-6' id='incomplete-invoices'>
