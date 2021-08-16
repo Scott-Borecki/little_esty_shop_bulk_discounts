@@ -16,6 +16,7 @@
           <th>Total Items</th>
           <th>Total Revenue</th>
         </tr>
+
         <% @merchant.top_customers.each_with_index do |customer, i| %>
           <tr id='top-customer-<%= customer.id %>'>
             <td><%= i + 1 %></td>
@@ -47,24 +48,31 @@
       Items Ready to Ship
     </p>
 
-      <section>
-        <p>
-          <% @merchant.invoice_items_ready_to_ship.each do |invoice_item| %>
-            <div id='ship-item-<%= invoice_item.id %>' class='card-white'>
-              <strong><%= link_to invoice_item.item_name, merchant_item_path(@merchant, invoice_item.item_id) %></strong><br>
-              <table>
-                <tr>
-                  <th class='pad-right'>Invoice #</th>
-                  <td><%= link_to invoice_item.invoice_id, merchant_invoice_path(@merchant, invoice_item.invoice_id) %></td>
-                </tr>
-                <tr>
-                  <th class='pad-right'>Invoice Date:</th>
-                  <td><%= invoice_item.invoice_created_at.strftime('%A, %B %-d, %Y') %></td>
-                </tr>
-              </table>
-            </div>
-          <% end %>
-        </p>
-      </section>
+    <div class='card-white'>
+      <table class='table'>
+        <tr>
+          <th>Invoice Date</th>
+          <th>Invoice #</th>
+          <th>Item Name</th>
+          <th>Item Quantity</th>
+          <th>Item Status</th>
+        </tr>
+
+        <% @merchant.invoice_items_ready_to_ship.each do |invoice_item| %>
+          <tr id='ship-item-<%= invoice_item.id %>'>
+            <td><%= invoice_item.invoice_created_at.strftime('%m/%d/%Y') %></td>
+            <td><%= link_to invoice_item.invoice_id, merchant_invoice_path(@merchant, invoice_item.invoice_id) %></td>
+            <td><%= link_to invoice_item.item_name, merchant_item_path(@merchant, invoice_item.item_id) %></td>
+            <td><%= invoice_item.quantity %></td>
+            <td>
+              <%= form_with model: [@merchant, invoice_item], local: true do |f| %>
+                <%= f.select :status, InvoiceItem.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice_item.status }, { class: 'select' } %>
+                <%= f.submit 'Update', class: 'btn btn-primary' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 </div>

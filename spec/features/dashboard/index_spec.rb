@@ -86,12 +86,14 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
       end
 
       describe 'within the Items Ready to Ship section' do
-        it 'displays list of the unshipped item names, the associated invoice id, and invoice creation date' do
-          within '#ready-to-ship' do
-            invoice_items_ready_to_ship.each do |invoice_item|
-              expect(page).to have_content(invoice_item.item_name)
+        it 'displays list of the unshipped item names and details' do
+          invoice_items_ready_to_ship.each do |invoice_item|
+            within "#ship-item-#{invoice_item.id}" do
               expect(page).to have_content(invoice_item.invoice_id)
-              expect(page).to have_content(invoice_item.invoice_created_at.strftime('%A, %B %-d, %Y'))
+              expect(page).to have_content(invoice_item.invoice_created_at.strftime('%m/%d/%Y'))
+              expect(page).to have_content(invoice_item.item_name)
+              expect(page).to have_content(invoice_item.quantity)
+              expect(page).to have_content(invoice_item.status.titleize)
             end
           end
         end
@@ -122,6 +124,18 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
               expect(current_path).to eq(merchant_invoice_path(merchant1, invoice_item.invoice_id))
             end
           end
+        end
+
+        it 'displays a select field to update the invoice item status' do
+          within "#ship-item-#{ii_4.id}" do
+            expect(page).to have_select(:invoice_item_status, selected: 'Packaged')
+            page.select 'Shipped'
+            click_button 'Update'
+          end
+
+          expect(current_path).to eq(merchant_dashboard_index_path(merchant1))
+          expect(page).to have_content('Success! The invoice item was updated.')
+          expect(page).to have_no_css("#ship-item-#{ii_4.id}")
         end
       end
     end
