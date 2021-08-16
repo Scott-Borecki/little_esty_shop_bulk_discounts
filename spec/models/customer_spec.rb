@@ -39,7 +39,7 @@ RSpec.describe Customer, type: :model do
         expect(actual).to eq(top_by_transactions)
         expect(actual.map(&:transaction_count)).to eq(top_transaction_count)
 
-        actual = Customer.top_customers(2)
+        actual = Customer.top_customers(limit: 2)
         expect(actual.length).to eq(2)
       end
 
@@ -47,7 +47,7 @@ RSpec.describe Customer, type: :model do
         top_by_total_revenue = [customer3, customer2, customer4, customer8, customer7]
         top_total_revenue    = [599, 490, 480, 400, 340]
 
-        actual = Customer.top_customers(5, 'total_revenue', 'desc')
+        actual = Customer.top_customers(order_by: 'total_revenue desc')
         expect(actual.length).to eq(5)
         expect(actual).to eq(top_by_total_revenue)
         expect(actual.map(&:total_revenue)).to eq(top_total_revenue)
@@ -57,7 +57,7 @@ RSpec.describe Customer, type: :model do
         top_by_total_items = [customer3, customer4, customer2, customer8, customer7]
         top_total_items    = [39, 32, 29, 27, 24]
 
-        actual = Customer.top_customers(5, 'total_items', 'desc')
+        actual = Customer.top_customers(order_by: 'total_items desc')
         expect(actual.length).to eq(5)
         expect(actual).to eq(top_by_total_items)
         expect(actual.map(&:total_items)).to eq(top_total_items)

@@ -93,7 +93,7 @@ RSpec.describe Item, type: :model do
         top_customer_transactions = [5, 4, 3, 2, 2]
 
         expect(item1.top_customers.to_a.size).to eq(5)
-        expect(item1.top_customers(2).to_a.size).to eq(2)
+        expect(item1.top_customers(limit: 2).to_a.size).to eq(2)
         expect(item1.top_customers.map(&:id)).to eq(top_customer_ids)
         expect(item1.top_customers.map(&:first_name)).to eq(top_customer_first_names)
         expect(item1.top_customers.map(&:last_name)).to eq(top_customer_last_names)
