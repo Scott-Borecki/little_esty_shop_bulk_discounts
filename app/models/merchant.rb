@@ -9,7 +9,12 @@ class Merchant < ApplicationRecord
   has_many :transactions, through: :invoices
 
   delegate :top_customers, to: :customers
-  delegate :ready_to_ship, :total_revenue, to: :invoice_items, prefix: true
+  delegate :ready_to_ship,
+           :total_revenue,
+           :revenue_discount,
+           :total_discounted_revenue,
+           to: :invoice_items,
+           prefix: true
   delegate :top_revenue_day, to: :invoices
   delegate :top_items, :total_items_sold, to: :items
 

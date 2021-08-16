@@ -85,6 +85,18 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         end
       end
 
+      describe 'within the Merchant Metrics section' do
+        it 'displays the merchant metrics' do
+          within '#merchant-metrics' do
+            expect(page).to have_content("Total Revenue: #{number_to_currency(merchant1.invoice_items_total_revenue / 100.00)}")
+            expect(page).to have_content("Discounts Applied: -#{number_to_currency(merchant1.invoice_items_revenue_discount / 100.00)}")
+            expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(merchant1.invoice_items_total_discounted_revenue / 100.00)}")
+            expect(page).to have_content("Total Items Sold: #{merchant1.total_items_sold}")
+            expect(page).to have_content("Top Revenue Day: #{merchant1.top_revenue_day}")
+          end
+        end
+      end
+
       describe 'within the Items Ready to Ship section' do
         it 'displays list of the unshipped item names and details' do
           invoice_items_ready_to_ship.each do |invoice_item|
