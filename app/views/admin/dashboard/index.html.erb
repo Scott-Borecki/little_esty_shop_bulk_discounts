@@ -5,16 +5,40 @@
   <%= render partial: 'shared/top_customers', locals: { subject: @top_customers } %>
 
   <% # RIGHT COLUMN %>
-  <div class='col-sm-6' id='incomplete-invoices'>
+
+<div class='row'>
+  <div class='col-sm-12' id='incomplete-invoices'>
     <p class='col-head'>
       Incomplete Invoices
     </p>
 
-    <% @incomplete_invoices.each do |invoice| %>
-      <p class='card-white'>
-        <%= link_to "Invoice # #{invoice.id}", admin_invoice_path(invoice.id) %><br>
-        Invoice Date: <%= invoice.formatted_date %>
-      </p>
-    <% end %>
+    <div class='card-white'>
+      <table class='table'>
+        <tr>
+          <th>Invoice Date</th>
+          <th>Invoice #</th>
+          <th>Total Revenue</th>
+          <th>Discounts Applied</th>
+          <th>Total Discounted Revenue</th>
+          <th class='col-auto'>Invoice Status</th>
+        </tr>
+
+        <% @incomplete_invoices.each do |invoice| %>
+          <tr id='invoice-<%= invoice.id %>'>
+            <td><%= invoice.formatted_date_short %></td>
+            <td><%= link_to invoice.id, admin_invoice_path(invoice.id) %></td>
+            <td><%= number_to_currency(invoice.total_revenue / 100.00) %></td>
+            <td><em><%= -number_to_currency(invoice.revenue_discount / 100.00) unless invoice.revenue_discount == 0 %></em></td>
+            <td><%= number_to_currency(invoice.total_discounted_revenue / 100.00) %></td>
+            <td>
+              <%= form_with model: invoice, url: admin_invoice_path(invoice), method: :patch do |f| %>
+                <%= f.select :status, Invoice.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice.status }, { class: 'select' } %>
+                <%= f.submit 'Update', class: 'btn btn-primary' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 </div>

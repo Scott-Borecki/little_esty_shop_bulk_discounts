@@ -13,13 +13,15 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
      invoice4b, invoice4c, invoice4d, invoice6a, invoice6b, invoice6c]
   end
 
+  let(:not_shipped_items) { [invoice1, invoice3, invoice5a, invoice5b] }
+
   let(:not_shipped_items_ids) do
     [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
   end
 
   let(:not_shipped_items_dates) do
-    [invoice5a.formatted_date, invoice5b.formatted_date,
-     invoice3.formatted_date, invoice1.formatted_date]
+    [invoice5a.formatted_date_short, invoice5b.formatted_date_short,
+     invoice3.formatted_date_short, invoice1.formatted_date_short]
   end
 
   describe 'as an admin' do
@@ -67,9 +69,10 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
       describe 'when I look in the incomplete invoices section' do
         it 'displays a list of the ids of all invoices that have items that have not yet been shipped' do
-          within '#incomplete-invoices' do
             not_shipped_items_ids.each do |not_shipped_item_id|
-              expect(page).to have_content("Invoice # #{not_shipped_item_id}")
+              within "#invoice-#{not_shipped_item_id}" do
+
+              expect(page).to have_content(not_shipped_item_id)
             end
 
             shipped_items.each do |shipped_item_id|
@@ -91,11 +94,13 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
         end
 
         it 'displays the invoice date and sorts by oldest to newest' do
-          within '#incomplete-invoices' do
-            not_shipped_items_dates.each do |not_shipped_item_created_date|
-              expect(page).to have_content(not_shipped_item_created_date)
+          not_shipped_items.each do |not_shipped_item|
+            within "#invoice-#{not_shipped_item.id}" do
+              expect(page).to have_content(not_shipped_item.formatted_date_short)
             end
+          end
 
+          within '#incomplete-invoices' do
             expect(not_shipped_items_dates[0]).to appear_before(not_shipped_items_dates[1])
             expect(not_shipped_items_dates[1]).to appear_before(not_shipped_items_dates[2])
             expect(not_shipped_items_dates[2]).to appear_before(not_shipped_items_dates[3])
