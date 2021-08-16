@@ -50,15 +50,18 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
           within '#bulk-discounts' do
             merchant1.bulk_discounts.each do |bulk_discount|
-              expect(page).to have_content("Bulk Discount # #{bulk_discount.id}")
-              expect(page).to have_content("#{bulk_discount.percentage_discount}% off")
-              expect(page).to have_content("#{bulk_discount.quantity_threshold} item(s)")
+
+              expect(page).to have_css("#bd-#{bulk_discount.id}")
+              expect(page).to have_content(bulk_discount.id)
+              expect(page).to have_content(bulk_discount.percentage_discount)
+              expect(page).to have_content(bulk_discount.quantity_threshold)
             end
 
             merchant2.bulk_discounts.each do |bulk_discount|
-              expect(page).to have_no_content("Bulk Discount # #{bulk_discount.id}")
-              expect(page).to have_no_content("#{bulk_discount.percentage_discount}% off")
-              expect(page).to have_no_content("#{bulk_discount.quantity_threshold} item(s)")
+              expect(page).to have_no_css("#bd-#{bulk_discount.id}")
+              expect(page).to have_no_content(bulk_discount.id)
+              expect(page).to have_no_content(bulk_discount.percentage_discount)
+              expect(page).to have_no_content(bulk_discount.quantity_threshold)
             end
           end
         end

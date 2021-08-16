@@ -13,6 +13,11 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
   let!(:bulk_discount2_2) { create(:bulk_discount, merchant: merchant2) }
   let!(:bulk_discount2_3) { create(:bulk_discount, merchant: merchant2) }
 
+  let!(:item1) { create(:item, merchant: merchant1) }
+  let!(:invoice1) { create(:invoice) }
+  let!(:transaction1) { create(:transaction, result: 1, invoice: invoice1) }
+  let!(:invoice_item1) { create(:invoice_item, invoice: invoice1, item: item1) }
+
   let(:percentage_discount) { 80 }
   let(:quantity_threshold) { 100 }
 
@@ -49,10 +54,10 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
           expect(BulkDiscount.last.percentage_discount).to eq(percentage_discount)
           expect(BulkDiscount.last.quantity_threshold).to eq(quantity_threshold)
 
-          within '#bulk-discounts' do
-            expect(page).to have_content("Bulk Discount # #{BulkDiscount.last.id}")
-            expect(page).to have_content("#{number_to_percentage(BulkDiscount.last.percentage_discount, precision: 0)} off")
-            expect(page).to have_content("#{BulkDiscount.last.quantity_threshold} item(s)")
+          within "#bd-#{BulkDiscount.last.id}" do
+            expect(page).to have_content(BulkDiscount.last.id)
+            expect(page).to have_content(number_to_percentage(percentage_discount, precision: 0))
+            expect(page).to have_content(quantity_threshold)
           end
         end
       end
