@@ -59,9 +59,6 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
             merchant2.bulk_discounts.each do |bulk_discount|
               expect(page).to have_no_css("#bd-#{bulk_discount.id}")
-              expect(page).to have_no_content(bulk_discount.id)
-              expect(page).to have_no_content(bulk_discount.percentage_discount)
-              expect(page).to have_no_content(bulk_discount.quantity_threshold)
             end
           end
         end
