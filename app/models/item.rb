@@ -29,4 +29,10 @@ class Item < ApplicationRecord
       .order(args[:order_by])
       .limit(args[:limit])
   end
+
+  def self.total_items_sold
+    joins(invoice_items: :invoice)
+      .merge(Invoice.paid)
+      .sum('invoice_items.quantity')
+  end
 end

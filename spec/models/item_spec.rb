@@ -69,6 +69,15 @@ RSpec.describe Item, type: :model do
         expect(actual.map(&:total_items)).to eq(top_total_items)
       end
     end
+
+    describe '.total_items_sold' do
+      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
+      create_objects_merchant_with_many_customers_and_items
+
+      it 'returns the total number of items sold' do
+        expect(Item.total_items_sold).to eq(204)
+      end
+    end
   end
 
   describe 'delegated methods' do

@@ -11,7 +11,7 @@ class Merchant < ApplicationRecord
   delegate :top_customers, to: :customers
   delegate :ready_to_ship, to: :invoice_items, prefix: true
   delegate :top_revenue_day, to: :invoices
-  delegate :top_items, to: :items
+  delegate :top_items, :total_items_sold, to: :items
 
   validates :name, presence: true
   validates :status, presence: true
