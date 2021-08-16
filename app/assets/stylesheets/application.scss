@@ -143,8 +143,9 @@ li.top-item::before {
 /* TABLES */
 
 .table {
-  border: $color3;
+  border: $color4;
   border-collapse: collapse;
+  color: $text-color-dark;
   table-layout: fixed;
   text-align: center;
   vertical-align: middle;
@@ -178,8 +179,8 @@ li.top-item::before {
   padding-right: 30px;
 }
 
-.table-invoice {
-  margin-bottom: 20px;
+.table-clean {
+  // margin-bottom: 20px;
   text-align: left;
   vertical-align: top;
 }
