@@ -31,7 +31,7 @@
 
     <tr>
       <th class='pad-right'>Discounts Applied: </th>
-      <td><em>-<%= number_to_currency(@invoice.revenue_discount / 100.00) %></em></td>
+      <td><em><%= -number_to_currency(@invoice.revenue_discount / 100.00) unless @invoice.revenue_discount == 0 %></em></td>
     </tr>
 
     <tr>

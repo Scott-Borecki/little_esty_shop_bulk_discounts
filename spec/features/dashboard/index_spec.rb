@@ -92,7 +92,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         it 'displays the merchant metrics' do
           within '#merchant-metrics' do
             expect(page).to have_content("Total Revenue: #{number_to_currency(merchant1.invoice_items_total_revenue / 100.00)}")
-            expect(page).to have_content("Discounts Applied: -#{number_to_currency(merchant1.invoice_items_revenue_discount / 100.00)}")
+            expect(page).to have_content("Discounts Applied:")
             expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(merchant1.invoice_items_total_discounted_revenue / 100.00)}")
             expect(page).to have_content("Total Items Sold: #{merchant1.total_items_sold}")
             expect(page).to have_content("Top Revenue Day: #{merchant1.top_revenue_day}")
