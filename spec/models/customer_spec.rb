@@ -30,7 +30,7 @@ RSpec.describe Customer, type: :model do
       # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
-      it 'returns and orders the top customers by most transactions (default)' do
+      xit 'returns and orders the top customers by most transactions (default)' do
         top_by_transactions   = [customer3, customer4, customer2, customer7, customer8]
         top_transaction_count = [5, 4, 3, 2, 2]
 
@@ -43,7 +43,7 @@ RSpec.describe Customer, type: :model do
         expect(actual.length).to eq(2)
       end
 
-      it 'returns and orders the top customer by total revenue generated' do
+      xit 'returns and orders the top customer by total revenue generated' do
         top_by_total_revenue = [customer3, customer2, customer4, customer8, customer7]
         top_total_revenue    = [599, 490, 480, 400, 340]
 
@@ -53,7 +53,7 @@ RSpec.describe Customer, type: :model do
         expect(actual.map(&:total_revenue)).to eq(top_total_revenue)
       end
 
-      it 'returns and orders the top customer by total items bought' do
+      xit 'returns and orders the top customer by total items bought' do
         top_by_total_items = [customer3, customer4, customer2, customer8, customer7]
         top_total_items    = [39, 32, 29, 27, 24]
 

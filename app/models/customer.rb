@@ -16,12 +16,12 @@ class Customer < ApplicationRecord
     args[:limit] ||= 5
     args[:order_by] ||= 'transaction_count desc'
 
-    joins(invoices: [:transactions, :invoice_items])
-      .merge(Transaction.successful)
+    joins(invoices: :invoice_items)
+      .merge(Invoice.paid)
       .select('customers.*,
-               COUNT(DISTINCT transactions.id) AS transaction_count,
-               SUM(invoice_items.quantity * invoice_items.unit_price) AS total_revenue,
-               SUM(invoice_items.quantity) AS total_items')
+               COUNT(DISTINCT invoices.id) AS transaction_count,
+               SUM(DISTINCT invoice_items.quantity * invoice_items.unit_price) AS total_revenue,
+               SUM(DISTINCT invoice_items.quantity) AS total_items')
       .group(:id)
       .order(args[:order_by])
       .limit(args[:limit])
