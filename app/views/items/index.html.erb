@@ -1,7 +1,6 @@
 <%= render partial: 'shared/merchant_dashboard_nav', locals: { merchant: @merchant } %>
 
 <div class='row'>
-  <% # LEFT COLUMN %>
   <div class='col-sm-12' id='top-items'>
     <p class='col-head'>
       Top Items
@@ -14,7 +13,7 @@
           <th>Item Name</th>
           <th>Total Revenue</th>
           <th>Total Sold</th>
-          <th>Transaction Count</th>
+          <th>Purchases</th>
           <th>Top Revenue Day</th>
         </tr>
         <% @merchant.top_items.each_with_index do |item, i| %>
@@ -41,7 +40,7 @@
       <p class='col-head'>Enabled Items</p>
 
       <% @enabled_items.each do |item| %>
-        <div id='item-<%= item.id %>' class='row'>
+        <div id='item-<%= item.id %>' class='row col-sm-12'>
           <div class='col-auto'>
             <%= button_to "Disable", merchant_item_status_path(@merchant, item), method: :patch, params: {status: "disabled"}, class: 'btn btn-primary mt' %><br>
           </div>
@@ -60,7 +59,7 @@
       <p class='col-head'>Disabled Items</p>
 
       <% @disabled_items.each do |item| %>
-        <div id='item-<%= item.id %>' class='row'>
+        <div id='item-<%= item.id %>' class='row col-sm-12'>
           <div class='col-auto'>
             <%= button_to 'Enable', merchant_item_status_path(@merchant, item), method: :patch, params: {status: 'enabled'}, class: 'btn btn-primary mt' %><br>
           </div>
