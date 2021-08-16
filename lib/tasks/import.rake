@@ -2,7 +2,6 @@ require 'csv'
 require 'faker'
 
 task :import, [:customers] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('customers')
   CSV.foreach('db/data/customers.csv', headers: true) do |row|
     Customer.create!(id:         row[0],
                      first_name: row[1],
@@ -14,24 +13,35 @@ task :import, [:customers] => :environment do
                      state:      Faker::Address.state,
                      zip:        Faker::Address.zip_code.first(5))
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('customers')
 end
 
 task :import, [:merchants] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
   CSV.foreach('db/data/merchants.csv', headers: true) do |row|
-    Merchant.create!(row.to_hash)
+    Merchant.create!(id:          row[0],
+                     name:        row[1],
+                     created_at:  row[2],
+                     updated_at:  row[3],
+                     status:      Faker::Number.between(from: 0, to: 1))
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
 end
 
 task :import, [:items] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('items')
   CSV.foreach('db/data/items.csv', headers: true) do |row|
-    Item.create!(row.to_hash)
+    Item.create!(id:          row[0],
+                 name:        row[1],
+                 description: row[2],
+                 unit_price:  row[3],
+                 merchant_id: row[4],
+                 created_at:  row[5],
+                 updated_at:  row[6],
+                 status:      Faker::Number.between(from: 0, to: 1))
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('items')
 end
 
 task :import, [:invoices] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('invoices')
   CSV.foreach('db/data/invoices.csv', headers: true) do |row|
     if row.to_hash['status'] == 'cancelled'
       status = 0
@@ -46,10 +56,10 @@ task :import, [:invoices] => :environment do
                     created_at:  row[4],
                     updated_at:  row[5])
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('invoices')
 end
 
 task :import, [:transactions] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('transactions')
   CSV.foreach('db/data/transactions.csv', headers: true) do |row|
     if row.to_hash['result'] == 'failed'
       result = 0
@@ -64,10 +74,10 @@ task :import, [:transactions] => :environment do
                         created_at:                  row[5],
                         updated_at:                  row[6])
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('transactions')
 end
 
 task :import, [:invoice_items] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('invoice_items')
   CSV.foreach('db/data/invoice_items.csv', headers: true) do |row|
     if row.to_hash['status'] == 'pending'
       status = 0
@@ -85,13 +95,14 @@ task :import, [:invoice_items] => :environment do
                         created_at: row[6],
                         updated_at: row[7])
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('invoice_items')
 end
 
 task :import, [:bulk_discounts] => :environment do
-  ActiveRecord::Base.connection.reset_pk_sequence!('bulk_discounts')
   200.times do
     BulkDiscount.create!(merchant: Merchant.all.sample,
                          percentage_discount: Faker::Number.between(from: 1, to: 80),
                          quantity_threshold: Faker::Number.between(from: 2, to: 9))
   end
+  ActiveRecord::Base.connection.reset_pk_sequence!('bulk_discounts')
 end
