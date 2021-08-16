@@ -7,27 +7,27 @@
     <table class='table-clean'>
       <tr>
         <th class='pad-right'>Total Revenue:</th>
-        <td><%= number_to_currency(merchant.invoice_items_total_revenue / 100.00) %></td>
+        <td><%= number_to_currency(subject.invoice_items_total_revenue / 100.00) %></td>
       </tr>
 
       <tr>
         <th class='pad-right'>Discounts Applied:</th>
-        <td><em>-<%= number_to_currency(merchant.invoice_items_revenue_discount / 100.00) %></em></td>
+        <td><em>-<%= number_to_currency(subject.invoice_items_revenue_discount / 100.00) %></em></td>
       </tr>
 
       <tr>
         <th class='pad-right'>Total Discounted Revenue:</th>
-        <td><%= number_to_currency(merchant.invoice_items_total_discounted_revenue / 100.00) %></td>
+        <td><%= number_to_currency(subject.invoice_items_total_discounted_revenue / 100.00) %></td>
       </tr>
 
       <tr>
         <th class='pad-right'>Total Items Sold:</th>
-        <td><%= merchant.total_items_sold %></td>
+        <td><%= subject.total_items_sold %></td>
       </tr>
 
       <tr>
         <th class='pad-right'>Top Revenue Day:</th>
-        <td><%= merchant.top_revenue_day %></td>
+        <td><%= subject.top_revenue_day %></td>
       </tr>
     </table>
   </div>
