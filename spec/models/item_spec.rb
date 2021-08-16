@@ -29,18 +29,44 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'class methods' do
-    describe '.top_items_by_revenue' do
+    describe '.top_items' do
       # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
-      it 'returns the top items by revenue' do
+      it 'returns and orders the top items by total revenue (default)' do
         top_five_items = [item5, item18, item8, item12, item15]
         top_five_items_revenue = [250, 240, 210, 200, 180]
 
-        expect(Item.top_items_by_revenue.to_a.size).to eq(5)
-        expect(Item.top_items_by_revenue(2).to_a.size).to eq(2)
-        expect(Item.top_items_by_revenue).to eq(top_five_items)
-        expect(Item.top_items_by_revenue.map(&:total_revenue)).to eq(top_five_items_revenue)
+        actual = Item.top_items
+        expect(actual.to_a.size).to eq(5)
+        expect(actual).to eq(top_five_items)
+        expect(actual.map(&:total_revenue)).to eq(top_five_items_revenue)
+
+        actual = Item.top_items(number: 2)
+        expect(actual.to_a.size).to eq(2)
+      end
+
+      it 'returns and orders the top items by most transactions' do
+        top_by_transactions   = [item9, item12, item15]
+        top_transaction_count = [4, 3, 2]
+
+        actual = Item.top_items(order_attribute: 'transaction_count')
+        expect(actual.length).to eq(5)
+
+        actual = Item.top_items(number: 3, order_attribute: 'transaction_count')
+        expect(actual.length).to eq(3)
+        expect(actual).to eq(top_by_transactions)
+        expect(actual.map(&:transaction_count)).to eq(top_transaction_count)
+      end
+
+      it 'returns and orders the top items by most bought' do
+        top_by_total_items = [item18, item8, item5, item12, item15]
+        top_total_items    = [16, 15, 15, 14, 13]
+
+        actual = Item.top_items(order_attribute: 'total_items')
+        expect(actual.length).to eq(5)
+        expect(actual).to eq(top_by_total_items)
+        expect(actual.map(&:total_items)).to eq(top_total_items)
       end
     end
   end

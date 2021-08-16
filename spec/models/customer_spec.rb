@@ -45,7 +45,7 @@ RSpec.describe Customer, type: :model do
 
       it 'returns and orders the top customer by total revenue generated' do
         top_by_total_revenue = [customer3, customer2, customer4, customer8, customer7]
-        top_total_revenue    = [600, 490, 480, 400, 340]
+        top_total_revenue    = [599, 490, 480, 400, 340]
 
         actual = Customer.top_customers(5, 'total_revenue', 'desc')
         expect(actual.length).to eq(5)
@@ -55,7 +55,7 @@ RSpec.describe Customer, type: :model do
 
       it 'returns and orders the top customer by total items bought' do
         top_by_total_items = [customer3, customer4, customer2, customer8, customer7]
-        top_total_items    = [39, 33, 29, 27, 24]
+        top_total_items    = [39, 32, 29, 27, 24]
 
         actual = Customer.top_customers(5, 'total_items', 'desc')
         expect(actual.length).to eq(5)

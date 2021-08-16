@@ -15,13 +15,19 @@ class Item < ApplicationRecord
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
 
-  def self.top_items_by_revenue(number = 5)
+  def self.top_items(args = {})
+    args[:number] ||= 5
+    args[:order_attribute] ||= 'total_revenue'
+    args[:order] ||= 'desc'
+
     joins(invoices: :transactions)
       .merge(Transaction.successful)
       .select('items.*,
-               SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue')
+               COUNT(DISTINCT transactions.id) AS transaction_count,
+               SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue,
+               SUM(invoice_items.quantity) AS total_items')
       .group(:id)
-      .order(total_revenue: :desc)
-      .limit(number)
+      .order("#{args[:order_attribute]} #{args[:order]}")
+      .limit(args[:number])
   end
 end

@@ -56,8 +56,8 @@ describe Merchant do
 
       let(:invoice_items_to_ship) do
         [invoice_item3d_1, invoice_item6a_2, invoice_item4c_1, invoice_item10a_1,
-         invoice_item3e_1, invoice_item4b_2, invoice_item3b_1, invoice_item3b_2,
-         invoice_item7b_1, invoice_item7a_2, invoice_item1a_1, invoice_item1a_2,
+         invoice_item3e_1, invoice_item4b_2, invoice_item7b_1, invoice_item3b_2,
+         invoice_item3b_1, invoice_item7a_2, invoice_item1a_1, invoice_item1a_2,
          invoice_item8a_1, invoice_item8a_2]
       end
 
@@ -105,7 +105,7 @@ describe Merchant do
       end
     end
 
-    describe '#top_items_by_revenue' do
+    describe '#top_items' do
       # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
       create_objects_merchant_with_many_customers_and_items
 
@@ -113,10 +113,10 @@ describe Merchant do
         top_five_items = [item5, item18, item8, item12, item15]
         top_five_items_revenue = [250, 240, 210, 200, 180]
 
-        expect(merchant.top_items_by_revenue.to_a.size).to eq(5)
-        expect(merchant.top_items_by_revenue(2).to_a.size).to eq(2)
-        expect(merchant.top_items_by_revenue).to eq(top_five_items)
-        expect(merchant.top_items_by_revenue.map(&:total_revenue)).to eq(top_five_items_revenue)
+        expect(merchant.top_items.to_a.size).to eq(5)
+        expect(merchant.top_items(number: 2).to_a.size).to eq(2)
+        expect(merchant.top_items).to eq(top_five_items)
+        expect(merchant.top_items.map(&:total_revenue)).to eq(top_five_items_revenue)
       end
     end
 
