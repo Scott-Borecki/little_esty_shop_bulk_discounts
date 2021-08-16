@@ -2,31 +2,41 @@
 
 <div class='row'>
   <% # LEFT COLUMN %>
-  <div class='col-sm-6'>
-    <p class='col-head'>Top Items</p>
+  <div class='col-sm-12' id='top-items'>
+    <p class='col-head'>
+      Top Items
+    </p>
 
-    <div id='top-items'>
-      <ol class='top-list'>
-        <% @merchant.top_items.each do |item| %>
-          <div class='card'>
-            <li class='top-item'>
-              <br>
-              <%= link_to "#{item.name}", merchant_item_path(@merchant, item)  %> -
-              <%= number_to_currency(item.total_revenue / 100.00) %> in sales<br>
-              Top selling date for <%= item.name %> was <%= item.top_revenue_day %>
-            </li>
-          </div>
+    <div class='card'>
+      <table class='table-invoice'>
+        <tr>
+          <th>No.</th>
+          <th>Item Name</th>
+          <th>Total Revenue</th>
+          <th>Total Sold</th>
+          <th>Transaction Count</th>
+          <th>Top Revenue Day</th>
+        </tr>
+        <% @merchant.top_items.each_with_index do |item, i| %>
+          <tr id='top-item-<%= item.id %>'>
+            <td><%= i + 1 %></td>
+            <td><%= link_to item.name, merchant_item_path(@merchant, item) %></td>
+            <td><%= number_to_currency(item.total_revenue / 100.00) %></td>
+            <td><%= item.total_items %></td>
+            <td><%= item.transaction_count %></td>
+            <td><%= item.top_revenue_day %></td>
+          </tr>
         <% end %>
-      </ol>
+      </table>
     </div>
   </div>
+</div>
 
-  <% # RIGHT COLUMN %>
+<div class='row'>
+  <p><%= link_to "Create New Item", new_merchant_item_path(@merchant), class: 'btn btn-primary' %></p>
+
+  <% # LEFT COLUMN %>
   <div class='col-sm-6'>
-    <p class='col-head'>My Items</p>
-
-    <p><%= link_to "Create New Item", new_merchant_item_path(@merchant), class: 'btn btn-primary' %></p>
-
     <section id="enabled-items">
       <p class='col-head'>Enabled Items</p>
 
@@ -42,7 +52,10 @@
         </div>
       <% end %>
     </section>
+  </div>
 
+  <% # RIGHT COLUMN %>
+  <div class='col-sm-6'>
     <section id='disabled-items'>
       <p class='col-head'>Disabled Items</p>
 

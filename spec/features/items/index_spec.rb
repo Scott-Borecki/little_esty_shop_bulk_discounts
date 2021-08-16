@@ -198,28 +198,27 @@ describe 'merchant items index (merchants/merchant_id/items)' do
         end
 
         it 'links the top 5 to the item show page' do
-          within '#top-items' do
-            merchant1_top_items.each do |top_item|
+          merchant1_top_items.each do |top_item|
+            within "#top-item-#{top_item.id}" do
               expect(page).to have_link(top_item.name)
             end
-
+          end
+          
+          within '#top-items' do
             click_link item1.name
 
             expect(current_path).to eq(merchant_item_path(merchant1, item1))
           end
         end
 
-        it 'displays the total revenue next to each top item' do
-          within '#top-items' do
-            merchant1_top_items.each do |top_item|
-              expect(page).to have_content(number_to_currency(top_item.total_revenue / 100.00))
-            end
-          end
-        end
-
-        it 'displays the best day next to each top item' do
+        it 'displays the item metrics next to each top item' do
           merchant1_top_items.each do |top_item|
-            expect(page).to have_content("Top selling date for #{top_item.name} was #{top_item.top_revenue_day}")
+            within "#top-item-#{top_item.id}" do
+              expect(page).to have_content(number_to_currency(top_item.total_revenue / 100.00))
+              expect(page).to have_content(top_item.total_items)
+              expect(page).to have_content(top_item.transaction_count)
+              expect(page).to have_content(top_item.top_revenue_day)
+            end
           end
         end
       end
