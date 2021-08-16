@@ -16,9 +16,8 @@ class Item < ApplicationRecord
   validates :unit_price, presence: true, numericality: true
 
   def self.top_items(args = {})
-    args[:number] ||= 5
-    args[:order_attribute] ||= 'total_revenue'
-    args[:order] ||= 'desc'
+    args[:limit] ||= 5
+    args[:order_by] ||= 'total_revenue desc'
 
     joins(invoices: :transactions)
       .merge(Transaction.successful)
@@ -27,7 +26,7 @@ class Item < ApplicationRecord
                SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue,
                SUM(invoice_items.quantity) AS total_items')
       .group(:id)
-      .order("#{args[:order_attribute]} #{args[:order]}")
-      .limit(args[:number])
+      .order(args[:order_by])
+      .limit(args[:limit])
   end
 end

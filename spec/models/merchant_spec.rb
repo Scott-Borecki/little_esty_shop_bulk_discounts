@@ -114,7 +114,7 @@ describe Merchant do
         top_five_items_revenue = [250, 240, 210, 200, 180]
 
         expect(merchant.top_items.to_a.size).to eq(5)
-        expect(merchant.top_items(number: 2).to_a.size).to eq(2)
+        expect(merchant.top_items(limit: 2).to_a.size).to eq(2)
         expect(merchant.top_items).to eq(top_five_items)
         expect(merchant.top_items.map(&:total_revenue)).to eq(top_five_items_revenue)
       end

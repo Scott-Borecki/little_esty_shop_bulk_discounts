@@ -42,7 +42,7 @@ RSpec.describe Item, type: :model do
         expect(actual).to eq(top_five_items)
         expect(actual.map(&:total_revenue)).to eq(top_five_items_revenue)
 
-        actual = Item.top_items(number: 2)
+        actual = Item.top_items(limit: 2)
         expect(actual.to_a.size).to eq(2)
       end
 
@@ -50,10 +50,10 @@ RSpec.describe Item, type: :model do
         top_by_transactions   = [item9, item12, item15]
         top_transaction_count = [4, 3, 2]
 
-        actual = Item.top_items(order_attribute: 'transaction_count')
+        actual = Item.top_items(order_by: 'transaction_count desc')
         expect(actual.length).to eq(5)
 
-        actual = Item.top_items(number: 3, order_attribute: 'transaction_count')
+        actual = Item.top_items(limit: 3, order_by: 'transaction_count desc')
         expect(actual.length).to eq(3)
         expect(actual).to eq(top_by_transactions)
         expect(actual.map(&:transaction_count)).to eq(top_transaction_count)
@@ -63,7 +63,7 @@ RSpec.describe Item, type: :model do
         top_by_total_items = [item18, item8, item5, item12, item15]
         top_total_items    = [16, 15, 15, 14, 13]
 
-        actual = Item.top_items(order_attribute: 'total_items')
+        actual = Item.top_items(order_by: 'total_items desc')
         expect(actual.length).to eq(5)
         expect(actual).to eq(top_by_total_items)
         expect(actual.map(&:total_items)).to eq(top_total_items)
