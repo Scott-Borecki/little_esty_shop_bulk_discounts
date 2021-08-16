@@ -9,19 +9,30 @@ class Item < ApplicationRecord
   has_many :transactions, through: :invoices
 
   delegate :top_revenue_day, to: :invoices
-  delegate :top_customers_by_transactions, to: :customers
+  delegate :top_customers, to: :customers
 
   validates :name, presence: true
   validates :description, presence: true
   validates :unit_price, presence: true, numericality: true
 
-  def self.top_items_by_revenue(number = 5)
+  def self.top_items(args = {})
+    args[:limit] ||= 5
+    args[:order_by] ||= 'total_revenue desc'
+
     joins(invoices: :transactions)
       .merge(Transaction.successful)
       .select('items.*,
-               SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue')
+               COUNT(DISTINCT transactions.id) AS transaction_count,
+               SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue,
+               SUM(invoice_items.quantity) AS total_items')
       .group(:id)
-      .order(total_revenue: :desc)
-      .limit(number)
+      .order(args[:order_by])
+      .limit(args[:limit])
+  end
+
+  def self.total_items_sold
+    joins(invoice_items: :invoice)
+      .merge(Invoice.paid)
+      .sum('invoice_items.quantity')
   end
 end

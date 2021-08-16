@@ -1,4 +1,9 @@
 class Invoice < ApplicationRecord
+  scope :paid, -> { where(id: Transaction.successful.pluck(:invoice_id)) }
+  scope :cancelled, -> { where(status: 0) }
+  scope :in_progress, -> { where(status: 1) }
+  scope :completed, -> { where(status: 2) }
+
   enum status: { cancelled: 0, 'in progress': 1, completed: 2 }
 
   belongs_to :customer
@@ -15,14 +20,13 @@ class Invoice < ApplicationRecord
   validates :status, presence: true
 
   def self.top_revenue_day
-    joins([:invoice_items, :transactions])
-      .merge(Transaction.successful)
-      .select('invoices.*,
-               SUM(invoice_items.unit_price * invoice_items.quantity) as total_revenue')
-      .group(:id)
-      .order('total_revenue desc', 'invoices.created_at desc')
-      .first
-      .formatted_date
+    paid.joins(:invoice_items)
+        .select('invoices.*,
+                 SUM(invoice_items.unit_price * invoice_items.quantity) as total_revenue')
+        .group(:id)
+        .order('total_revenue desc', 'invoices.created_at desc')
+        .first
+        .formatted_date
   end
 
   def self.incomplete_invoices

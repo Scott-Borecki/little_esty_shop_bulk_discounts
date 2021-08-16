@@ -13,6 +13,11 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
   let!(:bulk_discount2_2) { create(:bulk_discount, merchant: merchant2) }
   let!(:bulk_discount2_3) { create(:bulk_discount, merchant: merchant2) }
 
+  let!(:item1) { create(:item, merchant: merchant1) }
+  let!(:invoice1) { create(:invoice) }
+  let!(:transaction1) { create(:transaction, result: 1, invoice: invoice1) }
+  let!(:invoice_item1) { create(:invoice_item, invoice: invoice1, item: item1) }
+
   describe 'as a merchant' do
     describe 'when I visit my merchant dashboard bulk discounts index (/merchant/:merchant_id/bulk_discounts)' do
       before do
@@ -26,9 +31,12 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
         within '#bulk-discounts' do
           merchant1.bulk_discounts.each do |bulk_discount|
             within "#bd-#{bulk_discount.id}" do
-              expect(page).to have_content("Bulk Discount # #{bulk_discount.id}")
-              expect(page).to have_content("#{number_to_percentage(bulk_discount.percentage_discount, precision: 0)} off")
-              expect(page).to have_content("#{bulk_discount.quantity_threshold} item(s)")
+              expect(page).to have_content(bulk_discount.id)
+              expect(page).to have_content(number_to_percentage(bulk_discount.percentage_discount, precision: 0))
+              expect(page).to have_content(bulk_discount.quantity_threshold)
+              expect(page).to have_button('View')
+              expect(page).to have_button('Edit')
+              expect(page).to have_button('Delete')
             end
           end
 
@@ -128,6 +136,18 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
           upcoming_holidays.each do |holiday|
             expect(page).to have_content(holiday.local_name)
             expect(page).to have_content(holiday.date)
+          end
+        end
+      end
+
+      describe 'within the Merchant Metrics section' do
+        it 'displays the merchant metrics' do
+          within '#merchant-metrics' do
+            expect(page).to have_content("Total Revenue: #{number_to_currency(merchant1.invoice_items_total_revenue / 100.00)}")
+            expect(page).to have_content("Discounts Applied: -#{number_to_currency(merchant1.invoice_items_revenue_discount / 100.00)}")
+            expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(merchant1.invoice_items_total_discounted_revenue / 100.00)}")
+            expect(page).to have_content("Total Items Sold: #{merchant1.total_items_sold}")
+            expect(page).to have_content("Top Revenue Day: #{merchant1.top_revenue_day}")
           end
         end
       end

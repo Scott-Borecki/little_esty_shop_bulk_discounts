@@ -1,6 +1,7 @@
 class Admin::DashboardController < ApplicationController
   def index
-    @top_customers = Customer.top_customers_by_transactions
-    @incomplete_invoices = Invoice.incomplete_invoices
+    @merchants = Merchant.all
+    @top_customers = Customer.top_customers
+    @invoices = Invoice.all
   end
 end

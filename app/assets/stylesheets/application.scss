@@ -14,6 +14,11 @@ $border-color: rgba(0, 0, 0, 0.125); /* light gray */
 $text-color-light: white;
 $text-color-dark: $color2;
 
+/* INHERITANCE */
+%text-color-light {
+  color: $text-color-light;
+}
+
 /* UNIVERSAL */
 
 a {
@@ -32,8 +37,8 @@ body {
 }
 
 .title, .title:hover {
+  @extend %text-color-light;
   background-color: $color3;
-  color: $text-color-light;
   padding-bottom: 20px;
   padding-top: 20px;
   text-align: center;
@@ -94,23 +99,23 @@ li.top-item::before {
 }
 
 .nav-link {
+  @extend %text-color-light;
   background-color: $color2 !important;
   border-radius: 0;
-  color: $text-color-light;
   margin-left: 0.5em;
 }
 
 .nav-link:hover {
+  @extend %text-color-light;
   background-color: $color3 !important;
-  color: $text-color-light;
   margin-left: 0.5em;
 }
 
 /* COLUMNS */
 
 .col-head {
+  @extend %text-color-light;
   background-color: $color3;
-  color: $text-color-light;
   font-weight: bold;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -143,12 +148,19 @@ li.top-item::before {
 /* TABLES */
 
 .table {
-  border: $color3;
+  border: $color4;
   border-collapse: collapse;
-  table-layout: fixed;
+  color: $text-color-dark;
+  // table-layout: fixed;
   text-align: center;
   vertical-align: middle;
   width: 100%;
+}
+
+.table-clean {
+  // margin-bottom: 20px;
+  text-align: left;
+  vertical-align: top;
 }
 
 .td {
@@ -178,28 +190,22 @@ li.top-item::before {
   padding-right: 30px;
 }
 
-.table-invoice {
-  margin-bottom: 20px;
-  text-align: left;
-  vertical-align: top;
-}
-
 .blank-row {
-  height: 10px !important;
+  height: 0.67em !important;
 }
 
 /* FORMS AND BUTTONS */
 
 .btn-primary {
+  @extend %text-color-light;
   background-color: $color2;
   border-color: $color2;
-  color: $text-color-light;
 }
 
 .btn-primary:hover {
+  @extend %text-color-light;
   background-color: $color3;
   border-color: $color3;
-  color: $text-color-light;
 }
 
 .control-label {
@@ -214,20 +220,22 @@ li.top-item::before {
 
 /* MISC */
 
-.card {
-  background-color: $color6;
-  color: $color2;
-  margin-bottom: 1em;
-  padding: 0.5em 1em;
-}
-
-.card-white {
-  background-color: $text-color-light;
+%card-shared {
   border: 1px solid $border-color;
   border-radius: 0.25em;
   color: $color2;
   margin-bottom: 1em;
   padding: 0.5em 1em;
+}
+
+.card {
+  @extend %card-shared;
+  background-color: $color6;
+}
+
+.card-white {
+  @extend %card-shared;
+  background-color: $text-color-light;
 }
 
 .pt {

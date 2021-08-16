@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'welcome index (/)' do
-  create_objects
+  let!(:merchant) { create(:merchant) }
+  let!(:bulk_discount) { create(:bulk_discount, merchant: merchant) }
+  let!(:item) { create(:item, merchant: merchant) }
+  let!(:invoice) { create(:invoice) }
+  let!(:transaction) { create(:transaction, result: 1, invoice: invoice) }
+  let!(:invoice_item) { create(:invoice_item, invoice: invoice, item: item) }
 
   describe 'as a user' do
     describe 'when I visit my welcome index (/)' do

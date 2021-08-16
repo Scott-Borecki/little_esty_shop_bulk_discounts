@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
-  # See /spec/object_creation_helper.rb for more info on factories created
+  include ActionView::Helpers::NumberHelper
+
+  # See /spec/sample_data/create_objects_merchant_dashboard.rb for more info on factories created
   create_objects_merchant_dashboard
 
-  let(:top_five_customers) { merchant1.top_customers_by_transactions }
+  let(:top_five_customers) { merchant1.top_customers }
   let(:invoice_items_ready_to_ship) { merchant1.invoice_items_ready_to_ship }
 
   describe 'as a merchant' do
@@ -48,15 +50,15 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
           within '#bulk-discounts' do
             merchant1.bulk_discounts.each do |bulk_discount|
-              expect(page).to have_content("Bulk Discount # #{bulk_discount.id}")
-              expect(page).to have_content("#{bulk_discount.percentage_discount}% off")
-              expect(page).to have_content("#{bulk_discount.quantity_threshold} item(s)")
+
+              expect(page).to have_css("#bd-#{bulk_discount.id}")
+              expect(page).to have_content(bulk_discount.id)
+              expect(page).to have_content(bulk_discount.percentage_discount)
+              expect(page).to have_content(bulk_discount.quantity_threshold)
             end
 
             merchant2.bulk_discounts.each do |bulk_discount|
-              expect(page).to have_no_content("Bulk Discount # #{bulk_discount.id}")
-              expect(page).to have_no_content("#{bulk_discount.percentage_discount}% off")
-              expect(page).to have_no_content("#{bulk_discount.quantity_threshold} item(s)")
+              expect(page).to have_no_css("#bd-#{bulk_discount.id}")
             end
           end
         end
@@ -71,27 +73,39 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
           end
         end
 
-        it 'displays the number of transactions next to each customer' do
-          top_five_customers_transactions =
-            top_five_customers.map do |customer|
-              [customer.id, customer.transaction_count]
-            end
-
-          top_five_customers_transactions.each do |customer_id, transaction_count|
-            within "#top-customer-#{customer_id}" do
-              expect(page).to have_content(transaction_count)
+        it 'displays the customer details next to each customer' do
+          top_five_customers.each do |customer|
+            within "#top-customer-#{customer.id}" do
+              expect(page).to have_content(customer.full_name)
+              expect(page).to have_content(customer.transaction_count)
+              expect(page).to have_content(customer.total_items)
+              expect(page).to have_content(number_to_currency(customer.total_revenue / 100.00))
             end
           end
         end
       end
 
+      describe 'within the Merchant Metrics section' do
+        it 'displays the merchant metrics' do
+          within '#merchant-metrics' do
+            expect(page).to have_content("Total Revenue: #{number_to_currency(merchant1.invoice_items_total_revenue / 100.00)}")
+            expect(page).to have_content("Discounts Applied:")
+            expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(merchant1.invoice_items_total_discounted_revenue / 100.00)}")
+            expect(page).to have_content("Total Items Sold: #{merchant1.total_items_sold}")
+            expect(page).to have_content("Top Revenue Day: #{merchant1.top_revenue_day}")
+          end
+        end
+      end
+
       describe 'within the Items Ready to Ship section' do
-        it 'displays list of the unshipped item names, the associated invoice id, and invoice creation date' do
-          within '#ready_to_ship' do
-            invoice_items_ready_to_ship.each do |invoice_item|
-              expect(page).to have_content(invoice_item.item_name)
+        it 'displays list of the unshipped item names and details' do
+          invoice_items_ready_to_ship.each do |invoice_item|
+            within "#ship-item-#{invoice_item.id}" do
               expect(page).to have_content(invoice_item.invoice_id)
-              expect(page).to have_content(invoice_item.invoice_created_at.strftime('%A, %B %-d, %Y'))
+              expect(page).to have_content(invoice_item.invoice_created_at.strftime('%m/%d/%Y'))
+              expect(page).to have_content(invoice_item.item_name)
+              expect(page).to have_content(invoice_item.quantity)
+              expect(page).to have_content(invoice_item.status.titleize)
             end
           end
         end
@@ -122,6 +136,18 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
               expect(current_path).to eq(merchant_invoice_path(merchant1, invoice_item.invoice_id))
             end
           end
+        end
+
+        it 'displays a select field to update the invoice item status' do
+          within "#ship-item-#{ii_4.id}" do
+            expect(page).to have_select(:invoice_item_status, selected: 'Packaged')
+            page.select 'Shipped'
+            click_button 'Update'
+          end
+
+          expect(current_path).to eq(merchant_dashboard_index_path(merchant1))
+          expect(page).to have_content('Success! The invoice item was updated.')
+          expect(page).to have_no_css("#ship-item-#{ii_4.id}")
         end
       end
     end

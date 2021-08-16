@@ -2,47 +2,43 @@
 
 <div class='row'>
   <% # LEFT COLUMN %>
-  <div class='col-sm-6' id='top-five-customers'>
-    <p class='col-head'>
-      Top Customers
-    </p>
-
-    <ol class='top-list'>
-      <% @merchant.top_customers_by_transactions.each do |customer| %>
-        <section id='top-customer-<%= customer.id %>' class='card'>
-          <li class='top-customer'>
-            <br>
-            <%= customer.first_name %> <%= customer.last_name %> - <%= customer.transaction_count %> Purchases
-          </li>
-        </section>
-      <% end %>
-    </ol>
-  </div>
+  <%= render partial: 'shared/top_customers', locals: { subject: @merchant } %>
 
   <% # RIGHT COLUMN %>
-  <div class='col-sm-6' id='ready_to_ship'>
+  <%= render partial: 'shared/merchant_metrics', locals: { subject: @merchant } %>
+</div>
+
+<div class='row'>
+  <div class='col-sm-12' id='ready-to-ship'>
     <p class='col-head'>
       Items Ready to Ship
     </p>
 
-      <section>
-        <p>
-          <% @merchant.invoice_items_ready_to_ship.each do |invoice_item| %>
-            <div id='ship-item-<%= invoice_item.id %>' class='card-white'>
-              <strong><%= link_to invoice_item.item_name, merchant_item_path(@merchant, invoice_item.item_id) %></strong><br>
-              <table>
-                <tr>
-                  <th class='pad-right'>Invoice #</th>
-                  <td><%= link_to invoice_item.invoice_id, merchant_invoice_path(@merchant, invoice_item.invoice_id) %></td>
-                </tr>
-                <tr>
-                  <th class='pad-right'>Invoice Date:</th>
-                  <td><%= invoice_item.invoice_created_at.strftime('%A, %B %-d, %Y') %></td>
-                </tr>
-              </table>
-            </div>
-          <% end %>
-        </p>
-      </section>
+    <div class='card-white'>
+      <table class='table'>
+        <tr>
+          <th>Invoice Date</th>
+          <th>Invoice #</th>
+          <th>Item Name</th>
+          <th>Item Quantity</th>
+          <th>Item Status</th>
+        </tr>
+
+        <% @merchant.invoice_items_ready_to_ship.each do |invoice_item| %>
+          <tr id='ship-item-<%= invoice_item.id %>'>
+            <td><%= invoice_item.invoice_created_at.strftime('%m/%d/%Y') %></td>
+            <td><%= link_to invoice_item.invoice_id, merchant_invoice_path(@merchant, invoice_item.invoice_id) %></td>
+            <td><%= link_to invoice_item.item_name, merchant_item_path(@merchant, invoice_item.item_id) %></td>
+            <td><%= invoice_item.quantity %></td>
+            <td>
+              <%= form_with model: [@merchant, invoice_item], local: true do |f| %>
+                <%= f.select :status, InvoiceItem.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice_item.status }, { class: 'select' } %>
+                <%= f.submit 'Update', class: 'btn btn-primary' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
 </div>

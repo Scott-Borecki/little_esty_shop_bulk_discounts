@@ -1,0 +1,25 @@
+<div class='col-sm-6' id='top-merchants'>
+  <p class='col-head'>
+    Top Merchants
+  </p>
+
+  <div class='card'>
+    <table class='table-clean'>
+      <tr>
+        <th>No.</th>
+        <th>Merchant Name</th>
+        <th>Total Revenue</th>
+        <th>Top Revenue Day</th>
+      </tr>
+
+      <% subject.top_merchants_by_revenue.each_with_index do |merchant, i| %>
+        <tr id='top-merchant-<%= merchant.id %>'>
+          <td><%= i + 1 %></td>
+          <td><%= link_to merchant.name, admin_merchant_path(merchant) %></td>
+          <td><%= number_to_currency(merchant.total_revenue / 100.00) %></td>
+          <td><%= merchant.top_revenue_day %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

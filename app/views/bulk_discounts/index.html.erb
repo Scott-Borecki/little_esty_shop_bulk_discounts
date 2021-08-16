@@ -2,55 +2,62 @@
 
 <div class='row'>
   <% # LEFT COLUMN %>
-  <div class='col-sm-6' id='bulk-discounts'>
-    <p class='col-head'>
-      My Bulk Discounts
-    </p>
-
-    <table class='table-invoice'>
-      <% @merchant.bulk_discounts.each do |bulk_discount| %>
-        <div id='bd-<%= bulk_discount.id %>'>
-          <tr>
-            <td class='pad-right'>
-              <div class='mb0 card-white'>
-                Bulk Discount # <%= link_to bulk_discount.id, merchant_bulk_discount_path(@merchant, bulk_discount.id) %>: <%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %> off for <%= bulk_discount.quantity_threshold %> item(s)<br>
-              </div>
-            </td>
-
-            <td class='pr'>
-              <%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %>
-            </td>
-
-            <td class='pr'>
-              <%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %>
-            </td>
-
-            <td>
-              <%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %>
-            </td>
-          </tr>
-          <tr class='blank-row'>
-            <td colspan='2'></td>
-          </tr>
-        </div>
-      <% end %>
-    </table>
-
-    <p>
-      <%= link_to 'Create New Bulk Discount', new_merchant_bulk_discount_path(@merchant), class: 'btn btn-primary' %>
-    </p>
-  </div>
-
-  <% # RIGHT COLUMN %>
   <div class='col-sm-6' id='upcoming-holidays'>
     <p class='col-head'>
       Upcoming Holidays
     </p>
+    <div class='card'>
+      <table class='table-clean'>
+        <tr>
+          <th>Date</th>
+          <th>Holiday Name</th>
+        </tr>
+        <% @upcoming_holidays.each do |holiday| %>
+          <tr>
+            <td><%= holiday.date %></td>
+            <td><%= holiday.local_name %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
 
-    <% @upcoming_holidays.each do |holiday| %>
-      <p class='card'>
-        <%= holiday.date %>: <%= holiday.local_name %><br>
-      </p>
-    <% end %>
+  <% # RIGHT COLUMN %>
+  <%= render partial: 'shared/merchant_metrics', locals: { subject: @merchant } %>
+</div>
+
+<div class='col-sm-12' id='bulk-discounts'>
+  <p class='col-head'>
+    My Bulk Discounts
+  </p>
+
+  <p>
+    <%= link_to 'Create New Bulk Discount', new_merchant_bulk_discount_path(@merchant), class: 'btn btn-primary' %>
+  </p>
+
+  <div class='card-white'>
+    <table class='table'>
+      <tr>
+        <th>Bulk Discount #</th>
+        <th>Percentage Discount</th>
+        <th>Quantity Threshold</th>
+        <th></th>
+      </tr>
+
+      <% @merchant.bulk_discounts.each do |bulk_discount| %>
+        <tr id='bd-<%= bulk_discount.id %>'>
+          <td><%= link_to bulk_discount.id, merchant_bulk_discount_path(@merchant, bulk_discount.id) %></td>
+          <td><%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %></td>
+          <td><%= bulk_discount.quantity_threshold %></td>
+          <td class='pr'>
+            <table>
+              <td><%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
+              <td><%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
+              <td><%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %></td>
+            </table>
+          </td>
+        </tr>
+      <% end %>
+    </table>
   </div>
 </div>

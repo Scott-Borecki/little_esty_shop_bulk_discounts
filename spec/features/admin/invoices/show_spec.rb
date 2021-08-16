@@ -70,7 +70,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
       end
 
       it 'displays the total discounts' do
-        expect(page).to have_content("Discounts: #{number_to_currency(invoice1.revenue_discount / 100.00)}")
+        expect(page).to have_content("Discounts: #{number_to_currency(-invoice1.revenue_discount / 100.00)}")
 
         expect(page).to have_no_content(number_to_currency(invoice2.revenue_discount / 100.00))
       end

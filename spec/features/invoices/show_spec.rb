@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoice_id)' do
   include ActionView::Helpers::NumberHelper
 
-  # See spec/object_creation_helper.rb for objection creation details
+  # See spec/sample_data/create_objects.rb for objection creation details
   create_objects
 
   describe 'as a merchant' do
@@ -49,7 +49,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
       end
 
       it 'displays the total discount for this invoice' do
-        expect(page).to have_content("Discounts: #{number_to_currency(invoice3.revenue_discount / 100.00)}")
+        expect(page).to have_content("Discounts Applied: #{-number_to_currency(invoice3.revenue_discount / 100.00)}")
       end
 
       it 'displays the total discounted revenue for this invoice' do
