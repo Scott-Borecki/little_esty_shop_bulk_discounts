@@ -1,5 +1,8 @@
 class Invoice < ApplicationRecord
   scope :paid, -> { where(id: Transaction.successful.pluck(:invoice_id)) }
+  scope :cancelled, -> { where(status: 0) }
+  scope :in_progress, -> { where(status: 1) }
+  scope :completed, -> { where(status: 2) }
 
   enum status: { cancelled: 0, 'in progress': 1, completed: 2 }
 

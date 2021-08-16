@@ -1,4 +1,7 @@
 class Merchant < ApplicationRecord
+  scope :enabled, -> { where(status: 0) }
+  scope :disabled, -> { where(status: 1) }
+
   enum status: { enabled: 0, disabled: 1 }
 
   has_many :bulk_discounts, dependent: :destroy

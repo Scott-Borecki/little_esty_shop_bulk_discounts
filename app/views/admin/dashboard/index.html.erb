@@ -5,6 +5,46 @@
   <%= render partial: 'shared/top_customers', locals: { subject: @top_customers } %>
 
   <% # RIGHT COLUMN %>
+  <div class='col-sm-6' id='admin-metrics'>
+    <p class='col-head'>
+      Admin Metrics
+    </p>
+
+    <div class='card-white'>
+      <table class='table-clean'>
+        <tr>
+          <th class='pad-right'>Invoices Completed:</th>
+          <td><%= @invoices.completed.size %></td>
+        </tr>
+
+        <tr>
+          <th class='pad-right'>Invoices In Progress:</th>
+          <td><%= @invoices.in_progress.size %></td>
+        </tr>
+
+        <tr>
+          <th class='pad-right'>Invoices Cancelled:</th>
+          <td><%= @invoices.cancelled.size %></td>
+        </tr>
+
+        <tr class='blank-row'>
+          <td colspan='2'></td>
+        </tr>
+
+        <tr>
+          <th class='pad-right'>Enabled Merchants:</th>
+          <td><%= @merchants.enabled.size %></td>
+        </tr>
+
+        <tr>
+          <th class='pad-right'>Disabled Merchants:</th>
+          <td><%= @merchants.disabled.size %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
 
 <div class='row'>
   <div class='col-sm-12' id='incomplete-invoices'>
@@ -23,7 +63,7 @@
           <th class='col-auto'>Invoice Status</th>
         </tr>
 
-        <% @incomplete_invoices.each do |invoice| %>
+        <% @invoices.incomplete_invoices.each do |invoice| %>
           <tr id='invoice-<%= invoice.id %>'>
             <td><%= invoice.formatted_date_short %></td>
             <td><%= link_to invoice.id, admin_invoice_path(invoice.id) %></td>
