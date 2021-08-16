@@ -15,7 +15,7 @@ class Admin::InvoicesController < ApplicationController
     @invoice.update(invoice_params)
 
     flash.notice = 'Success! The invoice was updated.'
-    redirect_to admin_invoice_path(@invoice)
+    redirect_to URI(request.referer).path
   end
 
   private
