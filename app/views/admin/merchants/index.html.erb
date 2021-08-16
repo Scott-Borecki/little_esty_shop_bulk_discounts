@@ -1,44 +1,59 @@
 <%= render partial: 'shared/admin_dashboard_nav' %>
 
 <div class='row'>
-
   <% # LEFT COLUMN %>
-  <div class='col-sm-6'>
-    <p class='col-head'>
-      Top Merchants
-    </p>
-
-    <ol id='top-five-merchants' class='top-list'>
-      <% @merchants.top_merchants_by_revenue.each do |merchant| %>
-      <div class='card'>
-        <li class='top-merchant'>
-          <div id='top-merchant-<%= merchant.id %>'>
-            <%= link_to "#{merchant.name}", admin_merchant_path(merchant) %><br>
-            <%= number_to_currency(merchant.total_revenue / 100.00) %> in sales
-          </div>
-
-          <div id='top-day-<%= merchant.id %>'>
-              Top selling date for <%= merchant.name %> was <%= merchant.top_revenue_day %>
-          </div>
-        </li>
-      </div>
-      <% end %>
-    </ol>
-  </div>
+  <%= render partial: 'shared/top_merchants', locals: { subject: @merchants } %>
 
   <% # RIGHT COLUMN %>
-  <div class='col-sm-6'>
-    <p class='col-head'>Merchants</p>
+  <div class='col-sm-6' id='admin-metrics'>
+    <p class='col-head'>
+      Admin Metrics
+    </p>
 
-    <p><%= link_to 'Create New Merchant', new_admin_merchant_path, class: 'btn btn-primary' %></p>
+    <div class='card-white'>
+      <table class='table-clean'>
+        <tr>
+          <th class='pad-right'>Enabled Merchants:</th>
+          <td><%= @merchants.enabled.size %></td>
+        </tr>
 
-    <section id='enabled-merchants'>
-      <p class='col-head'>Enabled Merchants</p>
+        <tr>
+          <th class='pad-right'>Disabled Merchants:</th>
+          <td><%= @merchants.disabled.size %></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
 
-      <% @merchants.enabled.each do |merchant| %>
-        <section id='merchant-<%= merchant.id %>' class='row'>
+<div class='row'>
+  <p>
+    <%= link_to 'Create New Merchant', new_admin_merchant_path, class: 'btn btn-primary' %>
+  </p>
+
+  <section id='enabled-merchants' class='col-sm-6'>
+    <p class='col-head'>Enabled Merchants</p>
+
+    <% @merchants.enabled.each do |merchant| %>
+      <section id='merchant-<%= merchant.id %>' class='row col-sm-12'>
+        <div class='col-auto'>
+          <%= button_to 'Disable', admin_merchant_status_path(merchant), method: :patch, params: { status: 'disabled' }, class: 'btn btn-primary mt' %><br>
+        </div>
+
+        <div class='col pt card-white'>
+          <%= link_to merchant.name, admin_merchant_path(merchant) %>
+        </div>
+      </section>
+    <% end %>
+  </section>
+
+  <section id='disabled-merchants' class='col-sm-6'>
+    <p class='col-head'>Disabled Merchants</p>
+
+      <% @merchants.disabled.each do |merchant| %>
+        <section id='merchant-<%= merchant.id %>' class='row col-sm-12'>
           <div class='col-auto'>
-            <%= button_to 'Disable', admin_merchant_status_path(merchant), method: :patch, params: { status: 'disabled' }, class: 'btn btn-primary mt' %><br>
+            <%= button_to 'Enable', admin_merchant_status_path(merchant), method: :patch, params: { status: 'enabled' }, class: 'btn btn-primary mt' %><br>
           </div>
 
           <div class='col pt card-white'>
@@ -46,23 +61,6 @@
           </div>
         </section>
       <% end %>
-    </section>
-
-    <section id='disabled-merchants'>
-      <p class='col-head'>Disabled Merchants</p>
-
-        <% @merchants.disabled.each do |merchant| %>
-          <section id='merchant-<%= merchant.id %>' class='row'>
-            <div class='col-auto'>
-              <%= button_to 'Enable', admin_merchant_status_path(merchant), method: :patch, params: { status: 'enabled' }, class: 'btn btn-primary mt' %><br>
-            </div>
-
-            <div class='col pt card-white'>
-              <%= link_to merchant.name, admin_merchant_path(merchant) %>
-            </div>
-          </section>
-        <% end %>
-      </ul>
-    </section>
-  </div>
+    </ul>
+  </section>
 </div>

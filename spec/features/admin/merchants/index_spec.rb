@@ -76,9 +76,9 @@ describe 'admin merchant index (/admin/merchants)' do
         end
       end
 
-      context 'within the top 5 merchants section' do
+      context 'within the top merchants section' do
         it 'displays the names of the top 5 merchants by total revenue generated' do
-          within('#top-five-merchants') do
+          within('#top-merchants') do
             top_five_merchants.each do |merchant|
               expect(page).to have_content(merchant.name)
             end
@@ -91,7 +91,7 @@ describe 'admin merchant index (/admin/merchants)' do
           end
         end
 
-        it 'links the names of the top 5 merchants to their admin merchant show page' do
+        it 'links the names of the top merchants to their admin merchant show page' do
           top_five_merchants.each do |merchant|
             within("#top-merchant-#{merchant.id}") do
               expect(page).to have_link(merchant.name)
@@ -100,7 +100,7 @@ describe 'admin merchant index (/admin/merchants)' do
           end
         end
 
-        it 'displays the total revenue generated next to each top 5 merchants' do
+        it 'displays the total revenue generated next to each top merchants' do
           top_five_merchants.each do |merchant|
             within("#top-merchant-#{merchant.id}") do
               expect(page).to have_content(number_to_currency(merchant.total_revenue / 100.00))
@@ -110,8 +110,8 @@ describe 'admin merchant index (/admin/merchants)' do
 
         it 'displays the merchants best day' do
           top_five_merchants.each do |merchant|
-            within("#top-day-#{merchant.id}") do
-              expect(page).to have_content("Top selling date for #{merchant.name} was #{merchant.top_revenue_day}")
+            within("#top-merchant-#{merchant.id}") do
+              expect(page).to have_content(merchant.top_revenue_day)
             end
           end
         end
@@ -132,12 +132,12 @@ describe 'admin merchant index (/admin/merchants)' do
           end
         end
 
-        context 'within the top 5 merchants section' do
+        context 'within the top merchants section' do
           it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
             top_five_merchants.each do |merchant|
               visit admin_merchants_path
 
-              within('#top-five-merchants') { click_link merchant.name }
+              within('#top-merchants') { click_link merchant.name }
 
               expect(current_path).to eq(admin_merchant_path(merchant))
             end
@@ -194,6 +194,17 @@ describe 'admin merchant index (/admin/merchants)' do
 
         it 'takes me to the new admin merchant page' do
           expect(current_path).to eq(new_admin_merchant_path)
+        end
+      end
+      
+      describe 'when I look in the Admin Metrics section' do
+        it 'displays the admin metrics' do
+          expect(page).to have_content('Admin Metrics')
+
+          within '#admin-metrics' do
+            expect(page).to have_content("Enabled Merchants: #{Merchant.enabled.size}")
+            expect(page).to have_content("Disabled Merchants: #{Merchant.disabled.size}")
+          end
         end
       end
     end
