@@ -13,32 +13,8 @@
     <div class='card-white'>
       <table class='table-clean'>
         <tr>
-          <th class='pad-right'>Invoices Completed:</th>
-          <td><%= @invoices.completed.size %></td>
-        </tr>
-
-        <tr>
-          <th class='pad-right'>Invoices In Progress:</th>
-          <td><%= @invoices.in_progress.size %></td>
-        </tr>
-
-        <tr>
-          <th class='pad-right'>Invoices Cancelled:</th>
-          <td><%= @invoices.cancelled.size %></td>
-        </tr>
-
-        <tr class='blank-row'>
-          <td colspan='2'></td>
-        </tr>
-
-        <tr>
-          <th class='pad-right'>Enabled Merchants:</th>
-          <td><%= @merchants.enabled.size %></td>
-        </tr>
-
-        <tr>
-          <th class='pad-right'>Disabled Merchants:</th>
-          <td><%= @merchants.disabled.size %></td>
+          <th class='pad-right'>Incomplete Invoices:</th>
+          <td><%= @incomplete_invoices.size %></td>
         </tr>
       </table>
     </div>
@@ -53,23 +29,17 @@
     </p>
 
     <div class='card-white'>
-      <table class='table'>
+      <table class='table table-fixed'>
         <tr>
           <th>Invoice Date</th>
           <th>Invoice #</th>
-          <th>Total Revenue</th>
-          <th>Discounts Applied</th>
-          <th>Total Discounted Revenue</th>
           <th>Invoice Status</th>
         </tr>
 
-        <% @invoices.incomplete_invoices.each do |invoice| %>
+        <% @incomplete_invoices.each do |invoice| %>
           <tr id='invoice-<%= invoice.id %>'>
             <td><%= invoice.formatted_date_short %></td>
             <td><%= link_to invoice.id, admin_invoice_path(invoice.id) %></td>
-            <td><%= number_to_currency(invoice.total_revenue / 100.00) %></td>
-            <td><em><%= -number_to_currency(invoice.revenue_discount / 100.00) unless invoice.revenue_discount == 0 %></em></td>
-            <td><%= number_to_currency(invoice.total_discounted_revenue / 100.00) %></td>
             <td>
               <%= form_with model: invoice, url: admin_invoice_path(invoice), method: :patch do |f| %>
                 <%= f.select :status, Invoice.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice.status }, { class: 'select' } %>

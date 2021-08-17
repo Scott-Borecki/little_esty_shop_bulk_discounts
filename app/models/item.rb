@@ -19,10 +19,10 @@ class Item < ApplicationRecord
     args[:limit] ||= 5
     args[:order_by] ||= 'total_revenue desc'
 
-    joins(invoices: :transactions)
-      .merge(Transaction.successful)
+    joins(invoice_items: :invoice)
+      .merge(Invoice.paid)
       .select('items.*,
-               COUNT(DISTINCT transactions.id) AS transaction_count,
+               COUNT(DISTINCT invoices.id) AS transaction_count,
                SUM(invoice_items.quantity * invoice_items.unit_price) as total_revenue,
                SUM(invoice_items.quantity) AS total_items')
       .group(:id)
