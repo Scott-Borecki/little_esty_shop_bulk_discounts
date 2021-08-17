@@ -1,5 +1,5 @@
 class Invoice < ApplicationRecord
-  scope :paid, -> { where(id: Transaction.successful.pluck(:invoice_id)) }
+  scope :paid, -> { joins(:transactions).merge(Transaction.successful) }
   scope :cancelled, -> { where(status: 0) }
   scope :in_progress, -> { where(status: 1) }
   scope :completed, -> { where(status: 2) }

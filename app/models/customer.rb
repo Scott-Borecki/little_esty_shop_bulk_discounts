@@ -16,8 +16,8 @@ class Customer < ApplicationRecord
     args[:limit] ||= 5
     args[:order_by] ||= 'transaction_count desc'
 
-    joins(invoices: :invoice_items)
-      .merge(Invoice.paid)
+    joins(invoices: [:transactions, :invoice_items])
+      .merge(Transaction.successful)
       .select('customers.*,
                COUNT(DISTINCT invoices.id) AS transaction_count,
                SUM(DISTINCT invoice_items.quantity * invoice_items.unit_price) AS total_revenue,

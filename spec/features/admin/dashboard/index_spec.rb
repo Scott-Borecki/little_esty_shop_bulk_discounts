@@ -113,12 +113,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
           expect(page).to have_content('Admin Metrics')
 
           within '#admin-metrics' do
-            expect(page).to have_content("Invoices Completed: #{Invoice.completed.size}")
-            expect(page).to have_content("Invoices In Progress: #{Invoice.in_progress.size}")
-            expect(page).to have_content("Invoices Cancelled: #{Invoice.cancelled.size}")
-
-            expect(page).to have_content("Enabled Merchants: #{Merchant.enabled.size}")
-            expect(page).to have_content("Disabled Merchants: #{Merchant.disabled.size}")
+            expect(page).to have_content("Incomplete Invoices: #{Invoice.incomplete_invoices.size}")
           end
         end
       end

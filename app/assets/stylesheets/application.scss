@@ -163,6 +163,10 @@ li.top-item::before {
   vertical-align: top;
 }
 
+.table-fixed {
+  table-layout: fixed;
+}
+
 .td {
   border: 1px solid $color3;
   padding: 8px;
