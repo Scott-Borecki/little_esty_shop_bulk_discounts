@@ -224,18 +224,18 @@ li.top-item::before {
 /* LINKS */
 
 .page-link {
-  color: $color3;
+  color: $color2;
 }
 
 .page-item.active .page-link {
     color: $text-color-light;
-    background-color: $color3;
-    border-color: $color3;
+    background-color: $color2;
+    border-color: $color2;
 }
 
 .page-link:hover {
-    color: $color3;
-    background-color: $color4;
+    color: $text-color-light;
+    background-color: $color3;
     border-color: $color3;
 }
 
