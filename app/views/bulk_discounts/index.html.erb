@@ -35,29 +35,31 @@
     <%= link_to 'Create New Bulk Discount', new_merchant_bulk_discount_path(@merchant), class: 'btn btn-primary' %>
   </p>
 
-  <div class='card-white'>
-    <table class='table'>
-      <tr>
-        <th>Bulk Discount #</th>
-        <th>Percentage Discount</th>
-        <th>Quantity Threshold</th>
-        <th></th>
-      </tr>
-
-      <% @merchant.bulk_discounts.each do |bulk_discount| %>
-        <tr id='bd-<%= bulk_discount.id %>'>
-          <td><%= link_to bulk_discount.id, merchant_bulk_discount_path(@merchant, bulk_discount.id) %></td>
-          <td><%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %></td>
-          <td><%= bulk_discount.quantity_threshold %></td>
-          <td class='pr'>
-            <table>
-              <td><%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
-              <td><%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
-              <td><%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %></td>
-            </table>
-          </td>
+  <% unless @merchant.bulk_discounts.size == 0 %>
+    <div class='card-white'>
+      <table class='table'>
+        <tr>
+          <th>Bulk Discount #</th>
+          <th>Percentage Discount</th>
+          <th>Quantity Threshold</th>
+          <th></th>
         </tr>
-      <% end %>
-    </table>
-  </div>
+
+        <% @merchant.bulk_discounts.each do |bulk_discount| %>
+          <tr id='bd-<%= bulk_discount.id %>'>
+            <td><%= link_to bulk_discount.id, merchant_bulk_discount_path(@merchant, bulk_discount.id) %></td>
+            <td><%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %></td>
+            <td><%= bulk_discount.quantity_threshold %></td>
+            <td class='pr'>
+              <table>
+                <td><%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
+                <td><%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
+                <td><%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %></td>
+              </table>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
 </div>

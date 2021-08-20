@@ -11,3 +11,9 @@
 <% @invoices.each do |invoice| %>
     <%= link_to "Invoice ##{invoice.id}", admin_invoice_path(invoice), class: 'btn btn-primary mb1' %>
 <% end %>
+
+<br><br>
+
+<div class='container-center'>
+  <%= paginate @invoices %>
+</div>
