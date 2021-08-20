@@ -2,7 +2,7 @@ class Admin::InvoicesController < ApplicationController
   before_action :fetch_current_invoice, only: [:show, :edit, :update]
 
   def index
-    @invoices = Invoice.all
+    @invoices = Invoice.all.page(params[:page])
   end
 
   def show
