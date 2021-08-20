@@ -33,10 +33,13 @@
     </div>
 
     <div class='card-white'>
-      <table class='table table-fixed'>
+      <table class='table'>
         <tr>
           <th>Invoice Date</th>
           <th>Invoice #</th>
+          <th>Total Revenue</th>
+          <th>Discounts Applied</th>
+          <th>Total Discounted Revenue</th>
           <th>Invoice Status</th>
         </tr>
 
@@ -44,6 +47,9 @@
           <tr id='invoice-<%= invoice.id %>'>
             <td><%= invoice.formatted_date_short %></td>
             <td><%= link_to invoice.id, admin_invoice_path(invoice.id) %></td>
+            <td><%= number_to_currency(invoice.total_revenue / 100.00) %></td>
+            <td><em><%= number_to_currency(-invoice.revenue_discount / 100.00) unless invoice.revenue_discount == 0 %></em></td>
+            <td><%= number_to_currency(invoice.total_discounted_revenue / 100.00) %></td>
             <td>
               <%= form_with model: invoice, url: admin_invoice_path(invoice), method: :patch do |f| %>
                 <%= f.select :status, Invoice.statuses.keys.map { |key| [key.titleize, key.to_sym] }, { selected: invoice.status }, { class: 'select' } %>

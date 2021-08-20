@@ -8,18 +8,18 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
   let(:top_customers) { Customer.top_customers }
 
-  let(:shipped_items) do
+  let(:shipped_invoices) do
     [invoice2a, invoice2b, invoice2c, invoice2d, invoice2e, invoice4a,
      invoice4b, invoice4c, invoice4d, invoice6a, invoice6b, invoice6c]
   end
 
-  let(:not_shipped_items) { [invoice1, invoice3, invoice5a, invoice5b] }
+  let(:not_shipped_invoices) { [invoice1, invoice3, invoice5a, invoice5b] }
 
-  let(:not_shipped_items_ids) do
+  let(:not_shipped_invoices_ids) do
     [invoice1.id, invoice3.id, invoice5a.id, invoice5b.id]
   end
 
-  let(:not_shipped_items_dates) do
+  let(:not_shipped_invoices_dates) do
     [invoice5a.formatted_date_short, invoice5b.formatted_date_short,
      invoice3.formatted_date_short, invoice1.formatted_date_short]
   end
@@ -68,42 +68,51 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
       end
 
       describe 'when I look in the incomplete invoices section' do
-        it 'displays a list of the ids of all invoices that have items that have not yet been shipped' do
-            not_shipped_items_ids.each do |not_shipped_item_id|
-              within "#invoice-#{not_shipped_item_id}" do
+        it 'displays the details of each invoice with unshipped items' do
+          not_shipped_invoices.each do |not_shipped_invoice|
+            within "#invoice-#{not_shipped_invoice.id}" do
+              expect(page).to have_content(not_shipped_invoice.id)
+              expect(page).to have_content(not_shipped_invoice.formatted_date_short)
+              expect(page).to have_content(number_to_currency(not_shipped_invoice.total_revenue / 100.00))
+              expect(page).to have_content(number_to_currency(not_shipped_invoice.total_discounted_revenue / 100.00))
 
-              expect(page).to have_content(not_shipped_item_id)
-            end
+              unless not_shipped_invoice.revenue_discount == 0
+                expect(page).to have_content(number_to_currency(-not_shipped_invoice.revenue_discount / 100.00))
+              end
 
-            shipped_items.each do |shipped_item_id|
-              expect(page).to have_no_content(shipped_item_id)
+              expect(page).to have_select('invoice[status]', selected: 'Completed')
+              expect(page).to have_button('Update')
             end
+          end
+
+          shipped_invoices.each do |shipped_invoice_id|
+            expect(page).to have_no_content(shipped_invoice_id)
           end
         end
 
         it 'links the invoice ids to that invoices admin show page' do
           within '#incomplete-invoices' do
-            not_shipped_items_ids.each do |not_shipped_item_id|
-              expect(page).to have_link(not_shipped_item_id.to_s)
+            not_shipped_invoices_ids.each do |not_shipped_invoice_id|
+              expect(page).to have_link(not_shipped_invoice_id.to_s)
             end
 
-            shipped_items.each do |shipped_item_id|
-              expect(page).to have_no_link(shipped_item_id.to_s)
+            shipped_invoices.each do |shipped_invoice_id|
+              expect(page).to have_no_link(shipped_invoice_id.to_s)
             end
           end
         end
 
         it 'displays the invoice date and sorts by oldest to newest' do
-          not_shipped_items.each do |not_shipped_item|
-            within "#invoice-#{not_shipped_item.id}" do
-              expect(page).to have_content(not_shipped_item.formatted_date_short)
+          not_shipped_invoices.each do |not_shipped_invoice|
+            within "#invoice-#{not_shipped_invoice.id}" do
+              expect(page).to have_content(not_shipped_invoice.formatted_date_short)
             end
           end
 
           within '#incomplete-invoices' do
-            expect(not_shipped_items_dates[0]).to appear_before(not_shipped_items_dates[1])
-            expect(not_shipped_items_dates[1]).to appear_before(not_shipped_items_dates[2])
-            expect(not_shipped_items_dates[2]).to appear_before(not_shipped_items_dates[3])
+            expect(not_shipped_invoices_dates[0]).to appear_before(not_shipped_invoices_dates[1])
+            expect(not_shipped_invoices_dates[1]).to appear_before(not_shipped_invoices_dates[2])
+            expect(not_shipped_invoices_dates[2]).to appear_before(not_shipped_invoices_dates[3])
           end
         end
       end
