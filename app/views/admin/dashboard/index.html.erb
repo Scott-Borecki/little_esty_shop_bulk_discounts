@@ -28,6 +28,10 @@
       Incomplete Invoices
     </p>
 
+    <div class='container-center'>
+      <%= paginate @incomplete_invoices %>
+    </div>
+
     <div class='card-white'>
       <table class='table table-fixed'>
         <tr>
@@ -50,5 +54,10 @@
         <% end %>
       </table>
     </div>
+
+    <div class='container-center'>
+      <%= paginate @incomplete_invoices %>
+    </div>
+
   </div>
 </div>
