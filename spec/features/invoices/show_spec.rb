@@ -49,7 +49,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
       end
 
       it 'displays the total discount for this invoice' do
-        expect(page).to have_content("Discounts Applied: #{-number_to_currency(invoice3.revenue_discount / 100.00)}")
+        expect(page).to have_content("Discounts Applied: #{number_to_currency(-invoice3.revenue_discount / 100.00)}")
       end
 
       it 'displays the total discounted revenue for this invoice' do
@@ -61,7 +61,13 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
           within "#ii-#{invoice_item.id}" do
             expect(page).to have_content(invoice_item.item.name)
             expect(page).to have_content(invoice_item.quantity)
-            expect(page).to have_content(invoice_item.unit_price)
+            expect(page).to have_content(number_to_currency(invoice_item.unit_price / 100.00))
+            expect(page).to have_content(number_to_currency(invoice_item.revenue / 100.00))
+
+            unless invoice_item.max_discount.nil?
+              expect(page).to have_content(number_to_currency(invoice_item.revenue_discount / 100.00))
+              expect(page).to have_content(number_to_currency(invoice_item.discounted_revenue / 100.00))
+            end
           end
         end
       end

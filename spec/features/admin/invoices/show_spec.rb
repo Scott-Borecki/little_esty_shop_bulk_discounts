@@ -54,6 +54,13 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
             expect(page).to have_content(invoice_item.item.name)
             expect(page).to have_content(invoice_item.quantity)
             expect(page).to have_content(number_to_currency(invoice_item.unit_price / 100.00))
+            expect(page).to have_content(number_to_currency(invoice_item.revenue / 100.00))
+
+            unless invoice_item.max_discount.nil?
+              expect(page).to have_content(number_to_currency(invoice_item.revenue_discount / 100.00))
+              expect(page).to have_content(number_to_currency(invoice_item.discounted_revenue / 100.00))
+            end
+
             expect(page).to have_content(invoice_item.status.titleize)
           end
 
