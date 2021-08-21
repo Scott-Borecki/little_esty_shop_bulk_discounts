@@ -50,11 +50,19 @@
             <td><%= link_to bulk_discount.id, merchant_bulk_discount_path(@merchant, bulk_discount.id) %></td>
             <td><%= number_to_percentage(bulk_discount.percentage_discount, precision: 0) %></td>
             <td><%= bulk_discount.quantity_threshold %></td>
-            <td class='pr'>
-              <table>
-                <td><%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
-                <td><%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %></td>
-                <td><%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %></td>
+            <td>
+              <table class='container-center'>
+                <td>
+                  <%= button_to 'View', merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %>
+                </td>
+
+                <td>
+                  <%= button_to 'Edit', edit_merchant_bulk_discount_path(@merchant, bulk_discount), method: :get, class: 'btn btn-primary' %>
+                </td>
+
+                <td>
+                  <%= button_to 'Delete', merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, class: 'btn btn-primary' %>
+                </td>
               </table>
             </td>
           </tr>
