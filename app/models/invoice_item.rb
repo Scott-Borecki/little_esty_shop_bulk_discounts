@@ -44,6 +44,10 @@ class InvoiceItem < ApplicationRecord
     revenue * max_discount_percentage / 100
   end
 
+  def discounted_revenue
+    revenue - revenue_discount
+  end
+
   def max_discount
     item.merchant.bulk_discounts.max_discount(quantity)
   end
