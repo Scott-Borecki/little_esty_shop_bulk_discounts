@@ -112,6 +112,23 @@ RSpec.describe InvoiceItem, type: :model do
       end
     end
 
+    describe '#revenue_discount' do
+      let!(:merchant) { create(:merchant) }
+
+      let!(:item) { create(:item, merchant: merchant) }
+
+      let!(:bulk_discount1) { create(:bulk_discount, quantity_threshold: 10, percentage_discount: 10, merchant: merchant) }
+      let!(:bulk_discount2) { create(:bulk_discount, quantity_threshold: 3,  percentage_discount: 5,  merchant: merchant) }
+      let!(:bulk_discount3) { create(:bulk_discount, quantity_threshold: 1,  percentage_discount: 25, merchant: merchant) }
+      let!(:bulk_discount4) { create(:bulk_discount, quantity_threshold: 2,  percentage_discount: 15, merchant: merchant) }
+
+      let!(:invoice_item) { create(:invoice_item, :shipped, quantity: 4, unit_price: 10, item: item) }
+
+      it 'returns the revenue discount' do
+        expect(invoice_item.revenue_discount).to eq(10)
+      end
+    end
+
     describe '#max_discount instance methods' do
       let!(:merchant) { create(:merchant) }
 
