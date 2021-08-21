@@ -73,7 +73,7 @@ RSpec.describe InvoiceItem, type: :model do
 
       let(:invoice_items_to_ship) do
         [invoice_item3d_1, invoice_item6a_2, invoice_item4c_1, invoice_item10a_1,
-         invoice_item3e_1, invoice_item4b_2, invoice_item7b_1, invoice_item3b_2, 
+         invoice_item3e_1, invoice_item4b_2, invoice_item7b_1, invoice_item3b_2,
          invoice_item3b_1, invoice_item7a_2, invoice_item1a_1, invoice_item1a_2,
          invoice_item8a_1, invoice_item8a_2]
       end
@@ -109,6 +109,40 @@ RSpec.describe InvoiceItem, type: :model do
         invoice_item = create(:invoice_item, :shipped, quantity: 4, unit_price: 10)
 
         expect(invoice_item.revenue).to eq(40)
+      end
+    end
+
+    describe '#revenue_discount' do
+      let!(:merchant) { create(:merchant) }
+
+      let!(:item) { create(:item, merchant: merchant) }
+
+      let!(:bulk_discount1) { create(:bulk_discount, quantity_threshold: 10, percentage_discount: 10, merchant: merchant) }
+      let!(:bulk_discount2) { create(:bulk_discount, quantity_threshold: 3,  percentage_discount: 5,  merchant: merchant) }
+      let!(:bulk_discount3) { create(:bulk_discount, quantity_threshold: 1,  percentage_discount: 25, merchant: merchant) }
+      let!(:bulk_discount4) { create(:bulk_discount, quantity_threshold: 2,  percentage_discount: 15, merchant: merchant) }
+
+      let!(:invoice_item) { create(:invoice_item, :shipped, quantity: 4, unit_price: 10, item: item) }
+
+      it 'returns the revenue discount' do
+        expect(invoice_item.revenue_discount).to eq(10)
+      end
+    end
+
+    describe '#discounted_revenue' do
+      let!(:merchant) { create(:merchant) }
+
+      let!(:item) { create(:item, merchant: merchant) }
+
+      let!(:bulk_discount1) { create(:bulk_discount, quantity_threshold: 10, percentage_discount: 10, merchant: merchant) }
+      let!(:bulk_discount2) { create(:bulk_discount, quantity_threshold: 3,  percentage_discount: 5,  merchant: merchant) }
+      let!(:bulk_discount3) { create(:bulk_discount, quantity_threshold: 1,  percentage_discount: 25, merchant: merchant) }
+      let!(:bulk_discount4) { create(:bulk_discount, quantity_threshold: 2,  percentage_discount: 15, merchant: merchant) }
+
+      let!(:invoice_item) { create(:invoice_item, :shipped, quantity: 4, unit_price: 10, item: item) }
+
+      it 'returns the revenue after the discount is applied' do
+        expect(invoice_item.discounted_revenue).to eq(30)
       end
     end
 

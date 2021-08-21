@@ -31,12 +31,12 @@
 
     <tr>
       <th class='pad-right'>Discounts Applied: </th>
-      <td><em><%= -number_to_currency(@invoice.revenue_discount / 100.00) unless @invoice.revenue_discount == 0 %></em></td>
+      <td><em><%= number_to_currency(-@invoice.revenue_discount / 100.00) unless @invoice.revenue_discount == 0 %></em></td>
     </tr>
 
     <tr>
       <th class='pad-right'>Total Discounted Revenue: </th>
-      <td><%= number_to_currency(@invoice.total_discounted_revenue / 100.00) %></td>
+      <td><strong><%= number_to_currency(@invoice.total_discounted_revenue / 100.00) %></strong></td>
     </tr>
 
     <tr class='blank-row'>
@@ -61,7 +61,9 @@
           <th>Item Name</th>
           <th>Quantity</th>
           <th>Unit Price</th>
+          <th>Subtotal</th>
           <th>Bulk Discount</th>
+          <th>Total</th>
           <th>Status</th>
         </tr>
 
@@ -70,10 +72,20 @@
             <td><%= invoice_item.item.name %></td>
             <td><%= invoice_item.quantity %></td>
             <td><%= number_to_currency(invoice_item.unit_price / 100.00) %></td>
+            <td><%= number_to_currency(invoice_item.revenue / 100.00) %></td>
 
             <td>
               <% if invoice_item.max_discount %>
-                <%= link_to number_to_percentage(invoice_item.max_discount_percentage, precision: 0), merchant_bulk_discount_path(@merchant, invoice_item.max_discount) %>
+              <em><%= number_to_currency(-invoice_item.revenue_discount / 100.00) %></em>
+                (<%= link_to number_to_percentage(invoice_item.max_discount_percentage, precision: 0), merchant_bulk_discount_path(@merchant, invoice_item.max_discount) %>)
+              <% end %>
+            </td>
+
+            <td>
+              <% if invoice_item.max_discount %>
+                <strong><%= number_to_currency(invoice_item.discounted_revenue / 100.00) %></strong>
+              <% else %>
+                <strong><%= number_to_currency(invoice_item.revenue / 100.00) %></strong>
               <% end %>
             </td>
 
