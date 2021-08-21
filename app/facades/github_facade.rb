@@ -6,14 +6,14 @@ class GithubFacade
   end
 
   def self.number_of_commits(user_id)
-    unless GithubService.commits.empty?
-      user_commit_stats =
-        GithubService.commits.find do |contributor_stats|
-          user_id == contributor_stats[:author][:id]
-        end
+    return if GithubService.commits.empty?
 
-      user_commit_stats[:total]
-    end
+    user_commit_stats =
+      GithubService.commits.find do |contributor_stats|
+        user_id == contributor_stats[:author][:id]
+      end
+
+    user_commit_stats[:total]
   end
 
   def self.number_of_pull_requests(user_id)
