@@ -9,7 +9,7 @@ describe 'admin invoices index (/admin/invoices)' do
   let(:all_invoices) { Invoice.all }
 
   describe 'as an admin' do
-    describe 'when I visit the admin invoices index' do
+    context 'when I visit the admin invoices index page' do
       before { visit admin_invoices_path }
 
       it { expect(page).to have_no_content('Success!') }

@@ -46,7 +46,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
   let(:merchant1_top_items) { merchant1.top_items }
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant items index page' do
+    context 'when I visit my merchant items index page' do
       before { visit merchant_items_path(merchant1) }
 
       it { expect(page).to have_current_path(merchant_items_path(merchant1)) }
@@ -129,7 +129,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
         end
       end
 
-      describe 'when I click on the enable button' do
+      context 'when I click on the enable button' do
         before do
           within("#item-#{item2.id}") { click_button 'Enable' }
         end
@@ -155,7 +155,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
         end
       end
 
-      describe 'when I click on the disable button' do
+      context 'when I click on the disable button' do
         before do
           within("#item-#{item1.id}") { click_button 'Disable' }
         end
@@ -203,7 +203,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
               expect(page).to have_link(top_item.name)
             end
           end
-          
+
           within '#top-items' do
             click_link item1.name
 

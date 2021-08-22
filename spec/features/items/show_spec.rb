@@ -9,7 +9,7 @@ describe 'merchant items show (/merchant/:merchant_id/items/:id)' do
   let!(:item4) { create(:item, unit_price: 1,  merchant: merchant) }
 
   describe 'as a merchant' do
-    describe 'when I visit the merchant item show page' do
+    context 'when I visit the merchant item show page' do
       before { visit merchant_item_path(merchant, item1) }
 
       it { expect(page).to have_no_content('Success!') }

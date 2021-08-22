@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'admin merchants new (/admin/merchants/new)' do
   describe 'as an admin' do
-    describe 'when I visit the admin merchants new' do
+    context 'when I visit the admin merchants new page' do
       before { visit new_admin_merchant_path }
 
       it { expect(page).to have_current_path(new_admin_merchant_path) }
@@ -14,7 +14,7 @@ RSpec.describe 'admin merchants new (/admin/merchants/new)' do
         expect(page).to have_button('Submit')
       end
 
-      describe 'when I fill out the form and click Submit' do
+      context 'when I fill out the form and click Submit' do
         before do
           fill_in :merchant_name, with: 'Foo Bar'
           click_button 'Submit'

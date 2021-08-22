@@ -7,7 +7,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
   create_objects
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant invoices show page' do
+    context 'when I visit my merchant invoices show page' do
       before { visit merchant_invoice_path(merchant3, invoice3) }
 
       it { expect(page).to have_no_content('Success!') }

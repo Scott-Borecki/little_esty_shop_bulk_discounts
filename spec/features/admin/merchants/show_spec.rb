@@ -6,7 +6,7 @@ RSpec.describe 'admin merchants show (/admin/merchants/merchant_id)' do
   let!(:merchant3) { create(:enabled_merchant) }
 
   describe 'as an admin' do
-    describe 'when I visit the admin merchants show page' do
+    context 'when I visit the admin merchants show page' do
       before { visit admin_merchant_path(merchant1) }
 
       it { expect(page).to have_current_path(admin_merchant_path(merchant1)) }
@@ -23,7 +23,7 @@ RSpec.describe 'admin merchants show (/admin/merchants/merchant_id)' do
         expect(page).to have_link('Update Merchant')
       end
 
-      describe 'when I click the update link' do
+      context 'when I click the update link' do
         before { click_link 'Update Merchant' }
 
         it 'takes me to a page to edit the merchant' do

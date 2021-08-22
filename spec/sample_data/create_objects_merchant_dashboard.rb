@@ -24,10 +24,10 @@ def create_objects_merchant_dashboard
   let!(:item3) { create(:item, unit_price: 5_099,  merchant: merchant1) }
   let!(:item4) { create(:item, unit_price: 1_099,  merchant: merchant1) }
 
-  let!(:ii_1) { create(:invoice_item, invoice: invoice1, item: item1, quantity: 1, unit_price: 10_099, status: 0) }
-  let!(:ii_2) { create(:invoice_item, invoice: invoice1, item: item2, quantity: 1, unit_price: 8_099,  status: 0) }
-  let!(:ii_3) { create(:invoice_item, invoice: invoice2, item: item3, quantity: 1, unit_price: 5_099,  status: 2) }
-  let!(:ii_4) { create(:invoice_item, invoice: invoice3, item: item4, quantity: 1, unit_price: 5_099,  status: 1) }
+  let!(:ii_1) { create(:invoice_item, invoice: invoice1, item: item1, quantity: 1, unit_price: 100_99, status: 0) }
+  let!(:ii_2) { create(:invoice_item, invoice: invoice1, item: item2, quantity: 1, unit_price: 80_99,  status: 0) }
+  let!(:ii_3) { create(:invoice_item, invoice: invoice2, item: item3, quantity: 1, unit_price: 50_99,  status: 2) }
+  let!(:ii_4) { create(:invoice_item, invoice: invoice3, item: item4, quantity: 1, unit_price: 50_99,  status: 1) }
 
   let!(:transaction1) { create(:transaction, result: 1, invoice: invoice1) }
   let!(:transaction2) { create(:transaction, result: 1, invoice: invoice3) }

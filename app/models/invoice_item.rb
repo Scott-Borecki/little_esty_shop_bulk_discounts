@@ -1,5 +1,4 @@
 class InvoiceItem < ApplicationRecord
-  scope :total_revenue, -> { sum('invoice_items.quantity * invoice_items.unit_price') }
   scope :not_shipped, -> { where.not(status: :shipped) }
 
   enum status: { pending: 0, packaged: 1, shipped: 2 }
@@ -34,6 +33,10 @@ class InvoiceItem < ApplicationRecord
 
   def self.total_discounted_revenue
     total_revenue - revenue_discount
+  end
+
+  def self.total_revenue
+    sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
   def revenue

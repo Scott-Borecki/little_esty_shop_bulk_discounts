@@ -19,7 +19,7 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
   let!(:invoice_item1) { create(:invoice_item, invoice: invoice1, item: item1) }
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant dashboard bulk discounts index (/merchant/:merchant_id/bulk_discounts)' do
+    context 'when I visit my merchant dashboard bulk discounts index page' do
       before do
         visit merchant_bulk_discounts_path(merchant1)
       end

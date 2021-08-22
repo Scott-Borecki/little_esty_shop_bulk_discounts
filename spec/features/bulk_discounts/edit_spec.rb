@@ -15,7 +15,7 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
   let!(:new_threshold) { 13 }
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant dashboard bulk discount edit (/merchant/:merchant_id/bulk_discounts/:id/edit)' do
+    context 'when I visit my merchant dashboard bulk discount edit page' do
       before { visit edit_merchant_bulk_discount_path(merchant1, bulk_discount1_1) }
 
       it { expect(page).to have_no_content('Success!') }
@@ -28,7 +28,7 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
         expect(page).to have_button('Update')
       end
 
-      describe 'when I fill in the form with all new values' do
+      context 'when I fill in the form with all new values' do
         before do
           fill_in 'bulk_discount_percentage_discount', with: new_percentage
           fill_in 'bulk_discount_quantity_threshold', with: new_threshold
@@ -49,7 +49,7 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
         end
       end
 
-      describe 'when I fill in the form with one new value' do
+      context 'when I fill in the form with one new value' do
         before do
           fill_in 'bulk_discount_percentage_discount', with: new_percentage
           click_button 'Update'
@@ -88,7 +88,7 @@ RSpec.describe 'bulk discount edit page (/merchant/:merchant_id/bulk_discounts/:
         end
       end
 
-      describe 'when I fill in the form with invalid input' do
+      context 'when I fill in the form with invalid input' do
         before do
           fill_in 'bulk_discount_percentage_discount', with: 'hello'
           click_button 'Update'

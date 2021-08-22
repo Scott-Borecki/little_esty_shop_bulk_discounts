@@ -10,7 +10,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
   let(:invoice_items_ready_to_ship) { merchant1.invoice_items_ready_to_ship }
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant dashboard' do
+    context 'when I visit my merchant dashboard index page' do
       before { visit merchant_dashboard_index_path(merchant1) }
 
       it { expect(page).to have_no_content('Success!') }
@@ -40,7 +40,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         expect(page).to have_link('Bulk Discounts')
       end
 
-      describe 'when I click the View All My Discounts link' do
+      context 'when I click the View All My Discounts link' do
         before { click_link 'Bulk Discounts' }
 
         it 'takes me to my bulk discounts index page' do
@@ -50,7 +50,6 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
           within '#bulk-discounts' do
             merchant1.bulk_discounts.each do |bulk_discount|
-
               expect(page).to have_css("#bd-#{bulk_discount.id}")
               expect(page).to have_content(bulk_discount.id)
               expect(page).to have_content(bulk_discount.percentage_discount)
@@ -89,7 +88,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         it 'displays the merchant metrics' do
           within '#merchant-metrics' do
             expect(page).to have_content("Total Revenue: #{number_to_currency(merchant1.invoice_items_total_revenue / 100.00)}")
-            expect(page).to have_content("Discounts Applied:")
+            expect(page).to have_content('Discounts Applied:')
             expect(page).to have_content("Total Discounted Revenue: #{number_to_currency(merchant1.invoice_items_total_discounted_revenue / 100.00)}")
             expect(page).to have_content("Total Items Sold: #{merchant1.total_items_sold}")
             expect(page).to have_content("Top Revenue Day: #{merchant1.top_revenue_day}")

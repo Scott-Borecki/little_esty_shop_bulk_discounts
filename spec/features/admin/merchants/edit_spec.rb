@@ -6,7 +6,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
   let!(:merchant3) { create(:enabled_merchant) }
 
   describe 'as an admin' do
-    describe 'when I visit the admin merchants edit page' do
+    context 'when I visit the admin merchants edit page' do
       before { visit edit_admin_merchant_path(merchant1) }
 
       it { expect(page).to have_current_path(edit_admin_merchant_path(merchant1)) }
@@ -20,7 +20,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
         expect(page).to have_button('Submit')
       end
 
-      describe 'when I update the information in the form and click submit' do
+      context 'when I update the information in the form and click submit' do
         before do
           fill_in :merchant_name, with: 'Stompy Feet'
           click_button 'Submit'
@@ -41,7 +41,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
         end
       end
 
-      describe 'when I dont fill in all the fields' do
+      context 'when I dont fill in all the fields' do
         before do
           fill_in :merchant_name, with: ''
           click_button 'Submit'

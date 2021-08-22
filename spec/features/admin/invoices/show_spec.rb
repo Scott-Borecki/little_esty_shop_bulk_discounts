@@ -25,7 +25,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
   let!(:bulk_discount2) { create(:bulk_discount, merchant: item2a.merchant, quantity_threshold: 10) }
 
   describe 'as an admin' do
-    describe 'when I visit an admin invoice show page (/admin/invoices/:id)' do
+    context 'when I visit an admin invoice show page' do
       before { visit admin_invoice_path(invoice1) }
 
       it { expect(page).to have_no_content('Success!') }

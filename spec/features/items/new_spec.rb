@@ -5,7 +5,7 @@ RSpec.describe 'merchant items new (/merchant/:merchant_id/items/new)' do
   let(:merchant2) { create(:merchant) }
 
   describe 'as an admin' do
-    describe 'when I visit the merchant items new page' do
+    context 'when I visit the merchant items new page' do
       before { visit new_merchant_item_path(merchant1) }
 
       it { expect(page).to have_current_path(new_merchant_item_path(merchant1)) }
@@ -19,7 +19,7 @@ RSpec.describe 'merchant items new (/merchant/:merchant_id/items/new)' do
         expect(page).to have_button('Submit')
       end
 
-      describe 'when I fill out the form and click Submit' do
+      context 'when I fill out the form and click Submit' do
         before do
           fill_in :item_name, with: 'Foo Bar'
           fill_in :item_description, with: 'It is a different type of soap!'
