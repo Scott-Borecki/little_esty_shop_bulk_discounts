@@ -22,20 +22,20 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
   let(:quantity_threshold) { 100 }
 
   describe 'as a merchant' do
-    describe 'when I visit my merchant dashboard bulk discounts new (/merchant/:merchant_id/bulk_discounts/new)' do
+    context 'when I visit my merchant dashboard bulk discounts new page' do
       before { visit new_merchant_bulk_discount_path(merchant1) }
 
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
       it 'displays a form to create a new discount' do
-        expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
+        expect(page).to have_current_path(new_merchant_bulk_discount_path(merchant1))
         expect(page).to have_field(:bulk_discount_percentage_discount)
         expect(page).to have_field(:bulk_discount_quantity_threshold)
         expect(page).to have_button('Create')
       end
 
-      describe 'when I fill in the form with valid data' do
+      context 'when I fill in the form with valid data' do
         before do
           fill_in :bulk_discount_percentage_discount, with: percentage_discount
           fill_in :bulk_discount_quantity_threshold, with: quantity_threshold
@@ -43,7 +43,7 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
         end
 
         it 'takes me back tot he bulk discount index' do
-          expect(current_path).to eq(merchant_bulk_discounts_path(merchant1))
+          expect(page).to have_current_path(merchant_bulk_discounts_path(merchant1))
         end
 
         it 'displays a flash success message' do
@@ -62,7 +62,7 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
         end
       end
 
-      describe 'when I fill in the form with ininvalid input' do
+      context 'when I fill in the form with ininvalid input' do
         before do
           fill_in :bulk_discount_percentage_discount, with: 'hello'
           fill_in :bulk_discount_quantity_threshold, with: 'whats up'
@@ -70,7 +70,7 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
         end
 
         it 'returns me to the bulk discounts new page' do
-          expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
+          expect(page).to have_current_path(new_merchant_bulk_discount_path(merchant1))
         end
 
         it 'displays a flash error message' do
@@ -78,7 +78,7 @@ RSpec.describe 'bulk discounts new page (/merchant/:merchant_id/bulk_discounts/n
         end
 
         it 'displays a form to create a new discount' do
-          expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
+          expect(page).to have_current_path(new_merchant_bulk_discount_path(merchant1))
           expect(page).to have_field(:bulk_discount_percentage_discount)
           expect(page).to have_field(:bulk_discount_quantity_threshold)
           expect(page).to have_button('Create')

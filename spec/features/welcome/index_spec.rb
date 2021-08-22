@@ -9,12 +9,13 @@ RSpec.describe 'welcome index (/)' do
   let!(:invoice_item) { create(:invoice_item, invoice: invoice, item: item) }
 
   describe 'as a user' do
-    describe 'when I visit my welcome index (/)' do
+    context 'when I visit my welcome index page' do
       before { visit root_path }
+
       let(:repository) { GithubFacade.repository }
 
       it 'displays the welcome page' do
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path)
       end
 
       it 'links to the home page' do
@@ -22,7 +23,7 @@ RSpec.describe 'welcome index (/)' do
 
         click_link('Little Esty Shop')
 
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path)
       end
 
       it 'links to the admin dashboard' do
@@ -30,7 +31,7 @@ RSpec.describe 'welcome index (/)' do
 
         click_link('Admin Dashboard')
 
-        expect(current_path).to eq(admin_dashboard_index_path)
+        expect(page).to have_current_path(admin_dashboard_index_path)
       end
 
       it 'links to the merchant dashboard' do
@@ -38,8 +39,7 @@ RSpec.describe 'welcome index (/)' do
 
         click_link('Merchant Dashboard')
 
-        expect(current_path).to include('/merchant/')
-        expect(current_path).to include('/dashboard')
+        expect(page).to have_current_path(merchant_dashboard_index_path(merchant))
       end
 
       it 'displays the GitHub repository name' do

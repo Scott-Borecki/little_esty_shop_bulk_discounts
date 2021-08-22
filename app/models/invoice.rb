@@ -14,15 +14,22 @@ class Invoice < ApplicationRecord
   has_many :merchants, through: :items
 
   delegate :full_name, :address, :city_state_zip, to: :customer, prefix: true
-  delegate :revenue_discount, :total_discounted_revenue, :total_revenue, to: :invoice_items
+  delegate :revenue_discount,
+           :total_discounted_revenue,
+           :total_revenue,
+           to: :invoice_items
   delegate :discounted, to: :invoice_items, prefix: true
 
   validates :status, presence: true
 
   def self.top_revenue_day
     paid.joins(:invoice_items)
-        .select('invoices.*,
-                 SUM(invoice_items.unit_price * invoice_items.quantity) as total_revenue')
+        .select(
+          'invoices.*,
+           SUM(
+             invoice_items.unit_price * invoice_items.quantity
+           ) as total_revenue'
+        )
         .group(:id)
         .order('total_revenue desc', 'invoices.created_at desc')
         .first

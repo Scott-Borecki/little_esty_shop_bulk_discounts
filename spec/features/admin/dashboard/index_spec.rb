@@ -25,10 +25,10 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
   end
 
   describe 'as an admin' do
-    describe 'when I visit the admin dashboard' do
+    context 'when I visit the admin dashboard page' do
       before { visit admin_dashboard_index_path }
 
-      it { expect(current_path).to eq(admin_dashboard_index_path) }
+      it { expect(page).to have_current_path(admin_dashboard_index_path) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -41,7 +41,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
         click_link 'Merchants'
 
-        expect(current_path).to eq(admin_merchants_path)
+        expect(page).to have_current_path(admin_merchants_path)
       end
 
       it 'displays a link to the admin merchants index (/admin/invoices)' do
@@ -49,10 +49,10 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
 
         click_link 'Invoices'
 
-        expect(current_path).to eq(admin_invoices_path)
+        expect(page).to have_current_path(admin_invoices_path)
       end
 
-      describe 'when I look in the top 5 customers section' do
+      context 'when I look in the top 5 customers section' do
         it 'displays the names and number of puchases of the top 5 customers' do
           expect(page).to have_content('Top Customers')
 
@@ -67,7 +67,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
         end
       end
 
-      describe 'when I look in the incomplete invoices section' do
+      context 'when I look in the incomplete invoices section' do
         it 'displays the details of each invoice with unshipped items' do
           not_shipped_invoices.each do |not_shipped_invoice|
             within "#invoice-#{not_shipped_invoice.id}" do
@@ -117,7 +117,7 @@ RSpec.describe 'admin dashboard index (/admin/dashboard)' do
         end
       end
 
-      describe 'when I look in the Admin Metrics section' do
+      context 'when I look in the Admin Metrics section' do
         it 'displays the admin metrics' do
           expect(page).to have_content('Admin Metrics')
 

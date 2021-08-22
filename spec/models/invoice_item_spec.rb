@@ -58,12 +58,6 @@ RSpec.describe InvoiceItem, type: :model do
         expect(InvoiceItem.total_discounted_revenue).to eq(269)
       end
     end
-
-    describe '.total_revenue' do
-      it 'returns the total revenue of the invoice items' do
-        expect(InvoiceItem.total_revenue).to eq(300)
-      end
-    end
   end
 
   describe 'class methods' do
@@ -99,6 +93,25 @@ RSpec.describe InvoiceItem, type: :model do
           end
 
         expect(InvoiceItem.ready_to_ship.map(&:invoice_created_at)).to eq(invoice_created_at)
+      end
+    end
+
+    describe '.total_revenue' do
+      let!(:merchant1) { create(:merchant) }
+      let!(:merchant2) { create(:merchant) }
+
+      let!(:item1) { create(:item, merchant: merchant1) }
+      let!(:item2) { create(:item, merchant: merchant2) }
+
+      let!(:invoice_item1) { create(:invoice_item, item: item1, quantity: 2,  unit_price: 10) }
+      let!(:invoice_item2) { create(:invoice_item, item: item1, quantity: 4,  unit_price: 10) }
+      let!(:invoice_item3) { create(:invoice_item, item: item1, quantity: 7,  unit_price: 10) }
+      let!(:invoice_item4) { create(:invoice_item, item: item2, quantity: 10, unit_price: 10) }
+      let!(:invoice_item5) { create(:invoice_item, item: item2, quantity: 0,  unit_price: 10) }
+      let!(:invoice_item6) { create(:invoice_item, item: item2, quantity: 7,  unit_price: 10) }
+
+      it 'returns the total revenue of the invoice items' do
+        expect(InvoiceItem.total_revenue).to eq(300)
       end
     end
   end

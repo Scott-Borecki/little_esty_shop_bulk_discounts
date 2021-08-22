@@ -12,10 +12,10 @@ describe 'admin merchant index (/admin/merchants)' do
   let(:top_five_merchants) { Merchant.top_merchants_by_revenue }
 
   describe 'as an admin' do
-    describe 'when I visit the admin merchants index' do
+    context 'when I visit the admin merchants index page' do
       before { visit admin_merchants_path }
 
-      it { expect(current_path).to eq(admin_merchants_path) }
+      it { expect(page).to have_current_path(admin_merchants_path) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -76,7 +76,7 @@ describe 'admin merchant index (/admin/merchants)' do
         end
       end
 
-      context 'within the top merchants section' do
+      describe 'within the top merchants section' do
         it 'displays the names of the top 5 merchants by total revenue generated' do
           within('#top-merchants') do
             top_five_merchants.each do |merchant|
@@ -117,8 +117,8 @@ describe 'admin merchant index (/admin/merchants)' do
         end
       end
 
-      describe 'when I click on the name of a merchant' do
-        context 'within the enabled/disabled section' do
+      context 'when I click on the name of a merchant' do
+        describe 'within the enabled/disabled section' do
           it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
             all_merchants.each do |merchant|
               visit admin_merchants_path
@@ -127,31 +127,31 @@ describe 'admin merchant index (/admin/merchants)' do
                 click_link merchant.name
               end
 
-              expect(current_path).to eq(admin_merchant_path(merchant))
+              expect(page).to have_current_path(admin_merchant_path(merchant))
             end
           end
         end
 
-        context 'within the top merchants section' do
+        describe 'within the top merchants section' do
           it 'takes me to the merchants admin show page (/admin/merchants/merchant_id)' do
             top_five_merchants.each do |merchant|
               visit admin_merchants_path
 
               within('#top-merchants') { click_link merchant.name }
 
-              expect(current_path).to eq(admin_merchant_path(merchant))
+              expect(page).to have_current_path(admin_merchant_path(merchant))
             end
           end
         end
       end
 
-      describe 'when I click on the enable button' do
+      context 'when I click on the enable button' do
         before do
           within("#merchant-#{merchant4.id}") { click_button 'Enable' }
         end
 
         it 'redirects me back to the admin merchants index' do
-          expect(current_path).to eq(admin_merchants_path)
+          expect(page).to have_current_path(admin_merchants_path)
         end
 
         it 'changes the merchants status' do
@@ -167,13 +167,13 @@ describe 'admin merchant index (/admin/merchants)' do
         end
       end
 
-      describe 'when I click on the disable button' do
+      context 'when I click on the disable button' do
         before do
           within("#merchant-#{merchant1.id}") { click_button 'Disable' }
         end
 
         it 'redirects me back to the admin merchants index' do
-          expect(current_path).to eq(admin_merchants_path)
+          expect(page).to have_current_path(admin_merchants_path)
         end
 
         it 'changes the merchants status' do
@@ -189,15 +189,15 @@ describe 'admin merchant index (/admin/merchants)' do
         end
       end
 
-      describe 'when I click on Create New Merchant' do
+      context 'when I click on Create New Merchant' do
         before { click_link 'Create New Merchant' }
 
         it 'takes me to the new admin merchant page' do
-          expect(current_path).to eq(new_admin_merchant_path)
+          expect(page).to have_current_path(new_admin_merchant_path)
         end
       end
-      
-      describe 'when I look in the Admin Metrics section' do
+
+      context 'when I look in the Admin Metrics section' do
         it 'displays the admin metrics' do
           expect(page).to have_content('Admin Metrics')
 

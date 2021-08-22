@@ -25,14 +25,14 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
   let!(:bulk_discount2) { create(:bulk_discount, merchant: item2a.merchant, quantity_threshold: 10) }
 
   describe 'as an admin' do
-    describe 'when I visit an admin invoice show page (/admin/invoices/:id)' do
+    context 'when I visit an admin invoice show page' do
       before { visit admin_invoice_path(invoice1) }
 
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
       it 'displays the invoice detials: id, status, and created_at' do
-        expect(current_path).to eq(admin_invoice_path(invoice1))
+        expect(page).to have_current_path(admin_invoice_path(invoice1))
 
         expect(page).to have_content("Invoice ##{invoice1.id}")
         expect(page).to have_content("Created on: #{invoice1.formatted_date}")
@@ -97,7 +97,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
           select 'Cancelled', from: :invoice_status
           click_button 'Update'
 
-          expect(current_path).to eq(admin_invoice_path(invoice1))
+          expect(page).to have_current_path(admin_invoice_path(invoice1))
           expect(page).to have_select('invoice[status]', selected: 'Cancelled')
           expect(invoice1.reload.status).to eq('cancelled')
         end

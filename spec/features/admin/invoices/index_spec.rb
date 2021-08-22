@@ -9,7 +9,7 @@ describe 'admin invoices index (/admin/invoices)' do
   let(:all_invoices) { Invoice.all }
 
   describe 'as an admin' do
-    describe 'when I visit the admin invoices index' do
+    context 'when I visit the admin invoices index page' do
       before { visit admin_invoices_path }
 
       it { expect(page).to have_no_content('Success!') }
@@ -26,7 +26,7 @@ describe 'admin invoices index (/admin/invoices)' do
           visit admin_invoices_path
           click_link "Invoice ##{invoice.id}"
 
-          expect(current_path).to eq(admin_invoice_path(invoice))
+          expect(page).to have_current_path(admin_invoice_path(invoice))
         end
       end
     end
