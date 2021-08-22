@@ -11,7 +11,9 @@ RSpec.describe GithubService, type: :service do
         expect(repository[:name]).to be_a(String) if repository[:name].present?
 
         expect(repository).to have_key(:html_url)
-        expect(repository[:html_url]).to be_a(String) if repository[:html_url].present?
+        if repository[:html_url].present?
+          expect(repository[:html_url]).to be_a(String)
+        end
 
         expect(repository).to have_key(:owner)
         if repository[:owner].present?
@@ -36,7 +38,9 @@ RSpec.describe GithubService, type: :service do
         expect(commits.first).to be_an(Hash)
 
         expect(commits.first).to have_key(:total)
-        expect(commits.first[:total]).to be_an(Integer) if commits.first[:total].present?
+        if commits.first[:total].present?
+          expect(commits.first[:total]).to be_an(Integer)
+        end
 
         expect(commits.first).to have_key(:author)
         if commits.first[:author].present?
@@ -61,7 +65,9 @@ RSpec.describe GithubService, type: :service do
         end
 
         expect(pull_requests.first).to have_key(:id)
-        expect(pull_requests.first[:id]).to be_an(Integer) if pull_requests.first[:id].present?
+        if pull_requests.first[:id].present?
+          expect(pull_requests.first[:id]).to be_an(Integer)
+        end
       end
     end
   end

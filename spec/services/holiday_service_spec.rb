@@ -14,30 +14,44 @@ RSpec.describe HolidayService, type: :service do
         expect(holiday[:date]).to be_a(String) if holiday[:date].present?
 
         expect(holiday).to have_key(:localName)
-        expect(holiday[:localName]).to be_a(String) if holiday[:localName].present?
+        if holiday[:localName].present?
+          expect(holiday[:localName]).to be_a(String)
+        end
 
         expect(holiday).to have_key(:name)
         expect(holiday[:name]).to be_a(String) if holiday[:name].present?
 
         expect(holiday).to have_key(:countryCode)
-        expect(holiday[:countryCode]).to be_a(String) if holiday[:countryCode].present?
+        if holiday[:countryCode].present?
+          expect(holiday[:countryCode]).to be_a(String)
+        end
 
         expect(holiday).to have_key(:fixed)
-        expect(holiday[:fixed]).to be_in([true, false]) if holiday[:fixed].present?
+        if holiday[:fixed].present?
+          expect(holiday[:fixed]).to be_in([true, false])
+        end
 
         expect(holiday).to have_key(:global)
-        expect(holiday[:global]).to be_in([true, false]) if holiday[:global].present?
+        if holiday[:global].present?
+          expect(holiday[:global]).to be_in([true, false])
+        end
 
         expect(holiday).to have_key(:counties)
-        expect(holiday[:counties]).to be_an(Array) if holiday[:counties].present?
-        expect(holiday[:counties].first).to be_a(String) if holiday[:counties].present?
+        if holiday[:counties].present?
+          expect(holiday[:counties]).to be_an(Array)
+          expect(holiday[:counties].first).to be_a(String)
+        end
 
         expect(holiday).to have_key(:launchYear)
-        expect(holiday[:launchYear]).to be_an(Integer) if holiday[:launchYear].present?
+        if holiday[:launchYear].present?
+          expect(holiday[:launchYear]).to be_an(Integer)
+        end
 
         expect(holiday).to have_key(:types)
-        expect(holiday[:types]).to be_an(Array) if holiday[:types].present?
-        expect(holiday[:types].first).to be_a(String) if holiday[:types].present?
+        if holiday[:types].present?
+          expect(holiday[:types]).to be_an(Array)
+          expect(holiday[:types].first).to be_a(String)
+        end
       end
     end
   end
