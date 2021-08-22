@@ -30,7 +30,7 @@ RSpec.describe Transaction, type: :model do
 
       it 'excludes transactions that are not successful' do
         transaction = create(:transaction, result: 0)
-        expect(Transaction.successful).to_not include(transaction)
+        expect(Transaction.successful).not_to include(transaction)
       end
     end
   end

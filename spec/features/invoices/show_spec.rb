@@ -16,7 +16,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
       it 'displays the invoice id' do
         other_invoices = Invoice.all.to_a
         other_invoices.delete(invoice3)
-        expect(other_invoices).to_not include(invoice3)
+        expect(other_invoices).not_to include(invoice3)
 
         within '#invoice-id' do
           expect(page).to have_content(invoice3.id)
@@ -30,7 +30,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
       it 'displays the invoice and customer details' do
         other_invoices = Invoice.all.to_a
         other_invoices.delete(invoice3)
-        expect(other_invoices).to_not include(invoice3)
+        expect(other_invoices).not_to include(invoice3)
 
         within '#invoice-details' do
           expect(page).to have_content("#{invoice3.customer.first_name} #{invoice3.customer.last_name}")
