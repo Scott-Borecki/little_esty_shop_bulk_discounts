@@ -32,7 +32,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
       it { expect(page).to have_no_content('Error!') }
 
       it 'displays the invoice detials: id, status, and created_at' do
-        expect(current_path).to eq(admin_invoice_path(invoice1))
+        expect(page).to have_current_path(admin_invoice_path(invoice1))
 
         expect(page).to have_content("Invoice ##{invoice1.id}")
         expect(page).to have_content("Created on: #{invoice1.formatted_date}")
@@ -97,7 +97,7 @@ describe 'admin invoice show page (/admin/invoices/:id)' do
           select 'Cancelled', from: :invoice_status
           click_button 'Update'
 
-          expect(current_path).to eq(admin_invoice_path(invoice1))
+          expect(page).to have_current_path(admin_invoice_path(invoice1))
           expect(page).to have_select('invoice[status]', selected: 'Cancelled')
           expect(invoice1.reload.status).to eq('cancelled')
         end

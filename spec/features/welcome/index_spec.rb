@@ -14,7 +14,7 @@ RSpec.describe 'welcome index (/)' do
       let(:repository) { GithubFacade.repository }
 
       it 'displays the welcome page' do
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path)
       end
 
       it 'links to the home page' do
@@ -22,7 +22,7 @@ RSpec.describe 'welcome index (/)' do
 
         click_link('Little Esty Shop')
 
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path)
       end
 
       it 'links to the admin dashboard' do
@@ -30,7 +30,7 @@ RSpec.describe 'welcome index (/)' do
 
         click_link('Admin Dashboard')
 
-        expect(current_path).to eq(admin_dashboard_index_path)
+        expect(page).to have_current_path(admin_dashboard_index_path)
       end
 
       it 'links to the merchant dashboard' do

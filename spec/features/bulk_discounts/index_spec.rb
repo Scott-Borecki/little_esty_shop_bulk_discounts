@@ -56,7 +56,7 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
 
             click_link bulk_discount.id.to_s
 
-            expect(current_path).to eq(merchant_bulk_discount_path(merchant1, bulk_discount.id))
+            expect(page).to have_current_path(merchant_bulk_discount_path(merchant1, bulk_discount.id))
           end
         end
       end
@@ -66,7 +66,7 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
 
         click_link 'Create New Bulk Discount'
 
-        expect(current_path).to eq(new_merchant_bulk_discount_path(merchant1))
+        expect(page).to have_current_path(new_merchant_bulk_discount_path(merchant1))
         expect(page).to have_field(:bulk_discount_percentage_discount)
         expect(page).to have_field(:bulk_discount_quantity_threshold)
         expect(page).to have_button('Create')
@@ -84,7 +84,7 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
             click_button button_text
           end
 
-          expect(current_path).to eq(merchant_bulk_discount_path(merchant1, bulk_discount))
+          expect(page).to have_current_path(merchant_bulk_discount_path(merchant1, bulk_discount))
           expect(page).to have_no_css("#bd-#{bulk_discount.id}")
         end
       end
@@ -101,7 +101,7 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
             click_button button_text
           end
 
-          expect(current_path).to eq(edit_merchant_bulk_discount_path(merchant1, bulk_discount))
+          expect(page).to have_current_path(edit_merchant_bulk_discount_path(merchant1, bulk_discount))
           expect(page).to have_no_css("#bd-#{bulk_discount.id}")
         end
       end
@@ -118,7 +118,7 @@ RSpec.describe 'bulk discounts index page (/merchant/:merchant_id/bulk_discounts
             click_button button_text
           end
 
-          expect(current_path).to eq(merchant_bulk_discounts_path(merchant1))
+          expect(page).to have_current_path(merchant_bulk_discounts_path(merchant1))
           expect(page).to have_no_css("#bd-#{bulk_discount.id}")
         end
       end

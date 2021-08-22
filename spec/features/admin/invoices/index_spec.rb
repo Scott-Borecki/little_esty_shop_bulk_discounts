@@ -26,7 +26,7 @@ describe 'admin invoices index (/admin/invoices)' do
           visit admin_invoices_path
           click_link "Invoice ##{invoice.id}"
 
-          expect(current_path).to eq(admin_invoice_path(invoice))
+          expect(page).to have_current_path(admin_invoice_path(invoice))
         end
       end
     end

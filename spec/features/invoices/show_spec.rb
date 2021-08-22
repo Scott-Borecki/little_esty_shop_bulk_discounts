@@ -79,7 +79,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
           click_button 'Update'
         end
 
-        expect(current_path).to eq(merchant_invoice_path(merchant3, invoice3))
+        expect(page).to have_current_path(merchant_invoice_path(merchant3, invoice3))
         expect(page).to have_content('Success! The invoice item was updated.')
 
         within "#ii-#{invoice_item3a.id}" do
@@ -96,7 +96,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
         within "#ii-#{invoice_item3.id}" do
           expect(page).to have_link("#{invoice_item3.max_discount_percentage}%")
           click_link "#{invoice_item3.max_discount_percentage}%"
-          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3.max_discount_id))
+          expect(page).to have_current_path(merchant_bulk_discount_path(merchant3, invoice_item3.max_discount_id))
         end
 
         visit merchant_invoice_path(merchant3, invoice3)
@@ -105,7 +105,7 @@ RSpec.describe 'merchant invoices show (/merchants/:merchant_id/invoices/:invoic
 
           click_link "#{invoice_item3a.max_discount_percentage}%"
 
-          expect(current_path).to eq(merchant_bulk_discount_path(merchant3, invoice_item3a.max_discount_id))
+          expect(page).to have_current_path(merchant_bulk_discount_path(merchant3, invoice_item3a.max_discount_id))
         end
 
         visit merchant_invoice_path(merchant3, invoice3)

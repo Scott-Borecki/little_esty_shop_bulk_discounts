@@ -9,7 +9,7 @@ RSpec.describe 'admin merchants show (/admin/merchants/merchant_id)' do
     describe 'when I visit the admin merchants show page' do
       before { visit admin_merchant_path(merchant1) }
 
-      it { expect(current_path).to eq(admin_merchant_path(merchant1)) }
+      it { expect(page).to have_current_path(admin_merchant_path(merchant1)) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -27,7 +27,7 @@ RSpec.describe 'admin merchants show (/admin/merchants/merchant_id)' do
         before { click_link 'Update Merchant' }
 
         it 'takes me to a page to edit the merchant' do
-          expect(current_path).to eq(edit_admin_merchant_path(merchant1))
+          expect(page).to have_current_path(edit_admin_merchant_path(merchant1))
         end
       end
     end

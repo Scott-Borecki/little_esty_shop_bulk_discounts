@@ -9,7 +9,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
     describe 'when I visit the admin merchants edit page' do
       before { visit edit_admin_merchant_path(merchant1) }
 
-      it { expect(current_path).to eq(edit_admin_merchant_path(merchant1)) }
+      it { expect(page).to have_current_path(edit_admin_merchant_path(merchant1)) }
       it { expect(page).to have_no_content('Success') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -27,7 +27,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
         end
 
         it 'redirects me to the merchants admin show page' do
-          expect(current_path).to eq(admin_merchant_path(merchant1))
+          expect(page).to have_current_path(admin_merchant_path(merchant1))
         end
 
         it 'displays the updated information' do
@@ -48,7 +48,7 @@ RSpec.describe 'admin merchants edit (/admin/merchants/merchant_id/edit)' do
         end
 
         it 'returns me to the admin merchants edit page' do
-          expect(current_path).to eq(edit_admin_merchant_path(merchant1))
+          expect(page).to have_current_path(edit_admin_merchant_path(merchant1))
         end
 
         it 'shows a flash message if not all sections are filled in' do

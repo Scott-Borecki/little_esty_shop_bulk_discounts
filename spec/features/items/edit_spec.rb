@@ -39,7 +39,7 @@ describe "merchant items edit (/merchant/:merchant_id/items/:id/edit)" do
         end
 
         it 'redirects me to that items show page' do
-          expect(current_path).to eq(merchant_item_path(merchant1, item1))
+          expect(page).to have_current_path(merchant_item_path(merchant1, item1))
         end
 
         it 'displays the updated info' do
@@ -64,7 +64,7 @@ describe "merchant items edit (/merchant/:merchant_id/items/:id/edit)" do
         end
 
         it 'returns me to the admin item edit page' do
-          expect(current_path).to eq(edit_merchant_item_path(merchant1, item1))
+          expect(page).to have_current_path(edit_merchant_item_path(merchant1, item1))
         end
 
         it 'displays a flash message a flash message if not all sections are filled in' do

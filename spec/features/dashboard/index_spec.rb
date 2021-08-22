@@ -25,7 +25,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
         click_link 'Items'
 
-        expect(current_path).to eq("/merchant/#{merchant1.id}/items")
+        expect(page).to have_current_path("/merchant/#{merchant1.id}/items")
       end
 
       it 'displays a link to my merchant invoices index (/merchants/merchant_id/invoices)' do
@@ -33,7 +33,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
         click_link 'Invoices'
 
-        expect(current_path).to eq("/merchant/#{merchant1.id}/invoices")
+        expect(page).to have_current_path("/merchant/#{merchant1.id}/invoices")
       end
 
       it 'displays a link to view all my discounts' do
@@ -44,7 +44,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
         before { click_link 'Bulk Discounts' }
 
         it 'takes me to my bulk discounts index page' do
-          expect(current_path).to eq(merchant_bulk_discounts_path(merchant1))
+          expect(page).to have_current_path(merchant_bulk_discounts_path(merchant1))
         end
 
         it 'displays all my bulk discounts: percentage discount and quantity thresholds' do
@@ -119,7 +119,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
               click_link invoice_item.item_name
 
-              expect(current_path).to eq(merchant_item_path(merchant1, invoice_item.item_id))
+              expect(page).to have_current_path(merchant_item_path(merchant1, invoice_item.item_id))
             end
           end
         end
@@ -133,7 +133,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
 
               click_link invoice_item.invoice_id.to_s
 
-              expect(current_path).to eq(merchant_invoice_path(merchant1, invoice_item.invoice_id))
+              expect(page).to have_current_path(merchant_invoice_path(merchant1, invoice_item.invoice_id))
             end
           end
         end
@@ -145,7 +145,7 @@ RSpec.describe 'merchant dashboard index (/merchant/:merchant_id/dashboard)' do
             click_button 'Update'
           end
 
-          expect(current_path).to eq(merchant_dashboard_index_path(merchant1))
+          expect(page).to have_current_path(merchant_dashboard_index_path(merchant1))
           expect(page).to have_content('Success! The invoice item was updated.')
           expect(page).to have_no_css("#ship-item-#{ii_4.id}")
         end

@@ -49,7 +49,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
     describe 'when I visit my merchant items index page' do
       before { visit merchant_items_path(merchant1) }
 
-      it { expect(current_path).to eq(merchant_items_path(merchant1)) }
+      it { expect(page).to have_current_path(merchant_items_path(merchant1)) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -72,7 +72,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
           click_link item1.name
         end
 
-        expect(current_path).to eq(merchant_item_path(merchant1, item1))
+        expect(page).to have_current_path(merchant_item_path(merchant1, item1))
       end
 
       it 'displays a link to create a new item' do
@@ -80,7 +80,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
 
         click_link 'Create New Item'
 
-        expect(current_path).to eq(new_merchant_item_path(merchant1))
+        expect(page).to have_current_path(new_merchant_item_path(merchant1))
       end
 
       it 'displays an Enabled Items section with all the enabled items' do
@@ -135,7 +135,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
         end
 
         it 'redirects me back to the merchant items index' do
-          expect(current_path).to eq(merchant_items_path(merchant1))
+          expect(page).to have_current_path(merchant_items_path(merchant1))
         end
 
         it 'changes the items status' do
@@ -161,7 +161,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
         end
 
         it 'redirects me back to the merchant items index' do
-          expect(current_path).to eq(merchant_items_path(merchant1))
+          expect(page).to have_current_path(merchant_items_path(merchant1))
         end
 
         it 'changes the items status' do
@@ -207,7 +207,7 @@ describe 'merchant items index (merchants/merchant_id/items)' do
           within '#top-items' do
             click_link item1.name
 
-            expect(current_path).to eq(merchant_item_path(merchant1, item1))
+            expect(page).to have_current_path(merchant_item_path(merchant1, item1))
           end
         end
 

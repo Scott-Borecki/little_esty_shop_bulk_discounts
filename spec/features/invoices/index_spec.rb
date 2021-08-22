@@ -51,7 +51,7 @@ describe "merchant invoices index (/merchant/:merchant_id/invoices)" do
 
         click_link "Invoice ##{merchant1.invoices.first.id}"
 
-        expect(current_path).to eq(merchant_invoice_path(merchant1, merchant1.invoices.first))
+        expect(page).to have_current_path(merchant_invoice_path(merchant1, merchant1.invoices.first))
       end
     end
   end

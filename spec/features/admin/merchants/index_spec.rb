@@ -15,7 +15,7 @@ describe 'admin merchant index (/admin/merchants)' do
     describe 'when I visit the admin merchants index' do
       before { visit admin_merchants_path }
 
-      it { expect(current_path).to eq(admin_merchants_path) }
+      it { expect(page).to have_current_path(admin_merchants_path) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -127,7 +127,7 @@ describe 'admin merchant index (/admin/merchants)' do
                 click_link merchant.name
               end
 
-              expect(current_path).to eq(admin_merchant_path(merchant))
+              expect(page).to have_current_path(admin_merchant_path(merchant))
             end
           end
         end
@@ -139,7 +139,7 @@ describe 'admin merchant index (/admin/merchants)' do
 
               within('#top-merchants') { click_link merchant.name }
 
-              expect(current_path).to eq(admin_merchant_path(merchant))
+              expect(page).to have_current_path(admin_merchant_path(merchant))
             end
           end
         end
@@ -151,7 +151,7 @@ describe 'admin merchant index (/admin/merchants)' do
         end
 
         it 'redirects me back to the admin merchants index' do
-          expect(current_path).to eq(admin_merchants_path)
+          expect(page).to have_current_path(admin_merchants_path)
         end
 
         it 'changes the merchants status' do
@@ -173,7 +173,7 @@ describe 'admin merchant index (/admin/merchants)' do
         end
 
         it 'redirects me back to the admin merchants index' do
-          expect(current_path).to eq(admin_merchants_path)
+          expect(page).to have_current_path(admin_merchants_path)
         end
 
         it 'changes the merchants status' do
@@ -193,7 +193,7 @@ describe 'admin merchant index (/admin/merchants)' do
         before { click_link 'Create New Merchant' }
 
         it 'takes me to the new admin merchant page' do
-          expect(current_path).to eq(new_admin_merchant_path)
+          expect(page).to have_current_path(new_admin_merchant_path)
         end
       end
       

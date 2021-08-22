@@ -5,7 +5,7 @@ RSpec.describe 'admin merchants new (/admin/merchants/new)' do
     describe 'when I visit the admin merchants new' do
       before { visit new_admin_merchant_path }
 
-      it { expect(current_path).to eq(new_admin_merchant_path) }
+      it { expect(page).to have_current_path(new_admin_merchant_path) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -21,7 +21,7 @@ RSpec.describe 'admin merchants new (/admin/merchants/new)' do
         end
 
         it 'takes me back to the admin merchants index page' do
-          expect(current_path).to eq(admin_merchants_path)
+          expect(page).to have_current_path(admin_merchants_path)
         end
 
         it 'displays the merchant that was just created' do

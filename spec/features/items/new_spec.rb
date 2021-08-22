@@ -8,7 +8,7 @@ RSpec.describe 'merchant items new (/merchant/:merchant_id/items/new)' do
     describe 'when I visit the merchant items new page' do
       before { visit new_merchant_item_path(merchant1) }
 
-      it { expect(current_path).to eq(new_merchant_item_path(merchant1)) }
+      it { expect(page).to have_current_path(new_merchant_item_path(merchant1)) }
       it { expect(page).to have_no_content('Success!') }
       it { expect(page).to have_no_content('Error!') }
 
@@ -28,7 +28,7 @@ RSpec.describe 'merchant items new (/merchant/:merchant_id/items/new)' do
         end
 
         it 'takes me back to the merchant items index page' do
-          expect(current_path).to eq(merchant_items_path(merchant1))
+          expect(page).to have_current_path(merchant_items_path(merchant1))
         end
 
         it 'displays the item that was just created' do
