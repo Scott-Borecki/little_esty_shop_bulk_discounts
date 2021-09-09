@@ -20,7 +20,7 @@ Link to Live Application: [Little Esty Shop Bulk Discounts](https://shielded-bas
 
 [Little Esty Shop Bulk Discounts](https://github.com/Scott-Borecki/little_esty_shop_bulk_discounts) is a 7-day, final solo project during Mod 2 of 4 for Turing School's Back End Engineering Program.  This project builds off the Mod 2 group project, [Little Esty Shop](https://github.com/turingschool-examples/little-esty-shop).
 
-Little Esty Shop consisted of building a fictitious e-commerce platform where Merchants and Admins can manage inventory and fulfill customer invoices.  The Bulk Discounts extension consisted of adding functionality for merchants to create bulk discounts for their items.  A "bulk discount" is a discount based on the quantity of items the customer is buying (e.g. 20% off orders of 10 or more items).
+Little Esty Shop is an e-commerce platform where Merchants and Admins can manage inventory and fulfill customer invoices.  The Bulk Discounts extension consisted of adding functionality for merchants to create bulk discounts for their items.  A "bulk discount" is a discount based on the quantity of items the customer is buying (e.g. 20% off orders of 10 or more items).
 
 ## Learning Goals
 
