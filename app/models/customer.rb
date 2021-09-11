@@ -14,7 +14,7 @@ class Customer < ApplicationRecord
 
   def self.top_customers(args = {})
     args[:limit] ||= 5
-    args[:order_by] ||= 'transaction_count desc'
+    args[:order_by] ||= 'transaction_count desc, total_revenue desc, total_items desc'
 
     joins(invoices: [:transactions, :invoice_items])
       .merge(Transaction.successful)
