@@ -77,7 +77,7 @@
       <th>Status</th>
     </tr>
 
-    <% @invoice.invoice_items.each do |invoice_item| %>
+    <% @invoice.invoice_items.includes(item: :merchant).each do |invoice_item| %>
       <tr>
         <td><%= invoice_item.item.name %></td>
         <td><%= invoice_item.quantity %></td>
