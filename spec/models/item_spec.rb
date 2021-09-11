@@ -20,6 +20,11 @@ RSpec.describe Item, type: :model do
     end
   end
 
+  describe 'delegations' do
+    it { should delegate_method(:top_customers).to(:customers) }
+    it { should delegate_method(:top_revenue_day).to(:invoices) }
+  end
+
   describe 'relationships' do
     it { should belong_to(:merchant) }
     it { should have_many(:invoice_items) }
@@ -76,37 +81,6 @@ RSpec.describe Item, type: :model do
 
       it 'returns the total number of items sold' do
         expect(Item.total_items_sold).to eq(204)
-      end
-    end
-  end
-
-  describe 'delegated methods' do
-    describe '#top_revenue_day' do
-      # See /spec/sample_data/create_objects_top_revenue_day.rb for more info on factories created
-      create_objects_top_revenue_day
-
-      it 'returns the best day by revenue and most recent' do
-        expect(item1.top_revenue_day).to eq(invoice2.formatted_date)
-      end
-    end
-
-    describe '#top_customers' do
-      # See /spec/sample_data/create_objects_item_with_many_customers.rb for more info on factories created
-      create_objects_item_with_many_customers
-
-      it 'returns the top customers by number of transactions' do
-        top_customers             = [customer3, customer4, customer2, customer7, customer8]
-        top_customer_ids          = top_customers.map(&:id)
-        top_customer_first_names  = top_customers.map(&:first_name)
-        top_customer_last_names   = top_customers.map(&:last_name)
-        top_customer_transactions = [5, 4, 3, 2, 2]
-
-        expect(item1.top_customers.to_a.size).to eq(5)
-        expect(item1.top_customers(limit: 2).to_a.size).to eq(2)
-        expect(item1.top_customers.map(&:id)).to eq(top_customer_ids)
-        expect(item1.top_customers.map(&:first_name)).to eq(top_customer_first_names)
-        expect(item1.top_customers.map(&:last_name)).to eq(top_customer_last_names)
-        expect(item1.top_customers.map(&:transaction_count)).to eq(top_customer_transactions)
       end
     end
   end

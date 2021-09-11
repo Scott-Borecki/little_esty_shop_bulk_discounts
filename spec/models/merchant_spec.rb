@@ -18,6 +18,17 @@ describe Merchant do
     end
   end
 
+  describe 'delegations' do
+    it { should delegate_method(:top_customers).to(:customers) }
+    it { should delegate_method(:ready_to_ship).to(:invoice_items).with_prefix }
+    it { should delegate_method(:total_revenue).to(:invoice_items).with_prefix }
+    it { should delegate_method(:revenue_discount).to(:invoice_items).with_prefix }
+    it { should delegate_method(:total_discounted_revenue).to(:invoice_items).with_prefix }
+    it { should delegate_method(:top_revenue_day).to(:invoices) }
+    it { should delegate_method(:top_items).to(:items) }
+    it { should delegate_method(:total_items_sold).to(:items) }
+  end
+
   describe 'relationships' do
     it { should have_many(:bulk_discounts) }
     it { should have_many(:items) }
@@ -45,87 +56,6 @@ describe Merchant do
         top_five_merchants_revenue = [710, 680, 150, 140, 130]
 
         expect(Merchant.top_merchants_by_revenue.map(&:total_revenue)).to eq(top_five_merchants_revenue)
-      end
-    end
-  end
-
-  describe 'delegated methods' do
-    describe '#invoice_items_ready_to_ship' do
-      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
-      create_objects_merchant_with_many_customers_and_items
-
-      let(:invoice_items_to_ship) do
-        [invoice_item3d_1, invoice_item6a_2, invoice_item4c_1, invoice_item10a_1,
-         invoice_item3e_1, invoice_item4b_2, invoice_item7b_1, invoice_item3b_2,
-         invoice_item3b_1, invoice_item7a_2, invoice_item1a_1, invoice_item1a_2,
-         invoice_item8a_1, invoice_item8a_2]
-      end
-
-      it 'returns the invoice and item ids for each item ready to ship' do
-        expect(merchant.invoice_items_ready_to_ship.map(&:invoice_id)).to eq(invoice_items_to_ship.map(&:invoice_id))
-        expect(merchant.invoice_items_ready_to_ship.map(&:item_id)).to eq(invoice_items_to_ship.map(&:item_id))
-      end
-
-      it 'returns the item name for each item ready to ship' do
-        item_names =
-          invoice_items_to_ship.map do |invoice_item|
-            Item.find(invoice_item.item_id).name
-          end
-
-        expect(merchant.invoice_items_ready_to_ship.map(&:item_name)).to eq(item_names)
-      end
-
-      it 'returns the invoice creation date for each item ready to ship ordered by creation date' do
-        invoice_created_at =
-          invoice_items_to_ship.map do |invoice_item|
-            Invoice.find(invoice_item.invoice_id).created_at
-          end
-
-        expect(merchant.invoice_items_ready_to_ship.map(&:invoice_created_at)).to eq(invoice_created_at)
-      end
-    end
-
-    describe '#top_customers' do
-      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
-      create_objects_merchant_with_many_customers_and_items
-
-      it 'returns the top customers by number of transactions' do
-        top_customers             = [customer3, customer4, customer2, customer7, customer8]
-        top_customer_ids          = top_customers.map(&:id)
-        top_customer_first_names  = top_customers.map(&:first_name)
-        top_customer_last_names   = top_customers.map(&:last_name)
-        top_customer_transactions = [5, 4, 3, 2, 2]
-
-        expect(merchant.top_customers.to_a.size).to eq(5)
-        expect(merchant.top_customers(limit: 2).to_a.size).to eq(2)
-        expect(merchant.top_customers.map(&:id)).to eq(top_customer_ids)
-        expect(merchant.top_customers.map(&:first_name)).to eq(top_customer_first_names)
-        expect(merchant.top_customers.map(&:last_name)).to eq(top_customer_last_names)
-        expect(merchant.top_customers.map(&:transaction_count)).to eq(top_customer_transactions)
-      end
-    end
-
-    describe '#top_items' do
-      # See /spec/sample_data/create_objects_merchant_with_many_customers_and_items.rb for more info on factories created
-      create_objects_merchant_with_many_customers_and_items
-
-      it 'returns the top items by revenue' do
-        top_five_items = [item5, item18, item8, item12, item15]
-        top_five_items_revenue = [250, 240, 210, 200, 180]
-
-        expect(merchant.top_items.to_a.size).to eq(5)
-        expect(merchant.top_items(limit: 2).to_a.size).to eq(2)
-        expect(merchant.top_items).to eq(top_five_items)
-        expect(merchant.top_items.map(&:total_revenue)).to eq(top_five_items_revenue)
-      end
-    end
-
-    describe '#top_revenue_day' do
-      # See /spec/sample_data/create_objects_top_revenue_day.rb for more info on factories created
-      create_objects_top_revenue_day
-
-      it 'returns the best day by revenue' do
-        expect(merchant1.top_revenue_day).to eq(invoice2.formatted_date)
       end
     end
   end
